@@ -190,7 +190,7 @@ export default function TeacherTrainingPage() {
           className="pointer-events-none absolute inset-0 flex items-center justify-center"
         >
           <Image
-            src="/mvp-prototype/assets/photos/polestar-logo/POLESTAR_TM_-_Default_Logo.png"
+            src="/mvp-website/assets/photos/polestar-logo/POLESTAR_TM_-_Default_Logo.png"
             alt=""
             width={560}
             height={560}
