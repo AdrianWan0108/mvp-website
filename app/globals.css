@@ -47,6 +47,44 @@
   --ring: var(--brand-500);
 }
 
+/* ---------- VERDANT-DESIGNER — designer-anchored variant ----------
+   Same #6ec196 hero green on --brand-500, but the ramp is re-anchored to the
+   designer's forest green (#125b43) at --brand-900. Compared to the default
+   verdant it uses pure black body text, a neutral grey subtext, and a solid
+   #6ec196 accent. Provided for side-by-side comparison in the top-left switcher.
+   NOTE: --accent-foreground is white on the light --brand-500 accent, which is
+   below AA contrast — flagged for review if this variant is chosen. */
+[data-theme="verdant-designer"] {
+  color-scheme: light;
+
+  --brand-50: #f4faf7;
+  --brand-100: #e2f4ea;
+  --brand-200: #c2e9d4;
+  --brand-300: #9edabe;
+  --brand-400: #81d2aa;
+  --brand-500: #6ec196; /* designer hero green */
+  --brand-600: #54a57c;
+  --brand-700: #398361;
+  --brand-800: #216e53;
+  --brand-900: #125b43; /* designer forest green */
+
+  --background: var(--brand-50);
+  --foreground: #000000; /* designer black — crisp body text */
+  --card: #ffffff;
+  --card-foreground: var(--brand-900);
+  --primary: var(--brand-500);
+  --primary-foreground: var(--brand-900); /* forest green on light green */
+  --secondary: var(--brand-100);
+  --secondary-foreground: var(--brand-900);
+  --muted: var(--brand-50);
+  --muted-foreground: #555555; /* neutral subtext */
+  --accent: var(--brand-500);
+  --accent-foreground: #ffffff;
+  --border: var(--brand-200);
+  --input: var(--brand-200);
+  --ring: var(--brand-500);
+}
+
 /* ---------- FOREST — dark green / teal ---------- */
 [data-theme="forest"] {
   color-scheme: light;
@@ -343,32 +381,18 @@
 }
 
 /* ============================================================
-   Font pairings (heading + body) — switchable via [data-font]
+   Brand fonts (locked)
    ------------------------------------------------------------
-   Each pair sets --font-heading / --font-body, which the
-   @theme block maps onto Tailwind's --font-serif / --font-sans.
-   The fonts themselves are loaded in app/layout.tsx. Keep the
-   ids here in sync with brand-controls.tsx + the no-FOUC script.
+   Final pairing chosen by the client: Bebas Neue headings over a
+   DM Sans body. DM Sans's 400 holds up on the tinted --brand-50
+   surfaces at --brand-900 text, and its 500 keeps buttons crisp
+   on the primary fill. These map through the @theme block onto
+   Tailwind's --font-serif / --font-sans. The faces are loaded in
+   app/layout.tsx.
    ============================================================ */
-:root,
-[data-font="modern"] {
-  --font-heading: var(--font-montserrat);
-  --font-body: var(--font-dm-sans);
-}
-
-[data-font="classic"] {
-  --font-heading: var(--font-playfair);
-  --font-body: var(--font-lato);
-}
-
-[data-font="elegant"] {
-  --font-heading: var(--font-cormorant);
-  --font-body: var(--font-raleway);
-}
-
-[data-font="bold"] {
+:root {
   --font-heading: var(--font-bebas);
-  --font-body: var(--font-source-sans);
+  --font-body: var(--font-dm-sans);
 }
 
 /* ---------- Map semantic tokens onto Tailwind v4 ---------- */
@@ -411,11 +435,17 @@ body {
   font-family: var(--font-body), system-ui, sans-serif;
 }
 
+/* Bebas is a condensed display face, so its glyphs pack tightly. A little
+   positive tracking lets headings breathe and reads as more premium. Set in em
+   so it scales with each heading's size; components that need a different
+   value can still override with a Tailwind `tracking-*` utility (higher
+   specificity). */
 h1,
 h2,
 h3,
 h4 {
   font-family: var(--font-heading), Georgia, serif;
+  letter-spacing: 0.04em;
 }
 
 /* Smooth fade when the active theme changes. The no-FOUC script

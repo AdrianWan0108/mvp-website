@@ -21,7 +21,6 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [theme, setTheme] = useState("verdant");
   const lastScrollY = useRef(0);
   // Polestar routes use the dark theme; scope it to the header too for cohesion.
   const isPolestar = pathname?.startsWith("/polestar") ?? false;
@@ -38,7 +37,8 @@ export function SiteHeader() {
   // over-hero and brand-bar states; only the light bar uses dark text.
   const onColor = overHero || brandBar;
 
-  const logoSrc = navLogos[theme] ?? navLogos.verdant;
+  // Palette is locked to Verdant brand-wide, so the logo is fixed.
+  const logoSrc = navLogos.verdant;
   // The transparent mark is rendered white on any dark/colour bar (over the
   // hero, on the scrolled brand bar, and on the dark Polestar bar); on the plain
   // light bar of other pages it shows as the coloured mark.
@@ -53,20 +53,6 @@ export function SiteHeader() {
       : active
         ? "font-semibold text-primary"
         : "text-foreground/90";
-
-  // Keep the logo in sync with the live palette (set on <html> by BrandControls
-  // / the no-FOUC script). A MutationObserver avoids coupling the two siblings.
-  useEffect(() => {
-    const html = document.documentElement;
-    const read = () => {
-      const t = html.getAttribute("data-theme");
-      setTheme(t && navLogos[t] ? t : "verdant");
-    };
-    read();
-    const obs = new MutationObserver(read);
-    obs.observe(html, { attributes: true, attributeFilter: ["data-theme"] });
-    return () => obs.disconnect();
-  }, []);
 
   // Hide the header when scrolling down, reveal it when scrolling up.
   useEffect(() => {
