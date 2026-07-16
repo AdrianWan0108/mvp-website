@@ -6,14 +6,17 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "./container";
 import { CtaButton } from "./cta-button";
-import { mainNav, site } from "@/app/lib/site";
+import { mainNav, site, type NavItem } from "@/app/lib/site";
 import { links } from "@/app/lib/links";
 import { navLogos } from "@/app/lib/images";
 import { cn } from "@/app/lib/cn";
 
-function isActive(pathname: string | null, href: string): boolean {
+function isActive(pathname: string | null, item: NavItem): boolean {
   if (!pathname) return false;
-  return href === "/" ? pathname === "/" : pathname.startsWith(href);
+  // `match` lets a parent highlight for a whole segment even when its href
+  // points at a child (About → /about/our-story, active on all /about/*).
+  const target = item.match ?? item.href;
+  return target === "/" ? pathname === "/" : pathname.startsWith(target);
 }
 
 export function SiteHeader() {
@@ -22,15 +25,22 @@ export function SiteHeader() {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const lastScrollY = useRef(0);
-  // Polestar routes use the dark theme; scope it to the header too for cohesion.
-  const isPolestar = pathname?.startsWith("/polestar") ?? false;
+  // Section color zones: Education routes use the ink theme, the MVP × Polestar
+  // page uses Polestar's brand theme; scope them to the header for cohesion.
+  const isEducation = pathname?.startsWith("/education") ?? false;
+  const isPolestarBrand = pathname === "/about/polestar";
+  const headerTheme = isEducation
+    ? "education"
+    : isPolestarBrand
+      ? "polestar-brand"
+      : undefined;
   // The home hero runs full-bleed behind the header — sit transparent over it
   // until the user scrolls.
   const isHome = pathname === "/";
   // Three header backdrops:
   //   overHero  — transparent, over the dark hero (home, at the top).
-  //   brandBar  — solid brand-colour bar (home, once scrolled / menu open).
-  //   else      — the light bar on every other page.
+  //   brandBar  — translucent brand glass (home, once scrolled / menu open).
+  //   else      — theme-tinted glass on every other page.
   const overHero = isHome && !scrolled && !open;
   const brandBar = isHome && !overHero;
   // The logo + nav text sit on a dark/colour backdrop (white) in both the
@@ -40,9 +50,9 @@ export function SiteHeader() {
   // Palette is locked to Verdant brand-wide, so the logo is fixed.
   const logoSrc = navLogos.verdant;
   // The transparent mark is rendered white on any dark/colour bar (over the
-  // hero, on the scrolled brand bar, and on the dark Polestar bar); on the plain
-  // light bar of other pages it shows as the coloured mark.
-  const logoInvert = onColor || isPolestar;
+  // hero, on the scrolled brand bar, and on the dark Education / Polestar
+  // bars); on the plain light bar of other pages it shows as the coloured mark.
+  const logoInvert = onColor || isEducation || isPolestarBrand;
 
   // Nav link colors flip to white while the header sits on a dark/colour bar.
   const navLink = (active: boolean) =>
@@ -52,7 +62,7 @@ export function SiteHeader() {
         : "text-white/90 hover:text-white"
       : active
         ? "font-semibold text-primary"
-        : "text-foreground/90";
+        : "text-foreground/90 hover:text-primary";
 
   // Hide the header when scrolling down, reveal it when scrolling up.
   useEffect(() => {
@@ -73,14 +83,16 @@ export function SiteHeader() {
 
   return (
     <header
-      data-theme={isPolestar ? "polestar-dark" : undefined}
+      data-theme={headerTheme}
       className={cn(
-        "sticky top-0 z-40 transition-[transform,background-color,border-color] duration-300",
+        "sticky top-0 z-40 transition-[transform,background-color,border-color,box-shadow,backdrop-filter] duration-300 motion-reduce:transition-none",
         overHero
-          ? "border-b border-transparent bg-transparent text-white"
+          ? "border-b border-transparent bg-transparent text-white shadow-none backdrop-blur-none"
           : brandBar
-            ? "border-b border-transparent bg-primary text-white"
-            : "border-b border-border bg-background/85 text-foreground backdrop-blur",
+            ? "border-b border-white/20 bg-primary/[0.78] text-white shadow-[0_10px_30px_-18px_rgba(15,35,24,0.7)] backdrop-blur-xl"
+            : isEducation || isPolestarBrand
+              ? "border-b border-white/15 bg-background/[0.78] text-foreground shadow-[0_10px_30px_-18px_rgba(0,0,0,0.75)] backdrop-blur-xl"
+              : "border-b border-border/70 bg-background/[0.78] text-foreground shadow-[0_10px_30px_-20px_rgba(34,61,47,0.45)] backdrop-blur-xl",
         hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}
     >
@@ -97,17 +109,17 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="flex items-center"
+            className="group flex items-center"
             aria-label={`${site.name} — home`}
           >
             <Image
               src={logoSrc}
               alt={site.name}
-              width={90}
-              height={64}
+              width={104}
+              height={80}
               priority
               className={cn(
-                "h-16 w-auto object-contain transition-[filter]",
+                "h-[4.75rem] w-auto origin-left object-contain transition-[filter,transform] duration-300 group-hover:scale-[1.015] group-focus-visible:scale-[1.015] motion-reduce:transition-none lg:h-20",
                 logoInvert && "brightness-0 invert",
               )}
             />
@@ -121,9 +133,11 @@ export function SiteHeader() {
                 <Link
                   href={item.href}
                   aria-haspopup="true"
+                  aria-current={pathname === item.href ? "page" : undefined}
+                  data-active={isActive(pathname, item)}
                   className={cn(
-                    "flex items-center gap-1 px-3 py-2 text-lg font-medium underline-offset-8 transition-colors hover:underline hover:decoration-2",
-                    navLink(isActive(pathname, item.href)),
+                    "site-nav-link relative flex items-center gap-1 px-3 py-2 text-lg font-medium transition-colors duration-200 motion-reduce:transition-none",
+                    navLink(isActive(pathname, item)),
                   )}
                 >
                   {item.label}
@@ -137,13 +151,13 @@ export function SiteHeader() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     aria-hidden
-                    className="mt-0.5 transition-transform group-hover:rotate-180"
+                    className="mt-0.5 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180 motion-reduce:transition-none"
                   >
                     <polyline points="6 9 12 15 18 9" />
                   </svg>
                 </Link>
-                <div className="invisible absolute left-0 top-full pt-2 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                  <ul className="min-w-48 rounded-xl border border-border bg-card p-1.5 shadow-lg">
+                <div className="pointer-events-none invisible absolute left-0 top-full translate-y-1 pt-2 opacity-0 transition-[opacity,transform,visibility] duration-200 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none">
+                  <ul className="min-w-48 rounded-xl border border-border/80 bg-card/90 p-1.5 shadow-xl backdrop-blur-xl">
                     {item.children.map((child) => (
                       <li key={child.href}>
                         <Link
@@ -166,9 +180,11 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
+                aria-current={pathname === item.href ? "page" : undefined}
+                data-active={isActive(pathname, item)}
                 className={cn(
-                  "px-3 py-2 text-lg font-medium underline-offset-8 transition-colors hover:underline hover:decoration-2",
-                  navLink(isActive(pathname, item.href)),
+                  "site-nav-link relative px-3 py-2 text-lg font-medium transition-colors duration-200 motion-reduce:transition-none",
+                  navLink(isActive(pathname, item)),
                 )}
               >
                 {item.label}
@@ -191,8 +207,10 @@ export function SiteHeader() {
           aria-controls="mobile-menu"
           aria-label="Toggle navigation menu"
           className={cn(
-            "grid h-10 w-10 place-items-center rounded-lg border lg:hidden",
-            onColor ? "border-white/40 text-white" : "border-border",
+            "grid h-10 w-10 place-items-center rounded-lg border transition-[transform,background-color,border-color] duration-200 hover:scale-[1.03] active:scale-95 motion-reduce:transition-none lg:hidden",
+            onColor
+              ? "border-white/40 text-white hover:bg-white/10"
+              : "border-border text-foreground hover:bg-muted/70",
           )}
         >
           <svg
@@ -221,10 +239,19 @@ export function SiteHeader() {
         </button>
       </div>
 
-      {open && (
+      <div
+        id="mobile-menu"
+        aria-hidden={!open}
+        inert={!open}
+        className={cn(
+          "grid overflow-hidden bg-inherit transition-[grid-template-rows,opacity,border-color] duration-200 ease-out motion-reduce:transition-none lg:hidden",
+          open
+            ? "grid-rows-[1fr] border-t border-border/60 opacity-100"
+            : "pointer-events-none grid-rows-[0fr] border-t border-transparent opacity-0",
+        )}
+      >
         <div
-          id="mobile-menu"
-          className="border-t border-border bg-background lg:hidden"
+          className="min-h-0 overflow-hidden"
         >
           <Container className="flex flex-col gap-1 py-4">
             {mainNav.map((item) => (
@@ -234,7 +261,7 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className={cn(
                     "rounded-lg px-3 py-2.5 text-base transition-colors hover:bg-muted",
-                    isActive(pathname, item.href)
+                    isActive(pathname, item)
                       ? "font-semibold text-primary"
                       : "text-foreground/90",
                   )}
@@ -271,7 +298,7 @@ export function SiteHeader() {
             </CtaButton>
           </Container>
         </div>
-      )}
+      </div>
     </header>
   );
 }

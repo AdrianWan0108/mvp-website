@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { CtaButton } from "../cta-button";
 import { photos } from "@/app/lib/images";
-import { links } from "@/app/lib/links";
 
 /**
  * Glowing light-green accent point with a label, anchored over the hero image.
@@ -68,7 +67,9 @@ function HeroCopy() {
             className="w-full bg-transparent py-3.5 text-sm text-white placeholder:text-white/50 focus:outline-none"
           />
         </div>
-        <CtaButton href={links.book} size="lg" className="shrink-0">
+        {/* Entry point into the site's own Classes flow — Mindbody deep links
+            are re-pointed later once the internal booking flow is finalized. */}
+        <CtaButton href="/classes" size="lg" className="shrink-0">
           Get Started
         </CtaButton>
       </div>

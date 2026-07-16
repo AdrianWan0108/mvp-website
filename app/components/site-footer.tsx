@@ -8,18 +8,24 @@ import { cn } from "@/app/lib/cn";
 
 export function SiteFooter() {
   const pathname = usePathname();
-  const isPolestar = pathname?.startsWith("/polestar") ?? false;
+  const isEducation = pathname?.startsWith("/education") ?? false;
+  const isPolestarBrand = pathname === "/about/polestar";
+  const footerTheme = isEducation
+    ? "education"
+    : isPolestarBrand
+      ? "polestar-brand"
+      : undefined;
   const year = new Date().getFullYear();
 
   return (
     <footer
-      data-theme={isPolestar ? "polestar-dark" : undefined}
+      data-theme={footerTheme}
       className={cn(
         "mt-auto border-t border-border text-foreground",
-        // A solid surface on the dark theme: bg-muted/40 is 40%-opaque, so over
+        // A solid surface on the dark themes: bg-muted/40 is 40%-opaque, so over
         // the light page body it composites to a washed gray that kills text
         // contrast. The light theme keeps the subtle translucent tint.
-        isPolestar ? "bg-background" : "bg-muted/40",
+        footerTheme ? "bg-background" : "bg-muted/40",
       )}
     >
       <Container className="grid gap-10 py-14 md:grid-cols-[1.5fr_repeat(3,1fr)]">

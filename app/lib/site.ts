@@ -41,23 +41,40 @@ export const site = {
 export type NavItem = {
   label: string;
   href: string;
+  /** Optional path prefix for active-state matching when it differs from href
+   *  (e.g. "About" links to /about/our-story but is active on all /about/*). */
+  match?: string;
   /** Optional dropdown sub-links (desktop) / nested links (mobile). */
   children?: NavItem[];
 };
 
-/** Primary navigation — kept to 6 top-level items (down from ~10 Wix tabs). */
+/** Primary navigation — Studio and Education are MVP's two parallel business
+ *  directions (equal-weight items); Polestar lives under About as the
+ *  credibility/relationship story, not a direction of its own. */
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Classes", href: "/classes" },
+  { label: "Studio", href: "/classes" },
   {
-    label: "Polestar",
-    href: "/polestar",
+    label: "Education",
+    href: "/education",
     children: [
-      { label: "Overview", href: "/polestar" },
-      { label: "Teacher Training", href: "/polestar/teacher-training" },
+      { label: "Overview", href: "/education" },
+      {
+        label: "Teacher Training",
+        href: "/education/polestar-comprehensive-training",
+      },
     ],
   },
-  { label: "About", href: "/about" },
+  {
+    label: "About",
+    href: "/about/our-story",
+    match: "/about",
+    children: [
+      { label: "Our Story", href: "/about/our-story" },
+      { label: "Our Team", href: "/about/our-team" },
+      { label: "MVP × Polestar", href: "/about/polestar" },
+    ],
+  },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -66,15 +83,20 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Explore",
     items: [
-      { label: "Classes", href: "/classes" },
-      { label: "Polestar Pilates", href: "/polestar" },
-      { label: "Teacher Training", href: "/polestar/teacher-training" },
+      { label: "Studio", href: "/classes" },
+      { label: "Education", href: "/education" },
+      {
+        label: "Teacher Training",
+        href: "/education/polestar-comprehensive-training",
+      },
     ],
   },
   {
     heading: "Studio",
     items: [
-      { label: "About Us", href: "/about" },
+      { label: "Our Story", href: "/about/our-story" },
+      { label: "Our Team", href: "/about/our-team" },
+      { label: "MVP × Polestar", href: "/about/polestar" },
       { label: "FAQ", href: "/faq" },
       { label: "Contact", href: "/contact" },
     ],

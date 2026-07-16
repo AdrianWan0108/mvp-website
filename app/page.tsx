@@ -1,6 +1,7 @@
 import { Hero } from "./components/home/hero";
 import { WelcomeIntro } from "./components/home/welcome-intro";
 import { NeedsFunnel } from "./components/home/needs-funnel";
+import { TwoDirections } from "./components/home/two-directions";
 import { EquipmentShowcase } from "./components/home/equipment-showcase";
 import { PolestarHighlight } from "./components/home/polestar-highlight";
 import { LogoReveal } from "./components/home/logo-reveal";
@@ -20,6 +21,10 @@ export default function Home() {
       <WelcomeIntro />
 
       <NeedsFunnel />
+
+      {/* MVP's two business directions — Studio and Education */}
+      <TwoDirections />
+
       <EquipmentShowcase />
       <LogoReveal />
       <CoreValues />

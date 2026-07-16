@@ -3,12 +3,16 @@ import { site } from "./lib/site";
 
 export const dynamic = "force-static";
 
+// Old routes (/about, /polestar, /polestar/teacher-training) are redirect
+// stubs with noindex — intentionally excluded here.
 const routes = [
   "",
   "/classes",
-  "/polestar",
-  "/polestar/teacher-training",
-  "/about",
+  "/education",
+  "/education/polestar-comprehensive-training",
+  "/about/our-story",
+  "/about/our-team",
+  "/about/polestar",
   "/contact",
   "/faq",
   "/terms",

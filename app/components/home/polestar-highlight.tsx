@@ -11,14 +11,14 @@ const points = [
 ];
 
 /**
- * Home preview of the Polestar sub-brand. Uses data-theme="polestar-dark" so
- * the band renders in the dark Polestar treatment regardless of the selected
- * site palette — a taste of the dedicated section.
+ * Home credibility band for the MVP × Polestar relationship. Uses
+ * data-theme="polestar-brand" (Polestar's official slate + amber colors) so
+ * the band renders in Polestar's identity — a taste of the relationship page.
  */
 export function PolestarHighlight() {
   return (
     <section
-      data-theme="polestar-dark"
+      data-theme="polestar-brand"
       className="relative isolate overflow-hidden bg-background text-foreground"
     >
       <div aria-hidden className="polestar-aurora absolute inset-0 -z-10" />
@@ -41,11 +41,11 @@ export function PolestarHighlight() {
             ))}
           </ul>
           <div className="mt-9 flex flex-wrap gap-4">
-            <CtaButton href="/polestar" size="lg">
-              Discover Polestar
+            <CtaButton href="/about/polestar" size="lg">
+              MVP × Polestar
             </CtaButton>
             <CtaButton
-              href="/polestar/teacher-training"
+              href="/education/polestar-comprehensive-training"
               size="lg"
               variant="outline"
             >
