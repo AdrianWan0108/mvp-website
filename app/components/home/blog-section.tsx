@@ -106,10 +106,10 @@ export function BlogSection() {
                     <span>{post.category}</span>
                     <span className="text-muted-foreground">{post.date}</span>
                   </div>
-                  <h3 className="mt-3 font-serif text-lg font-semibold leading-snug">
+                  <h3 className="mt-3 font-serif text-2xl font-semibold leading-snug">
                     {post.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-3 text-base leading-relaxed text-muted-foreground">
                     {post.excerpt}
                   </p>
                   <span className="mt-auto pt-4 text-sm font-semibold text-primary">

@@ -31,7 +31,7 @@ export function PolestarHighlight() {
           />
           <ul className="mt-8 space-y-3">
             {points.map((point) => (
-              <li key={point} className="flex gap-3 text-sm leading-relaxed">
+              <li key={point} className="flex gap-3 text-base leading-relaxed">
                 <span
                   aria-hidden
                   className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"

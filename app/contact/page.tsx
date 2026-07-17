@@ -38,10 +38,10 @@ export default function ContactPage() {
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-primary">
             Get in touch
           </p>
-          <h1 className="font-serif text-4xl font-semibold leading-tight sm:text-5xl">
+          <h1 className="font-serif text-5xl font-semibold leading-tight sm:text-6xl">
             Contact MVP
           </h1>
-          <p className="mt-4 text-lg leading-relaxed text-background/80">
+          <p className="mt-4 text-xl leading-relaxed text-background/80">
             Questions about classes, packages, or the Polestar teacher training?
             We&apos;d love to hear from you.
           </p>

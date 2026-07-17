@@ -22,11 +22,11 @@ export function PageHeader({
             {eyebrow}
           </p>
         )}
-        <h1 className="font-serif text-4xl font-semibold leading-tight sm:text-5xl">
+        <h1 className="font-serif text-5xl font-semibold leading-tight sm:text-6xl">
           {title}
         </h1>
         {intro && (
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-4 max-w-2xl text-xl leading-relaxed text-muted-foreground">
             {intro}
           </p>
         )}

@@ -84,7 +84,7 @@ export function CoreValues() {
         <p className="mb-3 text-center text-sm font-semibold uppercase tracking-[0.22em] text-muted-foreground">
           What we stand for
         </p>
-        <h2 className="text-center font-serif text-3xl font-semibold sm:text-4xl">
+        <h2 className="text-center font-serif text-4xl font-semibold sm:text-5xl">
           Our core values
         </h2>
       </Container>
@@ -105,7 +105,7 @@ export function CoreValues() {
             >
               <span
                 className={cn(
-                  "font-serif text-2xl font-semibold transition-colors duration-300 sm:text-3xl",
+                  "font-serif text-3xl font-semibold transition-colors duration-300 sm:text-4xl",
                   isOn ? "text-brand-700" : "text-foreground",
                 )}
               >

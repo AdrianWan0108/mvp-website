@@ -105,7 +105,7 @@ function NeedCard({
       </div>
       <div className="mt-4 flex items-center gap-2 text-primary">
         <Icon className="h-5 w-5 shrink-0" strokeWidth={1.75} />
-        <h3 className="font-serif text-lg font-bold uppercase tracking-[0.06em] text-foreground sm:text-xl">
+        <h3 className="font-serif text-xl font-bold uppercase tracking-[0.06em] text-foreground sm:text-2xl">
           {need.title}
         </h3>
       </div>

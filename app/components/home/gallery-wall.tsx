@@ -41,10 +41,10 @@ export function GalleryWall() {
 
           {/* Right: membership copy */}
           <div>
-            <h2 className="font-serif text-4xl font-semibold leading-tight sm:text-5xl">
+            <h2 className="font-serif text-5xl font-semibold leading-tight sm:text-6xl">
               Be our MVP
             </h2>
-            <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-5 max-w-lg text-xl leading-relaxed text-muted-foreground">
               Join the MVP community and make movement a habit. Members enjoy
               priority booking, member pricing, and a plan built around their
               goals — with a Polestar-certified team in your corner every step

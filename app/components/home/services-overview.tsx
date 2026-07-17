@@ -74,13 +74,13 @@ export function ServicesOverview() {
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="font-serif text-xl font-semibold">
+                  <h3 className="font-serif text-2xl font-semibold">
                     {service.name}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-3 text-base leading-relaxed text-muted-foreground">
                     {service.description}
                   </p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                  <span className="mt-4 inline-flex items-center gap-1 text-base font-medium text-primary">
                     Learn more
                     <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
                       &rarr;

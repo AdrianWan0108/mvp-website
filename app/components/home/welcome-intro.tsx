@@ -29,7 +29,7 @@ export function WelcomeIntro() {
         <div className="mt-8 grid gap-8 sm:grid-cols-3">
           {values.map((value) => (
             <div key={value.title}>
-              <h2 className="font-serif text-xl font-semibold sm:text-2xl">
+              <h2 className="font-serif text-2xl font-semibold sm:text-3xl">
                 {value.title}
               </h2>
               <p className="mt-2 text-base leading-relaxed text-muted-foreground">

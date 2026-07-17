@@ -90,8 +90,10 @@ export function SiteHeader() {
           ? "border-b border-transparent bg-transparent text-white shadow-none backdrop-blur-none"
           : brandBar
             ? "border-b border-white/20 bg-primary/[0.78] text-white shadow-[0_10px_30px_-18px_rgba(15,35,24,0.7)] backdrop-blur-xl"
-            : isEducation || isPolestarBrand
-              ? "border-b border-white/15 bg-background/[0.78] text-foreground shadow-[0_10px_30px_-18px_rgba(0,0,0,0.75)] backdrop-blur-xl"
+            : isEducation
+              ? "border-b border-primary/25 bg-[#111a15]/[0.94] text-foreground shadow-[0_10px_30px_-18px_rgba(17,45,31,0.85)] backdrop-blur-xl"
+              : isPolestarBrand
+                ? "border-b border-white/15 bg-background/[0.84] text-foreground shadow-[0_10px_30px_-18px_rgba(0,0,0,0.75)] backdrop-blur-xl"
               : "border-b border-border/70 bg-background/[0.78] text-foreground shadow-[0_10px_30px_-20px_rgba(34,61,47,0.45)] backdrop-blur-xl",
         hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}

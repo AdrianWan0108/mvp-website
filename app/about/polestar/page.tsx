@@ -41,10 +41,10 @@ export default function PolestarPage() {
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-primary">
             MVP is a Polestar studio
           </p>
-          <h1 className="font-serif text-4xl font-semibold leading-tight sm:text-6xl">
+          <h1 className="font-serif text-5xl font-semibold leading-tight sm:text-7xl">
             Motion Vitality, powered by Polestar
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-foreground/90">
+          <p className="mt-6 text-xl leading-relaxed text-foreground/90">
             Polestar isn&rsquo;t a class we offer — it&rsquo;s the method our whole
             studio is built on. Every instructor at MVP teaches within Polestar&rsquo;s
             globally recognized framework, which unites the classical Pilates
@@ -103,8 +103,8 @@ export default function PolestarPage() {
                 data-theme="polestar-brand-light"
                 className="rounded-2xl border border-border bg-secondary p-6 text-foreground shadow-sm"
               >
-                <h3 className="font-serif text-xl font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                <h3 className="font-serif text-2xl font-semibold">{item.title}</h3>
+                <p className="mt-3 text-base leading-relaxed text-muted-foreground">
                   {item.body}
                 </p>
               </div>
@@ -151,7 +151,7 @@ export default function PolestarPage() {
             data-theme="polestar-brand-light"
             className="mx-auto max-w-2xl rounded-3xl border border-border bg-card p-6 text-foreground shadow-2xl sm:p-8"
           >
-            <div className="space-y-3 text-sm leading-relaxed text-foreground/90">
+            <div className="space-y-3 text-base leading-relaxed text-foreground/90">
               <p>
                 Founder Gary Fok came to Pilates after three decades in fitness and
                 taekwondo — and through Polestar training, found a path to heal

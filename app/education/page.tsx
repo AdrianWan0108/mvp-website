@@ -59,10 +59,10 @@ export default function EducationPage() {
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-primary">
             Education at MVP
           </p>
-          <h1 className="font-serif text-4xl font-semibold leading-tight sm:text-6xl">
+          <h1 className="font-serif text-5xl font-semibold leading-tight sm:text-7xl">
             Become an Instructor
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-foreground/90">
+          <p className="mt-6 text-xl leading-relaxed text-foreground/90">
             MVP is more than a studio — it&rsquo;s a place to learn to teach.
             As the Markham / Toronto host site for Polestar Pilates programs,
             we bring internationally recognized movement education to our own
@@ -97,10 +97,10 @@ export default function EducationPage() {
                   aria-hidden
                   className="mb-4 block h-1 w-10 rounded-full bg-primary"
                 />
-                <h3 className="font-serif text-xl font-semibold">
+                <h3 className="font-serif text-2xl font-semibold">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-3 text-base leading-relaxed text-muted-foreground">
                   {item.body}
                 </p>
               </div>
@@ -124,10 +124,10 @@ export default function EducationPage() {
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {programFacts.map((fact) => (
                 <Card key={fact.label} className="p-5">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">
                     {fact.label}
                   </p>
-                  <p className="mt-1 font-serif text-lg">{fact.value}</p>
+                  <p className="mt-2 font-serif text-xl leading-snug">{fact.value}</p>
                 </Card>
               ))}
             </div>

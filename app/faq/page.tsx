@@ -53,7 +53,7 @@ export default function FaqPage() {
         <dl className="mx-auto max-w-3xl divide-y divide-border">
           {faqs.map((item) => (
             <div key={item.q} className="py-6 first:pt-0">
-              <dt className="font-serif text-xl font-semibold">{item.q}</dt>
+              <dt className="font-serif text-2xl font-semibold">{item.q}</dt>
               <dd className="mt-2 text-base leading-relaxed text-muted-foreground">
                 {item.a}
               </dd>

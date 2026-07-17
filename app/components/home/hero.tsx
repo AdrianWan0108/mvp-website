@@ -48,10 +48,10 @@ function HeroCopy() {
       <p className="mb-5 text-sm font-semibold uppercase tracking-[0.22em] text-white/70">
         Markham &middot; Ontario
       </p>
-      <h1 className="font-serif text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+      <h1 className="font-serif text-5xl font-semibold leading-[1.05] sm:text-6xl lg:text-7xl">
         Smart movement for a stronger, healthier you
       </h1>
-      <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/80">
+      <p className="mt-6 max-w-xl text-xl leading-relaxed text-white/80">
         State-of-the-art Pilates &amp; GYROTONIC&reg;, taught by a
         Polestar-certified team. Group classes, private sessions, and
         rehab-informed movement for every body.

@@ -17,24 +17,85 @@ export const metadata: Metadata = {
 const facts = [
   { label: "Dates", value: "Sep 2026 – Jul 2027" },
   { label: "Training hours", value: "450 hours" },
-  { label: "Format", value: "Comprehensive — mat + full apparatus" },
-  { label: "Certification", value: "Polestar (international)" },
+  { label: "Exercises", value: "130+" },
+  { label: "Format", value: "Mat + full apparatus" },
+  { label: "Framework", value: "5 Principles" },
 ];
 
 const audience = [
-  "Aspiring Pilates instructors starting a new career",
-  "Movement and fitness professionals expanding their scope",
-  "Physiotherapists and rehab practitioners adding Pilates",
-  "Dedicated practitioners ready to teach what they love",
+  {
+    title: "Future instructors",
+    body: "Begin a new career with a comprehensive teaching foundation.",
+  },
+  {
+    title: "Movement professionals",
+    body: "Expand your scope with Pilates assessment and programming skills.",
+  },
+  {
+    title: "Physio + rehab practitioners",
+    body: "Bring adaptable Pilates principles into movement-based care.",
+  },
+  {
+    title: "Dedicated practitioners",
+    body: "Deepen your practice and learn to teach what you love.",
+  },
 ];
 
 const curriculum = [
-  "Polestar's 5 Principles of Movement and motor-learning science",
-  "Mat repertoire and progressions",
-  "Reformer and Trapeze Table (Cadillac)",
-  "Ladder Barrel, Spine Corrector, and Chair",
-  "Anatomy, biomechanics, and the science of rehabilitation",
-  "Programming, assessment, supervised teaching, and mentorship",
+  {
+    title: "Movement foundations",
+    body: "Five Principles of Movement, anatomy, and biomechanics.",
+  },
+  {
+    title: "Mat + full apparatus",
+    body: "Mat, Reformer, Trapeze Table, barrels, Chair, and Spine Corrector.",
+  },
+  {
+    title: "Assessment + programming",
+    body: "Assessment, exercise selection, progressions, and adaptations.",
+  },
+  {
+    title: "Teaching practice",
+    body: "Cueing, sequencing, supervised practice, and mentorship.",
+  },
+];
+
+const learningFormats = [
+  {
+    number: "01",
+    title: "In-person labs",
+    body: "Hands-on practice with faculty.",
+  },
+  {
+    number: "02",
+    title: "Live virtual sessions",
+    body: "Live support between modules.",
+  },
+  {
+    number: "03",
+    title: "Case studies + workshops",
+    body: "Apply concepts to real-world scenarios.",
+  },
+  {
+    number: "04",
+    title: "Guided independent study",
+    body: "Homework and Virtual Pilates Studio access.",
+  },
+];
+
+const educators = [
+  {
+    name: "Gary Fok",
+    role: "Program educator · Founder of Motion Vitality Pilates",
+    bio: "A Polestar Educator, Mentor, and Ambassador who brings a collaborative, movement-first approach to the cohort.",
+    image: "/mvp-website/assets/photos/polestar-teaching-program/gary-headshot.png",
+  },
+  {
+    name: "Maureen Shea, NCPT",
+    role: "Program educator · Nationally Certified Pilates Teacher",
+    bio: "Maureen joins Gary in guiding students through the comprehensive program's movement and teaching curriculum.",
+    image: "/mvp-website/assets/photos/polestar-teaching-program/maureen-headshot.jpg",
+  },
 ];
 
 const scheduleInPerson = [
@@ -154,10 +215,10 @@ export default function TeacherTrainingPage() {
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-primary">
             New for September 2026
           </p>
-          <h1 className="font-serif text-4xl font-semibold leading-tight sm:text-5xl">
+          <h1 className="font-serif text-5xl font-semibold leading-tight sm:text-6xl">
             Become a certified Polestar Pilates teacher
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-foreground/90">
+          <p className="mt-6 text-xl leading-relaxed text-foreground/90">
             Canada&rsquo;s first-ever Polestar Comprehensive Pilates Teacher Training —
             hosted at Motion Vitality Pilates in Markham / Toronto, September 2026
             through July 2027. Master the full method and earn an internationally
@@ -174,101 +235,227 @@ export default function TeacherTrainingPage() {
         </Container>
       </section>
 
-      {/* The big idea — program overview with Polestar logo watermark.
-         The fact cards are the FIRST child here, pulled up with a negative
-         margin so their top half overlaps the dark hero above while their
-         bottom half rests on this white section. No overflow-hidden, or the
-         overhanging top of the cards would be clipped. */}
+      {/* Program introduction — facts, educators, and Gary's personal message. */}
       <section
         data-theme="education-light"
-        className="relative bg-background text-foreground pb-32 sm:pb-40"
+        className="relative bg-background pb-20 text-foreground sm:pb-24"
       >
-        {/* Polestar logo watermark — contained + centered so it reads as an
-           intentional, faint background mark rather than a full-bleed stretch. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 flex items-center justify-center"
-        >
-          <Image
-            src="/mvp-website/assets/photos/polestar-logo/POLESTAR_TM_-_Default_Logo.png"
-            alt=""
-            width={560}
-            height={560}
-            className="w-full max-w-md opacity-[0.06] sm:max-w-lg"
-          />
-        </div>
-
-        <Container className="relative z-10">
-          {/* Key facts — 4 ink cards straddling the hero/section boundary */}
-          <div className="-mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Container size="wide" className="relative z-10">
+          {/* Five concise facts straddle the hero and the light section. */}
+          <div className="-mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {facts.map((fact) => (
               <div
                 key={fact.label}
                 data-theme="education"
-                className="rounded-2xl border border-border bg-card p-5 text-card-foreground shadow-xl"
+                className="rounded-2xl border border-border border-t-2 border-t-primary bg-card p-5 text-card-foreground shadow-xl"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">
                   {fact.label}
                 </p>
-                <p className="mt-1 font-serif text-lg">{fact.value}</p>
+                <p className="mt-2 font-serif text-2xl leading-snug sm:text-3xl lg:text-2xl xl:text-3xl">
+                  {fact.value}
+                </p>
               </div>
             ))}
           </div>
 
-          <div className="mx-auto mt-24 max-w-3xl">
-            <SectionHeading
-              eyebrow="The program"
-              title="Enter your Pilates era"
-              intro="One comprehensive program takes you from dedicated practitioner to confident, internationally certified instructor."
-            />
-            <div className="mt-6 space-y-4 text-base leading-relaxed text-foreground/90">
-              <p>
-                In Polestar&rsquo;s 450-hour Pilates Teacher Training, you&rsquo;ll
-                master over 130 exercises across the full Pilates apparatus — Mat,
-                Reformer, Trapeze Table, Ladder Barrel, Spine Corrector, and Chair.
-                You&rsquo;ll learn the science behind Polestar&rsquo;s 5 Principles of
-                Movement and develop your own confident teaching voice.
+          <div className="mt-20 sm:mt-24">
+            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.6fr] lg:gap-16">
+              <SectionHeading
+                eyebrow="Your teaching team"
+                title="Meet your educators"
+                intro="Learn in person with educators who pair Polestar's international method with close, local mentorship."
+              />
+
+              <div className="flex flex-col divide-y divide-border">
+                {educators.map((educator) => (
+                  <article
+                    key={educator.name}
+                    className="flex flex-col items-center gap-6 py-8 text-center first:pt-0 sm:flex-row sm:items-center sm:text-left"
+                  >
+                    <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-full ring-2 ring-primary/30 ring-offset-2 ring-offset-background sm:h-32 sm:w-32">
+                      <Image
+                        src={educator.image}
+                        alt={`${educator.name}, Polestar teacher-training educator`}
+                        fill
+                        sizes="128px"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-serif text-2xl font-semibold sm:text-3xl">
+                        {educator.name}
+                      </h3>
+                      <p className="mt-1 text-sm font-semibold uppercase tracking-[0.12em] text-primary">
+                        {educator.role}
+                      </p>
+                      <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+                        {educator.bio}
+                      </p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="relative mt-12 overflow-hidden py-8 sm:mt-14 sm:py-10">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 flex items-center justify-center"
+            >
+              <Image
+                src="/mvp-website/assets/photos/polestar-logo/POLESTAR_TM_-_Default_Logo.png"
+                alt=""
+                width={720}
+                height={720}
+                className="w-full max-w-xl opacity-[0.055] sm:max-w-2xl"
+              />
+            </div>
+
+            <div className="relative z-10 mx-auto max-w-4xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary">
+                A note from Gary
               </p>
-              <p>
-                Coursework blends in-person labs, live virtual sessions, case studies,
-                and homework, with access to Polestar&rsquo;s Virtual Pilates Studio.
-                On graduation, your Polestar diploma qualifies you to teach at studios
-                internationally.
-              </p>
+              <h2 className="mt-4 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
+                Enter your Pilates era
+              </h2>
+              <div className="mt-6 space-y-4 text-lg leading-relaxed text-foreground/90">
+                <p>
+                  Choosing a Pilates teacher-training program can feel overwhelming.
+                  The right path should align with how you want to move, teach, and
+                  grow.
+                </p>
+                <p>
+                  What makes Polestar meaningful to me is its strong community and
+                  mentorship — a global network built on collaboration, apprenticeship,
+                  and lifelong learning. Whether you are deepening your practice,
+                  changing careers, or expanding your movement education, we would be
+                  honoured to support your journey here at Motion Vitality Pilates.
+                </p>
+              </div>
+              <div className="mt-8 flex items-center gap-4">
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full">
+                  <Image
+                    src="/mvp-website/assets/photos/polestar-teaching-program/gary-headshot.png"
+                    alt="Gary Fok"
+                    fill
+                    sizes="56px"
+                    className="object-cover"
+                  />
+                </div>
+                <p className="font-semibold text-foreground">
+                  Gary Fok
+                  <span className="mt-1 block text-sm font-normal text-muted-foreground">
+                    Founder of Motion Vitality Pilates
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* Who it's for + Curriculum — shorter height */}
-      <section className="py-12 sm:py-14">
-        <Container className="grid gap-12 lg:grid-cols-2">
-          <div>
-            <SectionHeading eyebrow="Who it's for" title="Is this you?" />
-            <ul className="mt-6 space-y-3">
-              {audience.map((item) => (
-                <li key={item} className="flex gap-3 text-sm leading-relaxed">
-                  <span aria-hidden className="mt-1 text-primary">
-                    &#10003;
-                  </span>
-                  <span className="text-foreground/90">{item}</span>
-                </li>
-              ))}
-            </ul>
+      {/* Audience — a full-bleed editorial split with a simple checklist. */}
+      <section className="grid lg:grid-cols-[2fr_1fr]">
+          <div className="relative aspect-[2048/1154] lg:aspect-auto">
+            <Image
+              src="/mvp-website/assets/photos/polestar-teaching-program/students-attending.jpg"
+              alt="Gary Fok with a Polestar teacher-training cohort"
+              fill
+              sizes="(min-width: 1024px) 66vw, 100vw"
+              className="object-cover"
+            />
           </div>
-          <div>
-            <SectionHeading eyebrow="What you'll learn" title="Curriculum" />
-            <ul className="mt-6 grid gap-3">
-              {curriculum.map((item) => (
-                <li key={item} className="flex gap-3 text-sm leading-relaxed">
+          <div className="flex items-center px-5 py-10 sm:px-8 sm:py-14 lg:px-10 xl:px-14">
+            <div className="w-full max-w-xl">
+              <h2 className="font-serif text-4xl font-semibold leading-tight sm:text-5xl">
+                Who it&rsquo;s for
+              </h2>
+              <ul className="mt-6 divide-y divide-border border-y border-border">
+              {audience.map((item) => (
+                <li
+                  key={item.title}
+                  className="grid grid-cols-[2rem_1fr] items-start gap-4 py-4"
+                >
                   <span
                     aria-hidden
-                    className="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
-                  />
-                  <span className="text-foreground/90">{item}</span>
+                    className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 text-base font-bold text-primary"
+                  >
+                    &#10003;
+                  </span>
+                  <div>
+                    <h3 className="font-serif text-2xl font-semibold sm:text-3xl">{item.title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                      {item.body}
+                    </p>
+                  </div>
                 </li>
               ))}
-            </ul>
+              </ul>
+            </div>
+          </div>
+      </section>
+
+      {/* Curriculum and delivery format answer two distinct questions: what and how. */}
+      <section
+        data-theme="education-light"
+        className="bg-[color-mix(in_oklab,var(--brand-500)_6%,white)] py-14 text-foreground sm:py-18"
+      >
+        <Container size="wide">
+          <SectionHeading
+            eyebrow="Your training experience"
+            title="What you'll learn — and how"
+          />
+
+          <div className="mt-8 grid gap-8 lg:grid-cols-2 lg:gap-14">
+            <div>
+              <h3 className="font-serif text-2xl font-semibold">Curriculum</h3>
+              <ul className="mt-4 divide-y divide-border border-y border-border">
+                {curriculum.map((item) => (
+                  <li
+                    key={item.title}
+                    className="grid grid-cols-[2rem_1fr] items-start gap-4 py-3"
+                  >
+                    <span
+                      aria-hidden
+                      className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/15 text-sm font-bold text-primary"
+                    >
+                      &bull;
+                    </span>
+                    <div>
+                      <h4 className="font-serif text-lg font-semibold">
+                        {item.title}
+                      </h4>
+                      <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                        {item.body}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-serif text-2xl font-semibold">
+                How you&rsquo;ll learn
+              </h3>
+              <ol className="mt-4 divide-y divide-border border-y border-border">
+                {learningFormats.map((item) => (
+                  <li key={item.number} className="grid grid-cols-[2.5rem_1fr] items-start gap-4 py-3">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/15 font-serif text-sm text-primary">
+                      {item.number}
+                    </span>
+                    <div>
+                      <h4 className="font-serif text-lg font-semibold">{item.title}</h4>
+                      <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                        {item.body}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         </Container>
       </section>
@@ -277,7 +464,7 @@ export default function TeacherTrainingPage() {
          requirements now share the right column with the online sessions. */}
       <section
         data-theme="education-light"
-        className="bg-secondary text-foreground py-20 sm:py-24"
+        className="bg-[color-mix(in_oklab,var(--brand-500)_6%,white)] text-foreground py-20 sm:py-24"
       >
         <Container>
           <SectionHeading
@@ -287,10 +474,10 @@ export default function TeacherTrainingPage() {
           <div className="mt-10 grid gap-12 lg:grid-cols-2">
             {/* In-person */}
             <div>
-              <h3 className="font-serif text-xl font-semibold">
+              <h3 className="font-serif text-2xl font-semibold">
                 In-person sessions
               </h3>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-2 text-base text-muted-foreground">
                 Saturdays 9:00 AM – 4:30 PM · Sundays 9:00 AM – 1:30 PM
               </p>
               <ul className="mt-6 divide-y divide-border border-y border-border">
@@ -299,10 +486,10 @@ export default function TeacherTrainingPage() {
                     key={row.module}
                     className="flex items-baseline justify-between gap-4 py-3"
                   >
-                    <span className="text-sm font-medium text-foreground/90">
+                    <span className="text-base font-medium text-foreground/90">
                       {row.module}
                     </span>
-                    <span className="text-right text-sm text-muted-foreground">
+                    <span className="text-right text-base text-muted-foreground">
                       {row.date}
                     </span>
                   </li>
@@ -312,10 +499,10 @@ export default function TeacherTrainingPage() {
             {/* Online + Program requirements stacked in the right column */}
             <div className="space-y-12">
               <div>
-                <h3 className="font-serif text-xl font-semibold">
+                <h3 className="font-serif text-2xl font-semibold">
                   Live online sessions
                 </h3>
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="mt-2 text-base text-muted-foreground">
                   Rolling sessions · 12:00 – 1:00 PM CST
                 </p>
                 <ul className="mt-6 divide-y divide-border border-y border-border">
@@ -324,16 +511,16 @@ export default function TeacherTrainingPage() {
                       key={row.when}
                       className="flex items-baseline justify-between gap-4 py-3"
                     >
-                      <span className="text-sm font-medium text-foreground/90">
+                      <span className="text-base font-medium text-foreground/90">
                         {row.when}
                       </span>
-                      <span className="text-right text-sm text-muted-foreground">
+                      <span className="text-right text-base text-muted-foreground">
                         {row.what}
                       </span>
                     </li>
                   ))}
                 </ul>
-                <p className="mt-4 text-sm text-muted-foreground">
+                <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                   Students must attend a minimum of 6 Case Study sessions and 6
                   Movement Workshops over the entirety of the course.
                 </p>
@@ -341,16 +528,16 @@ export default function TeacherTrainingPage() {
 
               {/* Program requirements — 2×2 grid */}
               <div>
-                <h3 className="font-serif text-xl font-semibold">
+                <h3 className="font-serif text-2xl font-semibold">
                   Program requirements
                 </h3>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   {requirements.map((req) => (
                     <Card key={req.label} className="p-5">
-                      <p className="font-serif text-2xl font-semibold text-primary">
+                      <p className="font-serif text-4xl font-semibold text-primary sm:text-5xl">
                         {req.value}
                       </p>
-                      <p className="mt-1 text-sm text-muted-foreground">
+                      <p className="mt-2 text-sm text-muted-foreground">
                         {req.label}
                       </p>
                     </Card>
@@ -368,28 +555,28 @@ export default function TeacherTrainingPage() {
         className="bg-background text-foreground py-20 sm:py-24"
       >
         <Container>
-          <SectionHeading
-            eyebrow="Tuition"
-            title="Pricing & payment options"
-            intro="Three ways to enroll. Installment plans make the program accessible across the year."
-          />
+          <SectionHeading eyebrow="Tuition" title="Pricing & payment options" />
+          <p className="mt-4 text-xl leading-relaxed text-muted-foreground">
+            Three ways to enroll. Installment plans make the program accessible
+            across the year.
+          </p>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
             {pricingOptions.map((opt) => (
               <Card key={opt.name} className="flex flex-col bg-secondary p-6">
-                <h3 className="font-serif text-lg font-semibold">{opt.name}</h3>
-                <p className="mt-2 text-2xl font-semibold text-primary">
+                <h3 className="font-serif text-2xl font-semibold">{opt.name}</h3>
+                <p className="mt-2 text-xl font-semibold text-primary">
                   {opt.headline}
                 </p>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/90">
                   {opt.detail}
                 </p>
                 {opt.note && (
-                  <p className="mt-3 text-xs text-muted-foreground">{opt.note}</p>
+                  <p className="mt-3 text-sm text-muted-foreground">{opt.note}</p>
                 )}
               </Card>
             ))}
           </div>
-          <p className="mt-6 text-sm text-muted-foreground">
+          <p className="mt-6 text-base text-muted-foreground">
             Pricing is shown in USD and set by Polestar. Confirm current figures on
             the official registration page.
           </p>
@@ -402,10 +589,10 @@ export default function TeacherTrainingPage() {
           >
             <div className="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr]">
               <div>
-                <h2 className="font-serif text-2xl font-semibold sm:text-3xl">
+                <h2 className="font-serif text-4xl font-semibold sm:text-5xl">
                   Ready to begin your Polestar journey?
                 </h2>
-                <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+                <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
                   Spaces in the inaugural Canadian cohort are limited. Register
                   through Polestar, or reach out and we&rsquo;ll walk you through
                   everything.
@@ -420,6 +607,37 @@ export default function TeacherTrainingPage() {
                 </CtaButton>
               </div>
             </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Certification — the program outcome, closing the page after the CTA
+         so it reads as a coda rather than competing for attention. */}
+      <section data-theme="education-light" className="bg-background py-12 text-foreground sm:py-16">
+        <Container className="grid items-center gap-8 lg:grid-cols-[0.5fr_1.5fr] lg:gap-12">
+          <div className="mx-auto w-full max-w-[10rem] sm:max-w-[12rem] lg:mx-0">
+            <Image
+              src="/mvp-website/assets/photos/polestar-teaching-program/diploma-sample.png"
+              alt="Sample Polestar Pilates education diploma"
+              width={783}
+              height={598}
+              sizes="160px"
+              className="h-auto w-full rounded-lg shadow-lg ring-1 ring-primary/25"
+            />
+          </div>
+          <div>
+            <SectionHeading
+              eyebrow="The outcome"
+              title="Polestar certification"
+            />
+            <p className="mt-4 text-lg leading-relaxed text-foreground/90">
+              Complete the program requirements to earn a Polestar Pilates diploma
+              and join its global education community.
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Credential recognition and teaching requirements vary by jurisdiction;
+              confirm current details with Polestar.
+            </p>
           </div>
         </Container>
       </section>

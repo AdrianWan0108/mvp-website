@@ -6,7 +6,7 @@ export function CtaBand() {
   return (
     <section className="bg-secondary text-secondary-foreground">
       <Container className="flex flex-col items-center gap-6 py-20 text-center">
-        <h2 className="max-w-2xl text-balance font-serif text-3xl font-semibold sm:text-4xl">
+        <h2 className="max-w-2xl text-balance font-serif text-4xl font-semibold sm:text-5xl">
           Become our MVP
         </h2>
         <p className="max-w-xl text-lg text-secondary-foreground/80">

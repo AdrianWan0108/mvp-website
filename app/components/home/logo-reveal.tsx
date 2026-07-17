@@ -140,7 +140,7 @@ export function LogoReveal() {
           </div>
         </div>
 
-        <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
+        <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
           Hover the logo — each shape opens a window into our reformer studio.
         </p>
       </Container>

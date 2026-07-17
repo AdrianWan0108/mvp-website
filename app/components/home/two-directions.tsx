@@ -59,10 +59,10 @@ export function TwoDirections() {
                 {/* Legibility scrim — dark enough for white copy on both panels. */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
               </div>
-              <h3 className="font-serif text-3xl font-semibold text-white sm:text-4xl">
+              <h3 className="font-serif text-4xl font-semibold text-white sm:text-5xl">
                 {dir.title}
               </h3>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-white/85">
+              <p className="mt-3 max-w-md text-base leading-relaxed text-white/85">
                 {dir.body}
               </p>
               <div className="mt-6">

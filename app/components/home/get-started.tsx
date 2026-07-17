@@ -84,10 +84,10 @@ export function GetStarted() {
                   {i + 1}
                 </span>
                 <div>
-                  <h3 className="font-serif text-lg font-semibold">
+                  <h3 className="font-serif text-xl font-semibold">
                     {step.title}
                   </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-1 text-base leading-relaxed text-muted-foreground">
                     {step.body}
                   </p>
                 </div>

@@ -62,13 +62,13 @@ export default function OurTeamPage() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="font-serif text-xl font-semibold">
+                <h3 className="font-serif text-2xl font-semibold">
                   {member.name}
                 </h3>
                 <p className="mt-1 text-sm font-medium uppercase tracking-[0.12em] text-primary">
                   {member.role}
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-3 text-base leading-relaxed text-muted-foreground">
                   {member.bio}
                 </p>
               </div>
