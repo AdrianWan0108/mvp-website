@@ -238,7 +238,7 @@ export default function TeacherTrainingPage() {
       {/* Program introduction — facts, educators, and Gary's personal message. */}
       <section
         data-theme="education-light"
-        className="relative bg-background pb-20 text-foreground sm:pb-24"
+        className="relative bg-gradient-to-b from-brand-300 via-brand-100 to-white text-foreground"
       >
         <Container size="wide" className="relative z-10">
           {/* Five concise facts straddle the hero and the light section. */}
@@ -258,9 +258,13 @@ export default function TeacherTrainingPage() {
               </div>
             ))}
           </div>
+        </Container>
 
-          <div className="mt-20 sm:mt-24">
-            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.6fr] lg:gap-16">
+        {/* Educators + Gary's note continue on the section's verdant-to-white
+           gradient — no background of their own, so there's no white seam. */}
+        <div className="mt-16 py-16 sm:mt-20 sm:py-20">
+          <Container size="wide">
+            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.6fr] lg:items-center lg:gap-16">
               <SectionHeading
                 eyebrow="Your teaching team"
                 title="Meet your educators"
@@ -295,65 +299,64 @@ export default function TeacherTrainingPage() {
                     </div>
                   </article>
                 ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="relative mt-12 overflow-hidden py-8 sm:mt-14 sm:py-10">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 flex items-center justify-center"
-            >
-              <Image
-                src="/mvp-website/assets/photos/polestar-logo/POLESTAR_TM_-_Default_Logo.png"
-                alt=""
-                width={720}
-                height={720}
-                className="w-full max-w-xl opacity-[0.055] sm:max-w-2xl"
-              />
-            </div>
-
-            <div className="relative z-10 mx-auto max-w-4xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary">
-                A note from Gary
-              </p>
-              <h2 className="mt-4 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                Enter your Pilates era
-              </h2>
-              <div className="mt-6 space-y-4 text-lg leading-relaxed text-foreground/90">
-                <p>
-                  Choosing a Pilates teacher-training program can feel overwhelming.
-                  The right path should align with how you want to move, teach, and
-                  grow.
-                </p>
-                <p>
-                  What makes Polestar meaningful to me is its strong community and
-                  mentorship — a global network built on collaboration, apprenticeship,
-                  and lifelong learning. Whether you are deepening your practice,
-                  changing careers, or expanding your movement education, we would be
-                  honoured to support your journey here at Motion Vitality Pilates.
-                </p>
-              </div>
-              <div className="mt-8 flex items-center gap-4">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full">
-                  <Image
-                    src="/mvp-website/assets/photos/polestar-teaching-program/gary-headshot.png"
-                    alt="Gary Fok"
-                    fill
-                    sizes="56px"
-                    className="object-cover"
-                  />
                 </div>
-                <p className="font-semibold text-foreground">
-                  Gary Fok
-                  <span className="mt-1 block text-sm font-normal text-muted-foreground">
-                    Founder of Motion Vitality Pilates
-                  </span>
+              </div>
+            <div className="relative mt-12 overflow-hidden py-8 sm:mt-14 sm:py-10">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 flex items-center justify-center"
+              >
+                <Image
+                  src="/mvp-website/assets/photos/polestar-logo/POLESTAR_TM_-_Default_Logo.png"
+                  alt=""
+                  width={720}
+                  height={720}
+                  className="w-full max-w-xl opacity-[0.055] sm:max-w-2xl"
+                />
+              </div>
+
+              <div className="relative z-10 mx-auto max-w-4xl">
+                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary">
+                  A note from Gary
                 </p>
+                <h2 className="mt-4 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
+                  Enter your Pilates era
+                </h2>
+                <div className="mt-6 space-y-4 text-lg leading-relaxed text-foreground/90">
+                  <p>
+                    Choosing a Pilates teacher-training program can feel overwhelming.
+                    The right path should align with how you want to move, teach, and
+                    grow.
+                  </p>
+                  <p>
+                    What makes Polestar meaningful to me is its strong community and
+                    mentorship — a global network built on collaboration, apprenticeship,
+                    and lifelong learning. Whether you are deepening your practice,
+                    changing careers, or expanding your movement education, we would be
+                    honoured to support your journey here at Motion Vitality Pilates.
+                  </p>
+                </div>
+                <div className="mt-8 flex items-center gap-4">
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full">
+                    <Image
+                      src="/mvp-website/assets/photos/polestar-teaching-program/gary-headshot.png"
+                      alt="Gary Fok"
+                      fill
+                      sizes="56px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <p className="font-semibold text-foreground">
+                    Gary Fok
+                    <span className="mt-1 block text-sm font-normal text-muted-foreground">
+                      Founder of Motion Vitality Pilates
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </Container>
+          </Container>
+        </div>
       </section>
 
       {/* Audience — a full-bleed editorial split with a simple checklist. */}
@@ -397,10 +400,13 @@ export default function TeacherTrainingPage() {
           </div>
       </section>
 
-      {/* Curriculum and delivery format answer two distinct questions: what and how. */}
+      {/* Curriculum and delivery format — the "dark verdant" section. Deep
+         brand-900 green instead of neutral ink, so the two most
+         program-detail-heavy sections read as the page's brand-green core,
+         bracketed by ink/white elsewhere. */}
       <section
-        data-theme="education-light"
-        className="bg-[color-mix(in_oklab,var(--brand-500)_6%,white)] py-14 text-foreground sm:py-18"
+        data-theme="education"
+        className="bg-brand-900 text-brand-50 py-10 sm:py-12"
       >
         <Container size="wide">
           <SectionHeading
@@ -408,10 +414,10 @@ export default function TeacherTrainingPage() {
             title="What you'll learn — and how"
           />
 
-          <div className="mt-8 grid gap-8 lg:grid-cols-2 lg:gap-14">
+          <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-14">
             <div>
-              <h3 className="font-serif text-2xl font-semibold">Curriculum</h3>
-              <ul className="mt-4 divide-y divide-border border-y border-border">
+              <h3 className="font-serif text-3xl font-semibold">Curriculum</h3>
+              <ul className="mt-3 divide-y divide-brand-50/15 border-y border-brand-50/15">
                 {curriculum.map((item) => (
                   <li
                     key={item.title}
@@ -419,15 +425,15 @@ export default function TeacherTrainingPage() {
                   >
                     <span
                       aria-hidden
-                      className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/15 text-sm font-bold text-primary"
+                      className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground"
                     >
                       &bull;
                     </span>
                     <div>
-                      <h4 className="font-serif text-lg font-semibold">
+                      <h4 className="font-serif text-xl font-semibold">
                         {item.title}
                       </h4>
-                      <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                      <p className="mt-0.5 text-sm leading-snug text-muted-foreground">
                         {item.body}
                       </p>
                     </div>
@@ -437,18 +443,18 @@ export default function TeacherTrainingPage() {
             </div>
 
             <div>
-              <h3 className="font-serif text-2xl font-semibold">
+              <h3 className="font-serif text-3xl font-semibold">
                 How you&rsquo;ll learn
               </h3>
-              <ol className="mt-4 divide-y divide-border border-y border-border">
+              <ol className="mt-3 divide-y divide-brand-50/15 border-y border-brand-50/15">
                 {learningFormats.map((item) => (
                   <li key={item.number} className="grid grid-cols-[2.5rem_1fr] items-start gap-4 py-3">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/15 font-serif text-sm text-primary">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary font-serif text-sm text-primary-foreground">
                       {item.number}
                     </span>
                     <div>
-                      <h4 className="font-serif text-lg font-semibold">{item.title}</h4>
-                      <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                      <h4 className="font-serif text-xl font-semibold">{item.title}</h4>
+                      <p className="mt-0.5 text-sm leading-snug text-muted-foreground">
                         {item.body}
                       </p>
                     </div>
@@ -460,11 +466,12 @@ export default function TeacherTrainingPage() {
         </Container>
       </section>
 
-      {/* Schedule — light-tinted background with dark text. Program
-         requirements now share the right column with the online sessions. */}
+      {/* Schedule — the "light verdant" section. Uses the site's default
+         `verdant` theme (not education/education-light) so this reads as a
+         genuine brand-green breather, not a neutral one. */}
       <section
-        data-theme="education-light"
-        className="bg-[color-mix(in_oklab,var(--brand-500)_6%,white)] text-foreground py-20 sm:py-24"
+        data-theme="verdant"
+        className="bg-background text-foreground py-20 sm:py-24"
       >
         <Container>
           <SectionHeading
@@ -495,6 +502,11 @@ export default function TeacherTrainingPage() {
                   </li>
                 ))}
               </ul>
+              <div className="mt-8">
+                <CtaButton href={links.polestarRegister} size="lg">
+                  Register Now
+                </CtaButton>
+              </div>
             </div>
             {/* Online + Program requirements stacked in the right column */}
             <div className="space-y-12">
@@ -533,14 +545,17 @@ export default function TeacherTrainingPage() {
                 </h3>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   {requirements.map((req) => (
-                    <Card key={req.label} className="p-5">
-                      <p className="font-serif text-4xl font-semibold text-primary sm:text-5xl">
+                    <div
+                      key={req.label}
+                      className="rounded-2xl border border-brand-200 bg-brand-100 p-5 shadow-sm"
+                    >
+                      <p className="font-serif text-4xl font-semibold text-brand-900 sm:text-5xl">
                         {req.value}
                       </p>
-                      <p className="mt-2 text-sm text-muted-foreground">
+                      <p className="mt-2 text-sm text-brand-700">
                         {req.label}
                       </p>
-                    </Card>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -562,7 +577,10 @@ export default function TeacherTrainingPage() {
           </p>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
             {pricingOptions.map((opt) => (
-              <Card key={opt.name} className="flex flex-col bg-secondary p-6">
+              <div
+                key={opt.name}
+                className="flex flex-col rounded-2xl border border-brand-200 bg-brand-100 p-6 shadow-sm"
+              >
                 <h3 className="font-serif text-2xl font-semibold">{opt.name}</h3>
                 <p className="mt-2 text-xl font-semibold text-primary">
                   {opt.headline}
@@ -573,7 +591,7 @@ export default function TeacherTrainingPage() {
                 {opt.note && (
                   <p className="mt-3 text-sm text-muted-foreground">{opt.note}</p>
                 )}
-              </Card>
+              </div>
             ))}
           </div>
           <p className="mt-6 text-base text-muted-foreground">

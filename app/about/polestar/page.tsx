@@ -103,8 +103,10 @@ export default function PolestarPage() {
                 data-theme="polestar-brand-light"
                 className="rounded-2xl border border-border bg-secondary p-6 text-foreground shadow-sm"
               >
-                <h3 className="font-serif text-2xl font-semibold">{item.title}</h3>
-                <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+                <h3 className="font-serif text-3xl font-semibold leading-tight sm:text-4xl">
+                  {item.title}
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                   {item.body}
                 </p>
               </div>
