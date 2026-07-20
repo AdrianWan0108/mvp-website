@@ -102,7 +102,7 @@ export default function ContactPage() {
             src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            className="h-80 w-full sm:h-96"
+            className="h-[28rem] w-full sm:h-[34rem]"
           />
         </div>
 

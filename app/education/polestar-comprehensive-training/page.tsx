@@ -639,14 +639,14 @@ export default function TeacherTrainingPage() {
       {/* Certification — the program outcome, closing the page after the CTA
          so it reads as a coda rather than competing for attention. */}
       <section data-theme="education-light" className="bg-background py-12 text-foreground sm:py-16">
-        <Container className="grid items-center gap-8 lg:grid-cols-[0.5fr_1.5fr] lg:gap-12">
-          <div className="mx-auto w-full max-w-[10rem] sm:max-w-[12rem] lg:mx-0">
+        <Container className="grid items-center gap-8 lg:grid-cols-[0.4fr_1fr]">
+          <div className="mx-auto w-full max-w-[16rem] sm:max-w-[19rem] lg:mx-0">
             <Image
               src="/mvp-website/assets/photos/polestar-teaching-program/diploma-sample.png"
               alt="Sample Polestar Pilates education diploma"
               width={783}
               height={598}
-              sizes="160px"
+              sizes="304px"
               className="h-auto w-full rounded-lg shadow-lg ring-1 ring-primary/25"
             />
           </div>

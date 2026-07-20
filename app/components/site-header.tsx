@@ -105,7 +105,7 @@ export function SiteHeader() {
           // screens. Other pages: the standard centered content width.
           isHome
             ? "px-5 sm:px-8 lg:px-10 xl:px-12"
-            : "mx-auto max-w-6xl px-5 sm:px-8",
+            : "mx-auto max-w-7xl px-5 sm:px-8",
         )}
       >
         <div className="flex items-center gap-3">
@@ -159,7 +159,7 @@ export function SiteHeader() {
                   </svg>
                 </Link>
                 <div className="pointer-events-none invisible absolute left-0 top-full translate-y-1 pt-2 opacity-0 transition-[opacity,transform,visibility] duration-200 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none">
-                  <ul className="min-w-48 rounded-xl border border-border/80 bg-card/90 p-1.5 shadow-xl backdrop-blur-xl">
+                  <ul className="w-64 rounded-xl border border-border/80 bg-card/90 p-1.5 shadow-xl backdrop-blur-xl">
                     {item.children.map((child) => (
                       <li key={child.href}>
                         <Link

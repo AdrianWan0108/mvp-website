@@ -1,11 +1,11 @@
 import { cn } from "@/app/lib/cn";
 
-/** Max content width per size. `default` is the standard reading column;
- *  `wide` / `wider` let near-full-bleed sections breathe closer to the hero. */
+/** Max content width per size. All sizes currently share one width;
+ *  kept as separate keys in case sections need to diverge again later. */
 const sizes = {
-  default: "max-w-6xl",
+  default: "max-w-7xl",
   wide: "max-w-7xl",
-  wider: "max-w-[88rem]",
+  wider: "max-w-7xl",
 };
 
 /** Centered max-width content wrapper with responsive horizontal padding. */

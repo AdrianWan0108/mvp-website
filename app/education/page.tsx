@@ -129,7 +129,7 @@ export default function EducationPage() {
         </Container>
 
         {/* Entry A — Polestar Transition with Shelly Power */}
-        <Container className="mt-10 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+        <Container className="mt-10 grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
             <h3 className="font-serif text-4xl font-semibold leading-tight sm:text-5xl">
               <span className="text-[#2b4458]">Pole</span>
@@ -167,8 +167,8 @@ export default function EducationPage() {
 
         {/* Entry B — GYROKINESIS with Jane Gotch (photo mirrored to the left) */}
         <Container className="mt-14 border-t border-border pt-14 sm:mt-16 sm:pt-16">
-          <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="relative mb-5 ml-5 max-w-sm lg:order-1 lg:mx-0">
+          <div className="grid items-center gap-8 lg:grid-cols-[0.65fr_1fr]">
+            <div className="relative mb-5 ml-5 max-w-md lg:order-1 lg:mx-0">
               {/* 3/4 box matches the group photo's native ratio — raised arms
                  and faces stay in frame. */}
               <div className="relative aspect-[3/4] overflow-hidden rounded-3xl border border-border">
@@ -176,7 +176,7 @@ export default function EducationPage() {
                   src={photos.gyrokinesisCohort.src}
                   alt={photos.gyrokinesisCohort.alt}
                   fill
-                  sizes="(min-width: 1024px) 30vw, 100vw"
+                  sizes="(min-width: 1024px) 448px, 100vw"
                   className="object-cover"
                 />
               </div>
@@ -226,7 +226,7 @@ export default function EducationPage() {
          facts stand in for a photo */}
       <section className="relative isolate overflow-hidden py-20 sm:py-24">
         <div aria-hidden className="education-aurora-strong absolute inset-0 -z-10" />
-        <Container className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+        <Container className="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <SectionHeading
               eyebrow="Now enrolling"
@@ -247,7 +247,7 @@ export default function EducationPage() {
               </CtaButton>
             </div>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2">
             {programFacts.map((fact) => (
               <div key={fact.label} className="relative">
                 {/* Stacked backdrop layers peeking out behind the card for
@@ -262,12 +262,12 @@ export default function EducationPage() {
                 />
                 <div
                   data-theme="education-light"
-                  className="relative rounded-2xl border border-border border-t-2 border-t-primary bg-card p-5 text-card-foreground shadow-2xl ring-1 ring-black/10"
+                  className="relative rounded-2xl border border-border border-t-2 border-t-primary bg-card p-7 text-card-foreground shadow-2xl ring-1 ring-black/10"
                 >
                   <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">
                     {fact.label}
                   </p>
-                  <p className="mt-2 font-serif text-xl leading-snug">{fact.value}</p>
+                  <p className="mt-3 font-serif text-2xl leading-snug sm:text-3xl">{fact.value}</p>
                 </div>
               </div>
             ))}

@@ -60,7 +60,7 @@ export const mainNav: NavItem[] = [
     children: [
       { label: "Overview", href: "/education" },
       {
-        label: "Teacher Training",
+        label: "Polestar Comprehensive Pilates Teacher Training",
         href: "/education/polestar-comprehensive-training",
       },
     ],
@@ -86,7 +86,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "Studio", href: "/classes" },
       { label: "Education", href: "/education" },
       {
-        label: "Teacher Training",
+        label: "Polestar Comprehensive Pilates Teacher Training",
         href: "/education/polestar-comprehensive-training",
       },
     ],
