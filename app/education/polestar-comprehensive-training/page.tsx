@@ -197,8 +197,11 @@ export default function TeacherTrainingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }}
       />
 
-      {/* Hero — polestar-frontdoor.jpg full overlay, taller */}
-      <section className="relative isolate overflow-hidden pb-28">
+      {/* Hero — polestar-frontdoor.jpg full overlay. Bottom padding gives the
+         scrim's near-solid zone (percentage-based, so it grows with the
+         section) just enough dark footer for the fact cards to sit in,
+         without ballooning the hero's overall height. */}
+      <section className="relative isolate overflow-hidden pb-16 sm:pb-20">
         <div className="absolute inset-0 -z-10">
           <Image
             src={photos.polestarFrontDoor.src}
@@ -208,6 +211,7 @@ export default function TeacherTrainingPage() {
             sizes="100vw"
             className="object-cover"
           />
+          <div aria-hidden className="absolute inset-0 bg-neutral-900/25" />
           <div className="absolute inset-0 polestar-scrim" />
           <div aria-hidden className="polestar-aurora absolute inset-0" />
         </div>
@@ -233,21 +237,18 @@ export default function TeacherTrainingPage() {
             </CtaButton>
           </div>
         </Container>
-      </section>
 
-      {/* Program introduction — facts, educators, and Gary's personal message. */}
-      <section
-        data-theme="education-light"
-        className="relative bg-gradient-to-b from-brand-300 via-brand-100 to-white text-foreground"
-      >
-        <Container size="wide" className="relative z-10">
-          {/* Five concise facts straddle the hero and the light section. */}
-          <div className="-mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {/* Five concise facts, resting in the hero's blackened footer — same
+           light, airy card style, with a per-card theme override so they stay
+           legible against the dark backdrop. A pale mint tint (rather than
+           plain white) keeps them reading as verdant, not neutral grey. */}
+        <Container size="wide" className="relative z-10 mt-10 sm:mt-12">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {facts.map((fact) => (
               <div
                 key={fact.label}
-                data-theme="education"
-                className="rounded-2xl border border-border border-t-2 border-t-primary bg-card p-5 text-card-foreground shadow-xl"
+                data-theme="education-light"
+                className="rounded-2xl border border-brand-200 bg-brand-100 p-5 text-foreground shadow-sm"
               >
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">
                   {fact.label}
@@ -259,10 +260,16 @@ export default function TeacherTrainingPage() {
             ))}
           </div>
         </Container>
+      </section>
 
+      {/* Program introduction — educators and Gary's personal message. */}
+      <section
+        data-theme="education-light"
+        className="relative bg-gradient-to-b from-brand-300 via-brand-100 to-white text-foreground"
+      >
         {/* Educators + Gary's note continue on the section's verdant-to-white
            gradient — no background of their own, so there's no white seam. */}
-        <div className="mt-16 py-16 sm:mt-20 sm:py-20">
+        <div className="py-16 sm:py-20">
           <Container size="wide">
             <div className="grid gap-10 lg:grid-cols-[0.85fr_1.6fr] lg:items-center lg:gap-16">
               <SectionHeading

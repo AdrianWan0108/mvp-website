@@ -137,8 +137,18 @@ export const photos = {
     alt: "Pilates instructor giving hands-on cues to a client during a private one-on-one reformer session.",
   },
   groupClass: {
-    src: `${base}/instructor-teaching-students-group-class/Gary/gary-group-1.JPG`,
+    src: `${base}/instructor-teaching-students-group-class/Gary/gary-group-3.JPG`,
     alt: "Gary Fok leading a small group reformer class at Motion Vitality Pilates in Markham.",
+  },
+
+  // --- Education / past training ---
+  janeGotch: {
+    src: `${base}/education/jane-gotch.jpg`,
+    alt: "Jane Gotch performing a flowing backbend on the GYROTONIC® apparatus.",
+  },
+  gyrokinesisCohort: {
+    src: `${base}/education/jane-gary-students.jpeg`,
+    alt: "Jane Gotch, Gary Fok, and the GYROKINESIS® course cohort posing together in the studio.",
   },
 
   // --- Polestar community (teacher-training context) ---

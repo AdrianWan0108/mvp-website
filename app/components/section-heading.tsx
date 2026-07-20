@@ -1,8 +1,9 @@
+import type { ReactNode } from "react";
 import { cn } from "@/app/lib/cn";
 
 type SectionHeadingProps = {
   eyebrow?: string;
-  title: string;
+  title: ReactNode;
   intro?: string;
   align?: "left" | "center";
   /** Heading level for correct document outline. Defaults to h2. */
