@@ -42,7 +42,7 @@ export type NavItem = {
   label: string;
   href: string;
   /** Optional path prefix for active-state matching when it differs from href
-   *  (e.g. "About" links to /about/our-story but is active on all /about/*). */
+   *  (e.g. "About" stays active across all /about/* pages). */
   match?: string;
   /** Optional dropdown sub-links (desktop) / nested links (mobile). */
   children?: NavItem[];
@@ -67,11 +67,10 @@ export const mainNav: NavItem[] = [
   },
   {
     label: "About",
-    href: "/about/our-story",
+    href: "/about",
     match: "/about",
     children: [
-      { label: "Our Story", href: "/about/our-story" },
-      { label: "Our Team", href: "/about/our-team" },
+      { label: "About", href: "/about" },
       { label: "MVP × Polestar", href: "/about/polestar" },
     ],
   },
@@ -94,8 +93,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Studio",
     items: [
-      { label: "Our Story", href: "/about/our-story" },
-      { label: "Our Team", href: "/about/our-team" },
+      { label: "About", href: "/about" },
       { label: "MVP × Polestar", href: "/about/polestar" },
       { label: "FAQ", href: "/faq" },
       { label: "Contact", href: "/contact" },

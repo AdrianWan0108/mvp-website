@@ -13,8 +13,8 @@ import { cn } from "@/app/lib/cn";
 
 function isActive(pathname: string | null, item: NavItem): boolean {
   if (!pathname) return false;
-  // `match` lets a parent highlight for a whole segment even when its href
-  // points at a child (About → /about/our-story, active on all /about/*).
+  // `match` lets a parent highlight for a whole segment (About → /about,
+  // active on all /about/*, including /about/polestar).
   const target = item.match ?? item.href;
   return target === "/" ? pathname === "/" : pathname.startsWith(target);
 }
