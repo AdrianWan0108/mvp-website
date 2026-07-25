@@ -53,7 +53,15 @@ export type NavItem = {
  *  credibility/relationship story, not a direction of its own. */
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Studio", href: "/classes" },
+  {
+    label: "Studio",
+    href: "/classes",
+    match: "/classes",
+    children: [
+      { label: "Classes", href: "/classes" },
+      { label: "Schedule", href: "/classes/schedule" },
+    ],
+  },
   {
     label: "Education",
     href: "/education",
