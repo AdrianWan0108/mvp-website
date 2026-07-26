@@ -1,47 +1,58 @@
 import Link from "next/link";
 import { purchaseTerms } from "@/app/lib/pricing-data";
+import { Meta } from "./pricing-ui";
 
 /**
- * The short version of the purchase terms, sitting under the buy buttons
- * rather than a click away. Server-rendered — nothing here is interactive.
+ * Purchase terms. Held in one quiet panel so eight short lines read as a single
+ * block of small print rather than eight ruled-off statements — point form, two
+ * columns, and no line between items.
  *
- * Deliberately a summary: the wording lives in pricing-data.ts and the full
- * documents are linked at the end.
+ * Server-rendered; nothing here is interactive.
  */
 export function BeforeYouPurchase() {
   return (
-    <ul className="mt-8 grid gap-x-10 gap-y-3 sm:grid-cols-2">
-      {purchaseTerms.map((term) => (
-        <li
-          key={term}
-          className="flex gap-3 text-base leading-relaxed text-muted-foreground"
-        >
-          <span aria-hidden className="mt-2.5 h-1 w-3 shrink-0 bg-primary" />
-          <span>{term}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
+    <div className="rounded-lg border border-brand-200 bg-white p-6 sm:p-8">
+      <Meta className="text-brand-700">Before you purchase</Meta>
 
-export function PolicyLinks() {
-  return (
-    <p className="mt-8 text-base text-muted-foreground">
-      Full details are in our{" "}
-      <Link
-        href="/terms"
-        className="font-medium text-foreground underline underline-offset-4 hover:text-brand-700"
+      <h2
+        id="before-you-purchase-heading"
+        className="mt-2 font-serif text-3xl leading-none tracking-[0.03em] text-brand-900"
       >
-        Terms &amp; Conditions
-      </Link>{" "}
-      and{" "}
-      <Link
-        href="/policies"
-        className="font-medium text-foreground underline underline-offset-4 hover:text-brand-700"
-      >
-        Emergency &amp; Sickness Policies
-      </Link>
-      .
-    </p>
+        Good to know
+      </h2>
+
+      <ul className="mt-6 grid gap-x-12 gap-y-2.5 sm:grid-cols-2">
+        {purchaseTerms.map((term) => (
+          <li
+            key={term}
+            className="flex gap-3 text-base leading-relaxed text-brand-800"
+          >
+            <span
+              aria-hidden
+              className="mt-[0.7rem] h-1 w-1 shrink-0 rounded-full bg-brand-500"
+            />
+            <span>{term}</span>
+          </li>
+        ))}
+      </ul>
+
+      <p className="mt-7 text-base text-brand-800">
+        Full details are in our{" "}
+        <Link
+          href="/terms"
+          className="font-medium text-brand-900 underline decoration-brand-400 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-700"
+        >
+          Terms &amp; Conditions
+        </Link>{" "}
+        and{" "}
+        <Link
+          href="/policies"
+          className="font-medium text-brand-900 underline decoration-brand-400 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-700"
+        >
+          Emergency &amp; Sickness Policies
+        </Link>
+        .
+      </p>
+    </div>
   );
 }

@@ -27,6 +27,13 @@ export type PricingSectionId =
   | "memberships"
   | "seniors";
 
+/**
+ * Everything the pricing page can select within or scroll to: the four
+ * Mindbody sections plus one-on-one training, which is booked rather than
+ * bought and so is not a PricingSectionId.
+ */
+export type PricingScope = PricingSectionId | "private";
+
 export type PricingOption = {
   key: string;
   serviceId: string;
@@ -62,8 +69,8 @@ export type PricingSection = {
   description: string;
   /** Visible question above the selector; also labels the radiogroup. */
   selectorLabel: string;
-  /** `scale` is the 1→40 rail; `segmented` is a row of buttons. */
-  selector: "segmented" | "scale";
+  /** Plural noun for this section's options, e.g. "5 packs" in the index. */
+  indexNoun: string;
   /**
    * Show "save $N vs drop-in". Only meaningful where the pack buys the same
    * class the drop-in buys — intro packs are a promotional rate for new
@@ -78,15 +85,15 @@ export const pricingSections: PricingSection[] = [
     heading: "New here",
     description: "Two ways to try the studio, priced for a first visit.",
     selectorLabel: "How would you like to start?",
-    selector: "segmented",
+    indexNoun: "options",
   },
   {
     id: "group-packs",
     heading: "Group class packs",
     description:
       "Reformer and group classes, from a single drop-in to a full year. The more classes you buy up front, the less each one costs.",
-    selectorLabel: "How many classes would you like?",
-    selector: "scale",
+    selectorLabel: "How many classes?",
+    indexNoun: "packs",
     showSavings: true,
   },
   {
@@ -95,14 +102,14 @@ export const pricingSections: PricingSection[] = [
     description:
       "Unlimited group classes, billed monthly. Both options give you the same access — the difference is how long you commit.",
     selectorLabel: "How long would you like to commit?",
-    selector: "segmented",
+    indexNoun: "plans",
   },
   {
     id: "seniors",
     heading: "Seniors",
     description: "Ten-session packs at a reduced rate for our senior members.",
-    selectorLabel: "Which class would you like?",
-    selector: "segmented",
+    selectorLabel: "Which programme?",
+    indexNoun: "programmes",
   },
 ];
 
@@ -442,4 +449,38 @@ export function savingsVsDropIn(option: PricingOption): number | null {
   if (!option.count || option.count < 2 || !dropInPrice) return null;
   const saving = option.count * dropInPrice - option.price;
   return saving > 0 ? saving : null;
+}
+
+/** "$20–$110", or "$250–$300 / mo" for anything billed monthly. */
+export function formatPriceRange(
+  prices: number[],
+  interval: PricingInterval = "once",
+): string {
+  if (!prices.length) return "";
+  const low = Math.min(...prices);
+  const high = Math.max(...prices);
+  const suffix = interval === "month" ? " / mo" : "";
+  // An en dash, not a hyphen: this is a range, not a compound word.
+  return low === high
+    ? `${formatPrice(low)}${suffix}`
+    : `${formatPrice(low)}–${formatPrice(high)}${suffix}`;
+}
+
+/**
+ * The index row for one section: how many options it holds and what they
+ * span. Derived, so a reprice or a hidden option updates the contents page
+ * without anyone remembering to.
+ */
+export function sectionIndexEntry(section: PricingSection): {
+  count: string;
+  range: string;
+} {
+  const options = publicOptionsForSection(section.id);
+  return {
+    count: `${options.length} ${section.indexNoun}`,
+    range: formatPriceRange(
+      options.map((option) => option.price),
+      options[0]?.interval ?? "once",
+    ),
+  };
 }

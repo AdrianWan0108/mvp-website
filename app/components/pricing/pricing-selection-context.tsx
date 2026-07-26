@@ -14,16 +14,16 @@ import {
   privateSection,
   publicOptionsForSection,
   pricingSections,
+  type PricingScope,
 } from "@/app/lib/pricing-data";
-import type { FinderScope } from "@/app/lib/plan-finder";
 import { sectionAnchorId, sectionHeadingId } from "./section-anchors";
 
 /**
  * Which option is selected in each section of the pricing page.
  *
- * This lives in context rather than in each section because the plan finder
- * has to reach across the page: "View this option" both selects an option in
- * a section it does not own and scrolls the page to it.
+ * This lives in context rather than in each section because the "Explore
+ * pricing" nav at the top of the page has to reach across it — jumping to a
+ * section it does not own, and moving focus there once it arrives.
  *
  * The provider is a client boundary, but the page passes its sections through
  * as `children`, so all the static headings and copy stay server-rendered.
@@ -32,20 +32,20 @@ import { sectionAnchorId, sectionHeadingId } from "./section-anchors";
 type Selection = Record<string, string>;
 
 type PricingSelectionValue = {
-  selectedKey: (scope: FinderScope) => string;
-  select: (scope: FinderScope, optionKey: string) => void;
+  selectedKey: (scope: PricingScope) => string;
+  select: (scope: PricingScope, optionKey: string) => void;
   /**
-   * Select an option (optionally) and scroll to its section. Pass a null
-   * `optionKey` to scroll without changing the selection — used by the
-   * memberships branch of the finder, which deliberately picks no winner.
+   * Scroll to a section, optionally selecting an option on the way. The
+   * category nav passes a null `optionKey`: it jumps to a section without
+   * presuming which option you want once you get there.
    */
-  selectAndScroll: (scope: FinderScope, optionKey: string | null) => void;
+  selectAndScroll: (scope: PricingScope, optionKey: string | null) => void;
   /**
    * Whether the visitor has changed this section's selection yet. Sections
    * use it to keep their live region silent until there is something worth
    * announcing, rather than reading the default option out on page load.
    */
-  hasTouched: (scope: FinderScope) => boolean;
+  hasTouched: (scope: PricingScope) => boolean;
 };
 
 const PricingSelectionContext = createContext<PricingSelectionValue | null>(
@@ -75,7 +75,7 @@ export function PricingSelectionProvider({
   const [selection, setSelection] = useState<Selection>(initialSelection);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-  const select = useCallback((scope: FinderScope, optionKey: string) => {
+  const select = useCallback((scope: PricingScope, optionKey: string) => {
     setSelection((current) => ({ ...current, [scope]: optionKey }));
     setTouched((current) =>
       current[scope] ? current : { ...current, [scope]: true },
@@ -83,7 +83,7 @@ export function PricingSelectionProvider({
   }, []);
 
   const selectAndScroll = useCallback(
-    (scope: FinderScope, optionKey: string | null) => {
+    (scope: PricingScope, optionKey: string | null) => {
       // flushSync commits the new selection before we measure and scroll.
       // Without it we would scroll against the pre-change layout, and the card
       // growing or shrinking underneath would land the section off-position.
@@ -101,7 +101,7 @@ export function PricingSelectionProvider({
       });
 
       // Keyboard and screen-reader users need to land where the page moved,
-      // not back at the finder. The heading carries tabIndex={-1} for this.
+      // not back at the nav. The heading carries tabIndex={-1} for this.
       document
         .getElementById(sectionHeadingId(scope))
         ?.focus({ preventScroll: true });

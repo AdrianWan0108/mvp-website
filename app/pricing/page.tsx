@@ -1,164 +1,120 @@
 import type { Metadata } from "next";
 import { Container } from "../components/container";
-import { PageHeader } from "../components/page-header";
-import {
-  BeforeYouPurchase,
-  PolicyLinks,
-} from "../components/pricing/before-you-purchase";
-import { PlanFinder } from "../components/pricing/plan-finder";
-import { PricingSectionBody } from "../components/pricing/pricing-section";
-import { PrivateTrainingSectionBody } from "../components/pricing/private-training-section";
+import { BeforeYouPurchase } from "../components/pricing/before-you-purchase";
+import { PricingIndex } from "../components/pricing/pricing-index";
+import { PricingMasthead } from "../components/pricing/pricing-masthead";
 import { PricingSelectionProvider } from "../components/pricing/pricing-selection-context";
+import { SectionHeader } from "../components/pricing/pricing-ui";
+import { SectionGroupPacks } from "../components/pricing/section-group-packs";
+import { SectionMemberships } from "../components/pricing/section-memberships";
+import { SectionNewHere } from "../components/pricing/section-new-here";
+import { SectionPrivate } from "../components/pricing/section-private";
+import { SectionSeniors } from "../components/pricing/section-seniors";
 import {
   sectionAnchorId,
   sectionHeadingId,
 } from "../components/pricing/section-anchors";
 import { cn } from "@/app/lib/cn";
-import { pricingSections, privateSection } from "@/app/lib/pricing-data";
+import {
+  pricingSections,
+  privateSection,
+  type PricingScope,
+} from "@/app/lib/pricing-data";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Class packs, memberships, senior sessions, and private training rates at Motion Vitality Pilates in Markham. Find your best fit and buy online through Mindbody.",
+    "Class packs, memberships, senior sessions, and private training rates at Motion Vitality Pilates in Markham. Buy online through Mindbody.",
 };
 
-/** Full-bleed bands alternate so verdant carries roughly half the page. The
- *  header band is brand, so the sections start light to avoid merging. */
-const bands = [
-  "bg-background",
-  "bg-secondary text-secondary-foreground",
-] as const;
-
-function band(index: number) {
-  return cn("py-14 sm:py-20", bands[index % bands.length]);
-}
-
 /**
- * Section heading. `headingId` doubles as the focus target the plan finder
- * moves to after scrolling, hence tabIndex={-1}.
+ * Background per section.
+ *
+ * Kept to two tones so the page reads as one surface with the panels sitting on
+ * it, rather than five differently coloured rooms. Group packs takes the tinted
+ * band because it is the decision most visitors come for; the others sit on the
+ * paper colour. The panels themselves are white, which is what separates
+ * content from background — the background is not doing that job.
  */
-function SectionHeader({
-  headingId,
-  heading,
-  description,
-}: {
-  headingId: string;
-  heading: string;
-  description: string;
-}) {
-  return (
-    <>
-      {/* The one place the hero verdant appears at full strength. */}
-      <span aria-hidden className="block h-1 w-10 bg-primary" />
-      {/* No outline-none here: browsers only apply :focus-visible to a
-          programmatic focus when the last input was the keyboard, so someone
-          who pressed Enter on "View this option" gets a "you are here" ring
-          and someone who clicked does not. */}
-      <h2
-        id={headingId}
-        tabIndex={-1}
-        className="mt-5 font-serif text-4xl font-semibold leading-tight sm:text-5xl"
-      >
-        {heading}
-      </h2>
-      <p className="mt-2 max-w-2xl text-lg text-muted-foreground">
-        {description}
-      </p>
-    </>
-  );
-}
+const fields: Record<PricingScope, string> = {
+  "new-here": "bg-brand-50",
+  "group-packs": "bg-brand-100",
+  memberships: "bg-brand-50",
+  seniors: "bg-brand-50",
+  private: "bg-brand-100",
+};
 
-/**
- * Pricing is a Server Component: only the selectors, the dynamic cards, and
- * the plan finder are client islands. PricingSelectionProvider is a client
- * boundary but takes the sections as `children`, so every heading and every
- * line of static copy below still renders on the server.
- */
 export default function PricingPage() {
   return (
     <>
-      <PageHeader
-        compact
-        tone="brand"
-        title="Pricing"
-        intro="Every class pack, membership, and private rate at the studio, with checkout through Mindbody."
-      />
+      <PricingMasthead />
 
       <PricingSelectionProvider>
-        <section
-          id="pricing-finder"
-          aria-labelledby="finder-heading"
-          className={band(0)}
-        >
+        <section aria-labelledby="contents-heading" className="bg-brand-50 pt-12 sm:pt-16">
           <Container>
-            <span aria-hidden className="block h-1 w-10 bg-primary" />
-            <h2
-              id="finder-heading"
-              className="mt-5 font-serif text-4xl font-semibold leading-tight sm:text-5xl"
-            >
-              Find your best fit
+            <h2 id="contents-heading" className="sr-only">
+              Pricing sections
             </h2>
-            <p className="mt-2 max-w-2xl text-lg text-muted-foreground">
-              Three questions at most, and we&rsquo;ll point you at the option
-              that suits how you want to train.
-            </p>
-            <PlanFinder />
+            <PricingIndex />
           </Container>
         </section>
 
-        {pricingSections.map((section, index) => (
-          <section
-            key={section.id}
-            id={sectionAnchorId(section.id)}
-            aria-labelledby={sectionHeadingId(section.id)}
-            // +1 because the finder occupies the first band.
-            className={band(index + 1)}
-          >
-            <Container>
-              <SectionHeader
-                headingId={sectionHeadingId(section.id)}
-                heading={section.heading}
-                description={section.description}
-              />
-              <PricingSectionBody section={section} />
-            </Container>
-          </section>
-        ))}
+        {/* Every section shares this shell — header, selector, result panel —
+            so the page has one rhythm. What varies is inside: group packs has
+            its own numeric scale, memberships shows two panels instead of one. */}
+        {pricingSections.map((section, index) => {
+          const Body =
+            section.id === "new-here"
+              ? SectionNewHere
+              : section.id === "group-packs"
+                ? SectionGroupPacks
+                : section.id === "memberships"
+                  ? SectionMemberships
+                  : SectionSeniors;
+
+          return (
+            <section
+              key={section.id}
+              id={sectionAnchorId(section.id)}
+              aria-labelledby={sectionHeadingId(section.id)}
+              className={cn("py-16 sm:py-24", fields[section.id])}
+            >
+              <Container>
+                <SectionHeader
+                  index={index + 1}
+                  headingId={sectionHeadingId(section.id)}
+                  heading={section.heading}
+                  standfirst={section.description}
+                />
+                <Body section={section} />
+              </Container>
+            </section>
+          );
+        })}
 
         <section
           id={sectionAnchorId(privateSection.id)}
           aria-labelledby={sectionHeadingId(privateSection.id)}
-          className={band(pricingSections.length + 1)}
+          className={cn("py-16 sm:py-24", fields[privateSection.id])}
         >
           <Container>
             <SectionHeader
+              index={pricingSections.length + 1}
               headingId={sectionHeadingId(privateSection.id)}
               heading={privateSection.heading}
-              description={privateSection.description}
+              standfirst={privateSection.description}
             />
-            <PrivateTrainingSectionBody />
+            <SectionPrivate />
           </Container>
         </section>
       </PricingSelectionProvider>
 
       <section
         aria-labelledby="before-you-purchase-heading"
-        className={band(pricingSections.length + 2)}
+        className="bg-brand-50 pb-20 pt-4 sm:pb-24"
       >
         <Container>
-          <span aria-hidden className="block h-1 w-10 bg-primary" />
-          <h2
-            id="before-you-purchase-heading"
-            className="mt-5 font-serif text-4xl font-semibold leading-tight sm:text-5xl"
-          >
-            Before you purchase
-          </h2>
-          <p className="mt-2 max-w-2xl text-lg text-muted-foreground">
-            The short version of the terms that apply to every package and
-            booking.
-          </p>
           <BeforeYouPurchase />
-          <PolicyLinks />
         </Container>
       </section>
     </>

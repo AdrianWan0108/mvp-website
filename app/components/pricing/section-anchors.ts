@@ -1,4 +1,4 @@
-import type { FinderScope } from "@/app/lib/plan-finder";
+import type { PricingScope } from "@/app/lib/pricing-data";
 
 /**
  * DOM ids shared between the server-rendered sections and the client
@@ -7,12 +7,12 @@ import type { FinderScope } from "@/app/lib/plan-finder";
  * not called from the server page that builds the markup.
  */
 
-/** A section's wrapper, and the scroll target the plan finder aims at. */
-export function sectionAnchorId(scope: FinderScope): string {
+/** A section's wrapper, and the scroll target the category nav aims at. */
+export function sectionAnchorId(scope: PricingScope): string {
   return `pricing-${scope}`;
 }
 
 /** A section's heading, so scrolling can also move focus there. */
-export function sectionHeadingId(scope: FinderScope): string {
+export function sectionHeadingId(scope: PricingScope): string {
   return `${scope}-heading`;
 }

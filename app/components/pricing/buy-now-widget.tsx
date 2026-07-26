@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { cn } from "@/app/lib/cn";
 
 /** Mindbody's widget loader. Constant across every pricing option. */
 const HEALCODE_SRC =
@@ -46,16 +47,23 @@ type BuyNowWidgetProps = {
   /** Used for the GA4 begin_checkout payload, not for display. */
   serviceName: string;
   priceNumber: number;
+  /**
+   * `quiet` outlines instead of filling. Used in the memberships comparison,
+   * where both plans stay purchasable but only the selected one takes the
+   * solid fill.
+   */
+  emphasis?: "solid" | "quiet";
 };
 
 /**
- * Renders the Mindbody buy link for one pricing option, styled as the card's
- * primary action. The card owns the surrounding spacing.
+ * Renders the Mindbody buy link for one pricing option, styled as the
+ * section's primary action. The section owns the surrounding spacing.
  */
 export function BuyNowWidget({
   serviceId,
   serviceName,
   priceNumber,
+  emphasis = "solid",
 }: BuyNowWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -90,9 +98,22 @@ export function BuyNowWidget({
   return (
     <div
       ref={containerRef}
-      // The <a> is injected by healcode.js, so it can only be styled from
-      // here as a descendant. Flat verdant fill, square corners, no shadow.
-      className="[&_a:hover]:bg-brand-600 [&_a]:block [&_a]:rounded-[2px] [&_a]:bg-primary [&_a]:px-5 [&_a]:py-3 [&_a]:text-center [&_a]:text-base [&_a]:font-medium [&_a]:text-primary-foreground [&_a]:no-underline [&_a]:transition-colors"
+      // The <a> is injected by healcode.js, so it can only be styled from here
+      // as a descendant — hence the arbitrary [&_a] variants rather than
+      // classes on the element itself. The trailing arrow is a pseudo-element
+      // for the same reason: there is no way to put a span inside the anchor.
+      className={cn(
+        // Square, flat, and set in the condensed display face at 20px so it
+        // matches the package names rather than looking like a UI-kit button.
+        // At that size brand-900 on brand-500 counts as large text, which is
+        // what lets the identity green carry the primary action at all.
+        "[&_a]:block [&_a]:rounded-lg [&_a]:px-5 [&_a]:py-3 [&_a]:text-center [&_a]:font-serif [&_a]:text-xl [&_a]:uppercase [&_a]:leading-none [&_a]:tracking-[0.08em] [&_a]:no-underline [&_a]:transition-colors",
+        "[&_a]:after:ml-2 [&_a]:after:content-['→']",
+        emphasis === "solid" &&
+          "[&_a:hover]:bg-brand-600 [&_a]:bg-brand-500 [&_a]:text-brand-900",
+        emphasis === "quiet" &&
+          "[&_a:hover]:bg-brand-200 [&_a]:border [&_a]:border-brand-900 [&_a]:bg-transparent [&_a]:text-brand-900",
+      )}
     >
       <healcode-widget
         data-version="0.2"
