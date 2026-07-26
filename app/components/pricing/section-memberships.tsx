@@ -8,7 +8,13 @@ import {
   type PricingSection,
 } from "@/app/lib/pricing-data";
 import { BuyNowWidget } from "./buy-now-widget";
-import { Meta, Price, SpecList, focusRing } from "./pricing-ui";
+import {
+  FeatureList,
+  Meta,
+  Price,
+  SpecList,
+  focusRing,
+} from "./pricing-ui";
 import { useRovingRadioGroup } from "./use-roving-radio-group";
 import { usePricingSelection } from "./pricing-selection-context";
 
@@ -24,7 +30,13 @@ import { usePricingSelection } from "./pricing-selection-context";
  * difference between them. Both plans stay purchasable; the selection decides
  * which panel is emphasised and which CTA takes the solid fill.
  */
-export function SectionMemberships({ section }: { section: PricingSection }) {
+export function SectionMemberships({
+  section,
+  inverse = false,
+}: {
+  section: PricingSection;
+  inverse?: boolean;
+}) {
   const { selectedKey, select, hasTouched } = usePricingSelection();
   const options = publicOptionsForSection(section.id);
   const activeKey = selectedKey(section.id);
@@ -41,7 +53,13 @@ export function SectionMemberships({ section }: { section: PricingSection }) {
 
   return (
     <>
-      <Meta id={labelId} className="mt-8 block text-brand-800">
+      <Meta
+        id={labelId}
+        className={cn(
+          "mt-8 block",
+          inverse ? "text-brand-200" : "text-brand-800",
+        )}
+      >
         {section.selectorLabel}
       </Meta>
 
@@ -57,10 +75,10 @@ export function SectionMemberships({ section }: { section: PricingSection }) {
             <div
               key={option.key}
               className={cn(
-                "flex flex-col rounded-lg border transition-colors",
+                "pricing-panel flex flex-col rounded-2xl border transition-all duration-300",
                 checked
-                  ? "border-brand-500 bg-white"
-                  : "border-brand-200 bg-white",
+                  ? "border-brand-500 bg-white md:-translate-y-2"
+                  : "border-brand-300 bg-white",
               )}
             >
               {/* The header is the control. The figures below sit outside it so
@@ -73,10 +91,10 @@ export function SectionMemberships({ section }: { section: PricingSection }) {
                 tabIndex={tabIndexFor(option.key)}
                 onClick={() => select(section.id, option.key)}
                 className={cn(
-                  "flex items-start gap-3 rounded-t-lg px-6 pb-5 pt-6 text-left transition-colors",
+                  "flex items-start gap-3 rounded-t-2xl px-6 pb-5 pt-6 text-left transition-colors",
                   // brand-400 matches the shared selector's selected fill —
                   // see the note there on why it is not brand-500.
-                  checked ? "bg-brand-400" : "hover:bg-brand-50",
+                  checked ? "bg-brand-500" : "hover:bg-brand-100",
                   focusRing,
                 )}
               >
@@ -104,6 +122,13 @@ export function SectionMemberships({ section }: { section: PricingSection }) {
                 <p className="mt-5 text-base leading-relaxed text-brand-800">
                   {option.blurb}
                 </p>
+
+                {option.highlights && option.highlights.length > 0 && (
+                  <div className="mt-6 border-t border-brand-200 pt-5">
+                    <Meta className="text-brand-700">Membership includes</Meta>
+                    <FeatureList className="mt-4" items={option.highlights} />
+                  </div>
+                )}
 
                 <SpecList
                   className="mt-6"

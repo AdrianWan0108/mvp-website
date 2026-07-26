@@ -110,9 +110,9 @@ export function BuyNowWidget({
         "[&_a]:block [&_a]:rounded-lg [&_a]:px-5 [&_a]:py-3 [&_a]:text-center [&_a]:font-serif [&_a]:text-xl [&_a]:uppercase [&_a]:leading-none [&_a]:tracking-[0.08em] [&_a]:no-underline [&_a]:transition-colors",
         "[&_a]:after:ml-2 [&_a]:after:content-['→']",
         emphasis === "solid" &&
-          "[&_a:hover]:bg-brand-600 [&_a]:bg-brand-500 [&_a]:text-brand-900",
+          "[&_a:hover]:bg-brand-900 [&_a]:bg-brand-800 [&_a]:text-white",
         emphasis === "quiet" &&
-          "[&_a:hover]:bg-brand-200 [&_a]:border [&_a]:border-brand-900 [&_a]:bg-transparent [&_a]:text-brand-900",
+          "[&_a:hover]:bg-brand-200 [&_a]:border [&_a]:border-brand-800 [&_a]:bg-transparent [&_a]:text-brand-900",
       )}
     >
       <healcode-widget

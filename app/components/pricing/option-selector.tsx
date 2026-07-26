@@ -77,14 +77,14 @@ export function OptionSelector({
               tabIndex={tabIndexFor(option.value)}
               onClick={() => onChange(option.value)}
               className={cn(
-                "flex items-center justify-between gap-3 rounded-lg border px-4 py-3.5 text-left transition-colors",
+                "flex items-center justify-between gap-3 rounded-lg border px-4 py-3.5 text-left transition-all",
                 checked
                   // brand-400, not brand-500: this button carries a 14px price
                   // as well as its label, and brand-900 only reaches 4.4:1 on
                   // brand-500 — fine for display type, short of AA for small.
                   // brand-500 is reserved for the CTAs, whose type is 20px.
-                  ? "border-brand-500 bg-brand-400 text-brand-900"
-                  : "border-brand-200 bg-white text-brand-900 hover:border-brand-400 hover:bg-brand-50",
+                  ? "border-brand-900 bg-brand-800 text-white shadow-lg shadow-brand-900/15"
+                  : "border-brand-300 bg-white text-brand-900 shadow-sm hover:-translate-y-0.5 hover:border-brand-600 hover:bg-brand-50 hover:shadow-md",
                 focusRing,
               )}
             >
@@ -103,7 +103,7 @@ export function OptionSelector({
                   <span
                     className={cn(
                       "mt-1.5 block text-sm tabular-nums",
-                      checked ? "text-brand-900" : "text-brand-800",
+                      checked ? "text-brand-100" : "text-brand-800",
                     )}
                   >
                     {option.hint}

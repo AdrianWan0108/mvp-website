@@ -36,12 +36,15 @@ export const metadata: Metadata = {
  * paper colour. The panels themselves are white, which is what separates
  * content from background — the background is not doing that job.
  */
-const fields: Record<PricingScope, string> = {
-  "new-here": "bg-brand-50",
-  "group-packs": "bg-brand-100",
-  memberships: "bg-brand-50",
-  seniors: "bg-brand-50",
-  private: "bg-brand-100",
+const fields: Record<
+  PricingScope,
+  { className: string; inverse?: boolean }
+> = {
+  "new-here": { className: "bg-brand-100" },
+  "group-packs": { className: "bg-brand-200" },
+  memberships: { className: "bg-brand-800", inverse: true },
+  seniors: { className: "bg-brand-100" },
+  private: { className: "bg-brand-200" },
 };
 
 export default function PricingPage() {
@@ -50,8 +53,11 @@ export default function PricingPage() {
       <PricingMasthead />
 
       <PricingSelectionProvider>
-        <section aria-labelledby="contents-heading" className="bg-brand-50 pt-12 sm:pt-16">
-          <Container>
+        <section
+          aria-labelledby="contents-heading"
+          className="relative z-20 bg-brand-100 pb-14 sm:pb-20"
+        >
+          <Container className="-mt-7 sm:-mt-10">
             <h2 id="contents-heading" className="sr-only">
               Pricing sections
             </h2>
@@ -68,16 +74,18 @@ export default function PricingPage() {
               ? SectionNewHere
               : section.id === "group-packs"
                 ? SectionGroupPacks
-                : section.id === "memberships"
-                  ? SectionMemberships
-                  : SectionSeniors;
+                : SectionSeniors;
+          const field = fields[section.id];
 
           return (
             <section
               key={section.id}
               id={sectionAnchorId(section.id)}
               aria-labelledby={sectionHeadingId(section.id)}
-              className={cn("py-16 sm:py-24", fields[section.id])}
+              className={cn(
+                "pricing-section relative isolate overflow-hidden py-16 sm:py-24",
+                field.className,
+              )}
             >
               <Container>
                 <SectionHeader
@@ -85,8 +93,13 @@ export default function PricingPage() {
                   headingId={sectionHeadingId(section.id)}
                   heading={section.heading}
                   standfirst={section.description}
+                  inverse={field.inverse}
                 />
-                <Body section={section} />
+                {section.id === "memberships" ? (
+                  <SectionMemberships section={section} inverse />
+                ) : (
+                  <Body section={section} />
+                )}
               </Container>
             </section>
           );
@@ -95,7 +108,10 @@ export default function PricingPage() {
         <section
           id={sectionAnchorId(privateSection.id)}
           aria-labelledby={sectionHeadingId(privateSection.id)}
-          className={cn("py-16 sm:py-24", fields[privateSection.id])}
+          className={cn(
+            "pricing-section relative isolate overflow-hidden py-16 sm:py-24",
+            fields[privateSection.id].className,
+          )}
         >
           <Container>
             <SectionHeader
@@ -111,7 +127,7 @@ export default function PricingPage() {
 
       <section
         aria-labelledby="before-you-purchase-heading"
-        className="bg-brand-50 pb-20 pt-4 sm:pb-24"
+        className="pricing-endcap bg-brand-900 pb-20 pt-16 sm:pb-24 sm:pt-20"
       >
         <Container>
           <BeforeYouPurchase />

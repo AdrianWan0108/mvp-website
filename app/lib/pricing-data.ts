@@ -49,6 +49,8 @@ export type PricingOption = {
   badge?: string;
   /** One-sentence "best for". Provisional copy — rewrite freely. */
   blurb: string;
+  /** Concrete inclusions or outcomes shown inside the selected pricing card. */
+  highlights?: string[];
   /** Who may buy this, e.g. "New clients only". Verified notes only. */
   eligibility?: string;
   /** Memberships: the term being agreed to. Shown as the deciding difference. */
@@ -126,7 +128,13 @@ export const pricingOptions: PricingOption[] = [
     validity: "2 weeks",
     section: "new-here",
     selectorLabel: "1 class",
-    blurb: "The cheapest way to see whether the studio suits you.",
+    blurb:
+      "A low-commitment first visit to meet the studio, try the equipment, and experience our teaching style.",
+    highlights: [
+      "One guided group session on professional equipment",
+      "Polestar-certified instruction with form-focused cueing",
+      "A simple way to find the class format that fits you",
+    ],
     eligibility: "New clients only, once per person",
   },
   {
@@ -140,7 +148,13 @@ export const pricingOptions: PricingOption[] = [
     validity: "4 weeks",
     section: "new-here",
     selectorLabel: "4 classes",
-    blurb: "Enough sessions to learn the reformer and feel a difference.",
+    blurb:
+      "Four visits give you time to learn the reformer, try our signature group formats, and begin building confidence.",
+    highlights: [
+      "Four Reformer, Fit-lates, Cardio Pilates, Circuit, or TRX classes",
+      "Build strength, balance, endurance, and flexibility",
+      "Suitable for new clients at every fitness level",
+    ],
     eligibility: "New clients only, once per person",
   },
 
@@ -154,7 +168,13 @@ export const pricingOptions: PricingOption[] = [
     unit: "class",
     count: 1,
     section: "group-packs",
-    blurb: "A single class, no commitment. Best if you visit occasionally.",
+    blurb:
+      "One focused group Reformer class with no package commitment — ideal for an occasional visit or a flexible schedule.",
+    highlights: [
+      "Professional Reformer equipment in a guided group setting",
+      "Low-impact work for core strength, posture, and mobility",
+      "Book one class without committing to a pack",
+    ],
   },
   {
     key: "reformer-10-pack",
@@ -166,7 +186,13 @@ export const pricingOptions: PricingOption[] = [
     count: 10,
     validity: "13 weeks",
     section: "group-packs",
-    blurb: "A steady start — roughly one class a week over a season.",
+    blurb:
+      "A steady start for building consistency — roughly one class a week across a season.",
+    highlights: [
+      "Ten group Reformer classes",
+      "Enough repetition to build technique and confidence",
+      "A joint-friendly way to strengthen your whole body",
+    ],
   },
   {
     key: "loyalty-20",
@@ -179,7 +205,13 @@ export const pricingOptions: PricingOption[] = [
     validity: "25 weeks",
     section: "group-packs",
     badge: "Most popular",
-    blurb: "Our most-chosen pack, and the first real drop in price per class.",
+    blurb:
+      "Our most-chosen pack balances a meaningful per-class saving with enough sessions to make movement a real habit.",
+    highlights: [
+      "Twenty group Reformer classes",
+      "Designed for a regular one-to-two-class weekly rhythm",
+      "More time to improve core strength, posture, and control",
+    ],
   },
   {
     key: "loyalty-30",
@@ -191,7 +223,13 @@ export const pricingOptions: PricingOption[] = [
     count: 30,
     validity: "40 weeks",
     section: "group-packs",
-    blurb: "For a regular twice-a-week habit across most of the year.",
+    blurb:
+      "For members ready to practise regularly and keep momentum going across most of the year.",
+    highlights: [
+      "Thirty group Reformer classes",
+      "Well suited to a consistent twice-weekly routine",
+      "Longer runway for strength, mobility, and coordination",
+    ],
   },
   {
     key: "loyalty-40",
@@ -203,7 +241,13 @@ export const pricingOptions: PricingOption[] = [
     count: 40,
     validity: "52 weeks",
     section: "group-packs",
-    blurb: "The lowest price per class we offer, spread over a full year.",
+    blurb:
+      "Our best-value class pack for making Pilates part of your year, with the lowest class rate we offer.",
+    highlights: [
+      "Forty group Reformer classes",
+      "A full year to build a durable movement practice",
+      "Best per-class value among our group packs",
+    ],
   },
 
   // ---------- Memberships ----------
@@ -219,7 +263,13 @@ export const pricingOptions: PricingOption[] = [
     section: "memberships",
     selectorLabel: "12-month term",
     commitment: "12-month term",
-    blurb: "A lower monthly rate in exchange for committing to a year.",
+    blurb:
+      "Unlimited group training at our lower monthly membership rate, for clients ready to commit to a full year.",
+    highlights: [
+      "Unlimited access to eligible group classes",
+      "Freedom to build a more frequent weekly routine",
+      "Lower monthly rate with a 12-month commitment",
+    ],
   },
   {
     // HIDDEN FROM THE PUBLIC WEBSITE pending confirmation from Gary.
@@ -237,6 +287,7 @@ export const pricingOptions: PricingOption[] = [
     selectorLabel: "Rolling",
     commitment: "Rolling",
     blurb: "",
+    highlights: [],
   },
   {
     key: "monthly-unlimited",
@@ -247,7 +298,13 @@ export const pricingOptions: PricingOption[] = [
     section: "memberships",
     selectorLabel: "No commitment",
     commitment: "No commitment",
-    blurb: "The same unlimited access, month to month, with no term.",
+    blurb:
+      "The same unlimited group-class access, with the flexibility to stay month to month and no fixed term.",
+    highlights: [
+      "Unlimited access to eligible group classes",
+      "Train as often as your schedule allows",
+      "Month-to-month flexibility with no commitment",
+    ],
   },
 
   // ---------- Seniors ----------
@@ -266,7 +323,13 @@ export const pricingOptions: PricingOption[] = [
     validity: "13 weeks",
     section: "seniors",
     selectorLabel: "Senior Reformer",
-    blurb: "Reformer work at a gentler pace, in a smaller group.",
+    blurb:
+      "Supportive Reformer sessions at a gentler pace, designed to build everyday strength and confidence.",
+    highlights: [
+      "Ten guided Senior Reformer sessions",
+      "Low-impact strength, posture, and mobility work",
+      "A measured pace with attentive instruction",
+    ],
   },
   {
     key: "senior-fitness-10",
@@ -278,7 +341,13 @@ export const pricingOptions: PricingOption[] = [
     count: 10,
     section: "seniors",
     selectorLabel: "Senior Fitness",
-    blurb: "Mat-based strength, balance, and mobility without the reformer.",
+    blurb:
+      "Accessible mat-based movement focused on the strength, balance, and mobility that support everyday life.",
+    highlights: [
+      "Ten mat-based Senior Fitness sessions",
+      "Functional strength and balance without the Reformer",
+      "Mobility-focused movement in a supportive group",
+    ],
   },
 ];
 
@@ -291,6 +360,7 @@ export type PrivateOption = {
   key: string;
   name: string;
   blurb: string;
+  highlights: string[];
   singlePrice: number;
   /** "from" when the single-session price is a starting rate, not a fixed one. */
   singleQualifier?: "from";
@@ -315,7 +385,13 @@ export const privateOptions: PrivateOption[] = [
   {
     key: "private-pilates",
     name: "Private Pilates",
-    blurb: "A full session built around your body, at whatever pace suits you.",
+    blurb:
+      "Fully personalized Pilates coaching, with every exercise adapted to your body, goals, experience, and pace.",
+    highlights: [
+      "One-to-one programming tailored to your goals",
+      "Mat, Reformer, and studio equipment as appropriate",
+      "Ideal for rehabilitation, focused goals, or faster progress",
+    ],
     singlePrice: 100,
     singleQualifier: "from",
     tenPrice: 950,
@@ -323,7 +399,13 @@ export const privateOptions: PrivateOption[] = [
   {
     key: "private-gyrotonic",
     name: "Private GYROTONIC®",
-    blurb: "Circular, flowing movement on the GYROTONIC® tower, one to one.",
+    blurb:
+      "One-to-one GYROTONIC® training using flowing, three-dimensional movement on the Professional Pulley Tower.",
+    highlights: [
+      "Personalized work on the GYROTONIC® tower",
+      "Build spinal mobility and joint articulation",
+      "Develop functional strength, flexibility, and coordination",
+    ],
     singlePrice: 100,
     singleQualifier: "from",
     tenPrice: 950,
@@ -331,7 +413,13 @@ export const privateOptions: PrivateOption[] = [
   {
     key: "semi-private",
     name: "Semi-private",
-    blurb: "Train alongside a partner and share the instructor's attention.",
+    blurb:
+      "Personalized instruction shared with a partner, combining focused coaching with the energy of training together.",
+    highlights: [
+      "Individual guidance within a two-person session",
+      "Whole-body work for control, balance, and coordination",
+      "A motivating format for partners with compatible goals",
+    ],
     singlePrice: 130,
     tenPrice: 1300,
     note: "Price per person",

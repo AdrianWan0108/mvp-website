@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/app/lib/cn";
 import { formatPrice } from "@/app/lib/pricing-data";
@@ -64,12 +65,50 @@ export function Panel({
   return (
     <div
       className={cn(
-        "rounded-lg border border-brand-200 bg-white",
+        "pricing-panel rounded-2xl border border-brand-200 bg-white",
         className,
       )}
     >
       {children}
     </div>
+  );
+}
+
+/** The tangible value inside an option, kept separate from purchase terms. */
+export function FeatureList({
+  items,
+  className,
+  inverse = false,
+}: {
+  items: readonly string[];
+  className?: string;
+  inverse?: boolean;
+}) {
+  return (
+    <ul className={cn("grid gap-3", className)}>
+      {items.map((item) => (
+        <li
+          key={item}
+          className={cn(
+            "flex items-start gap-3 text-[0.95rem] leading-relaxed",
+            inverse ? "text-brand-100" : "text-brand-900",
+          )}
+        >
+          <span
+            aria-hidden
+            className={cn(
+              "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
+              inverse
+                ? "bg-brand-500 text-brand-900"
+                : "bg-brand-200 text-brand-800",
+            )}
+          >
+            <Check className="h-3 w-3" strokeWidth={3} />
+          </span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -173,25 +212,35 @@ export function SectionHeader({
   headingId,
   heading,
   standfirst,
+  inverse = false,
 }: {
   index: number;
   headingId: string;
   heading: string;
   standfirst: string;
+  inverse?: boolean;
 }) {
   return (
     <header className="max-w-2xl">
-      <Meta className="text-brand-700">
+      <Meta className={inverse ? "text-brand-300" : "text-brand-700"}>
         <span className="tabular-nums">{String(index).padStart(2, "0")}</span>
       </Meta>
       <h2
         id={headingId}
         tabIndex={-1}
-        className="mt-2 font-serif text-[2.5rem] leading-[0.95] tracking-[0.02em] text-brand-900 sm:text-5xl"
+        className={cn(
+          "mt-2 font-serif text-[2.5rem] leading-[0.95] tracking-[0.02em] sm:text-5xl",
+          inverse ? "text-white" : "text-brand-900",
+        )}
       >
         {heading}
       </h2>
-      <p className="mt-3 text-lg leading-relaxed text-brand-800">
+      <p
+        className={cn(
+          "mt-3 text-lg leading-relaxed",
+          inverse ? "text-brand-100" : "text-brand-800",
+        )}
+      >
         {standfirst}
       </p>
     </header>

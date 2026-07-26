@@ -15,26 +15,29 @@ import { Meta } from "./pricing-ui";
  */
 export function PricingMasthead() {
   return (
-    <section className="bg-brand-300 text-brand-900">
-      <Container className="py-14 sm:py-20">
-        <Meta className="text-brand-800">Motion Vitality Pilates · Markham</Meta>
+    <section className="pricing-hero relative isolate overflow-hidden bg-brand-900 text-white">
+      <Container className="relative z-10 py-16 sm:py-24">
+        <Meta className="text-brand-300">Motion Vitality Pilates · Markham</Meta>
 
-        <h1 className="mt-4 font-serif text-[3.75rem] leading-[0.9] tracking-[0.02em] sm:text-[5.5rem]">
-          Pricing
+        <h1 className="mt-4 max-w-3xl font-serif text-[4.5rem] leading-[0.86] tracking-[0.02em] sm:text-[7rem]">
+          Find your way to move
         </h1>
 
-        <p className="mt-5 max-w-xl text-lg leading-relaxed sm:text-xl">
-          Every class pack, membership, and private rate at the studio, with
-          checkout through Mindbody.
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-brand-100 sm:text-xl">
+          Start with one class, build a steady practice, or choose support
+          shaped entirely around you. Every studio rate is here, clearly
+          explained.
         </p>
 
-        <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3">
-          <Meta className="text-brand-800">Prices in CAD · HST extra</Meta>
+        <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <Meta className="rounded-full border border-brand-600 bg-brand-800 px-4 py-2 text-brand-100">
+            Prices in CAD · HST extra
+          </Meta>
           <Link
             href="/classes/schedule"
-            className="text-base font-medium underline decoration-brand-600 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-900"
+            className="text-base font-semibold text-white underline decoration-brand-500 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-300"
           >
-            View class schedule
+            View class schedule →
           </Link>
         </div>
       </Container>

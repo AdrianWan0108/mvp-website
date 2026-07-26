@@ -11,7 +11,7 @@ import {
 } from "@/app/lib/pricing-data";
 import { BuyNowWidget } from "./buy-now-widget";
 import { OptionStack } from "./option-stack";
-import { Panel, Price, SpecList } from "./pricing-ui";
+import { FeatureList, Meta, Panel, Price, SpecList } from "./pricing-ui";
 
 /**
  * The result panel: whichever option a section currently has selected.
@@ -53,44 +53,58 @@ function ResultFace({
   }
 
   return (
-    <Panel>
-      <div className="p-6 sm:p-8">
-        <div className="flex flex-wrap items-start justify-between gap-x-10 gap-y-5">
-          <div className="min-w-0 max-w-lg">
-            <h3 className="font-serif text-[2rem] uppercase leading-none tracking-[0.03em] text-brand-900 sm:text-[2.5rem]">
+    <Panel className="overflow-hidden">
+      <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(17rem,0.55fr)]">
+        <div className="p-6 sm:p-8 lg:p-10">
+          <div className="min-w-0 max-w-2xl">
+            <Meta className="text-brand-700">Your selected option</Meta>
+            <h3 className="mt-2 font-serif text-[2rem] uppercase leading-none tracking-[0.03em] text-brand-900 sm:text-[2.5rem]">
               {option.name}
             </h3>
             {subtitle && (
               <p className="mt-2 text-base text-brand-800">{subtitle}</p>
             )}
-            <p className="mt-3 text-base leading-relaxed text-brand-800">
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-brand-800">
               {option.blurb}
             </p>
           </div>
 
-          <div className="shrink-0 sm:text-right">
-            <Price
-              amount={option.price}
-              interval={option.interval}
-              perUnit={
-                option.count && option.count > 1 ? formatPerUnit(option) : null
-              }
+          {option.highlights && option.highlights.length > 0 && (
+            <div className="mt-7 border-t border-brand-200 pt-6">
+              <Meta className="text-brand-700">What&apos;s included</Meta>
+              <FeatureList
+                className="mt-4 sm:grid-cols-2"
+                items={option.highlights}
+              />
+            </div>
+          )}
+        </div>
+
+        <aside className="flex flex-col justify-between border-t border-brand-200 bg-brand-100 p-6 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
+          <div>
+            <Meta className="text-brand-700">Package total</Meta>
+            <div className="mt-4">
+              <Price
+                amount={option.price}
+                interval={option.interval}
+                perUnit={
+                  option.count && option.count > 1
+                    ? formatPerUnit(option)
+                    : null
+                }
+              />
+            </div>
+          </div>
+
+          {specs.length > 0 && <SpecList className="mt-7" items={specs} />}
+          <div className="mt-8">
+            <BuyNowWidget
+              serviceId={option.serviceId}
+              serviceName={option.name}
+              priceNumber={option.price}
             />
           </div>
-        </div>
-
-        {specs.length > 0 && (
-          <hr className="my-7 border-0 border-t border-brand-200" />
-        )}
-
-        <div className="grid gap-x-10 gap-y-7 md:grid-cols-[minmax(0,1fr)_13rem] md:items-end">
-          {specs.length > 0 ? <SpecList items={specs} /> : <div />}
-          <BuyNowWidget
-            serviceId={option.serviceId}
-            serviceName={option.name}
-            priceNumber={option.price}
-          />
-        </div>
+        </aside>
       </div>
     </Panel>
   );

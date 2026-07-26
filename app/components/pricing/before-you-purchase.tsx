@@ -11,7 +11,7 @@ import { Meta } from "./pricing-ui";
  */
 export function BeforeYouPurchase() {
   return (
-    <div className="rounded-lg border border-brand-200 bg-white p-6 sm:p-8">
+    <div className="pricing-panel rounded-2xl border border-brand-300 bg-white p-6 sm:p-8 lg:p-10">
       <Meta className="text-brand-700">Before you purchase</Meta>
 
       <h2

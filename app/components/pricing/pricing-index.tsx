@@ -11,6 +11,7 @@ import {
 import { Meta } from "./pricing-ui";
 import { sectionAnchorId } from "./section-anchors";
 import { usePricingSelection } from "./pricing-selection-context";
+import { cn } from "@/app/lib/cn";
 
 type IndexRow = {
   scope: PricingScope;
@@ -63,18 +64,48 @@ export function PricingIndex() {
                 event.preventDefault();
                 selectAndScroll(row.scope, null);
               }}
-              className="flex h-full flex-col justify-between gap-6 rounded-lg border border-brand-200 bg-white p-4 transition-colors hover:border-brand-400 hover:bg-brand-50"
+              className={cn(
+                "pricing-index-card flex h-full min-h-40 flex-col justify-between gap-6 rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1",
+                index === 0 &&
+                  "border-brand-600 bg-brand-500 text-brand-900",
+                index === 1 &&
+                  "border-brand-900 bg-brand-800 text-white",
+                index > 1 &&
+                  "border-brand-300 bg-white text-brand-900 hover:border-brand-600",
+              )}
             >
-              <Meta className="text-brand-700">
+              <Meta
+                className={
+                  index === 1
+                    ? "text-brand-300"
+                    : index === 0
+                      ? "text-brand-900"
+                      : "text-brand-700"
+                }
+              >
                 <span className="tabular-nums">
                   {String(index + 1).padStart(2, "0")}
                 </span>
               </Meta>
               <span>
-                <span className="block font-serif text-xl leading-tight tracking-[0.03em] text-brand-900">
+                <span
+                  className={cn(
+                    "block font-serif text-2xl leading-tight tracking-[0.03em]",
+                    index === 1 ? "text-white" : "text-brand-900",
+                  )}
+                >
                   {row.label}
                 </span>
-                <span className="mt-1.5 block text-sm tabular-nums text-brand-800">
+                <span
+                  className={cn(
+                    "mt-1.5 block text-sm tabular-nums",
+                    index === 1
+                      ? "text-brand-200"
+                      : index === 0
+                        ? "text-brand-900"
+                        : "text-brand-800",
+                  )}
+                >
                   {row.range}
                 </span>
               </span>
