@@ -11,12 +11,21 @@ import { links } from "@/app/lib/links";
 import { navLogos } from "@/app/lib/images";
 import { cn } from "@/app/lib/cn";
 
+function matchesPath(pathname: string, target: string): boolean {
+  return target === "/" ? pathname === "/" : pathname.startsWith(target);
+}
+
 function isActive(pathname: string | null, item: NavItem): boolean {
   if (!pathname) return false;
   // `match` lets a parent highlight for a whole segment (About → /about,
-  // active on all /about/*, including /about/polestar).
-  const target = item.match ?? item.href;
-  return target === "/" ? pathname === "/" : pathname.startsWith(target);
+  // active on all /about/*, including /about/polestar). A parent also
+  // highlights for any child that lives outside that segment — Studio owns
+  // /pricing, which is not under /classes.
+  const targets = [
+    item.match ?? item.href,
+    ...(item.children?.map((child) => child.href) ?? []),
+  ];
+  return targets.some((target) => matchesPath(pathname, target));
 }
 
 export function SiteHeader() {

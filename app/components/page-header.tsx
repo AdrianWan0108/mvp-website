@@ -1,21 +1,31 @@
 import { cn } from "@/app/lib/cn";
 import { Container } from "./container";
 
+/** Surface options for the title band. `muted` is the site-wide default;
+ *  `brand` opens a page on a full verdant band (used by /pricing, which
+ *  alternates brand bands down the page). */
+const tones = {
+  muted: "border-border bg-muted/40",
+  brand: "border-brand-300 bg-secondary text-secondary-foreground",
+};
+
 /** Consistent page title band used by interior pages. */
 export function PageHeader({
   eyebrow,
   title,
   intro,
   compact = false,
+  tone = "muted",
 }: {
   eyebrow?: string;
   title: string;
   intro?: string;
   /** Tighter vertical padding for pages where the band should sit lower. */
   compact?: boolean;
+  tone?: keyof typeof tones;
 }) {
   return (
-    <section className="border-b border-border bg-muted/40">
+    <section className={cn("border-b", tones[tone])}>
       <Container className={cn(compact ? "py-10 sm:py-12" : "py-16 sm:py-20")}>
         {eyebrow && (
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-primary">

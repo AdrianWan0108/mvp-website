@@ -59,6 +59,9 @@ export const mainNav: NavItem[] = [
     match: "/classes",
     children: [
       { label: "Classes", href: "/classes" },
+      // Pricing sits outside /classes, so Studio stays highlighted on it via
+      // the children fallback in the header's isActive().
+      { label: "Pricing", href: "/pricing" },
       { label: "Schedule", href: "/classes/schedule" },
     ],
   },
