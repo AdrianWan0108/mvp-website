@@ -12,6 +12,11 @@
  * Private sessions are booked with an instructor rather than checked out
  * online, so they are a separate shape with no serviceId — see
  * `privateOptions`.
+ *
+ * Display strings are DERIVED, not stored: the per-class rate and the saving
+ * against drop-in are both computed from `price` and `count` (see the helpers
+ * at the bottom). A reprice is therefore a single number edit and can never
+ * leave a stale "$30 / class" behind.
  */
 
 export type PricingInterval = "once" | "month";
@@ -33,37 +38,71 @@ export type PricingOption = {
   count?: number;
   /** Bare duration, e.g. "4 weeks" — rendered as "Valid 4 weeks". */
   validity?: string;
-  perUnit?: string;
   section: PricingSectionId;
   badge?: string;
-  note?: string;
+  /** One-sentence "best for". Provisional copy — rewrite freely. */
+  blurb: string;
+  /** Who may buy this, e.g. "New clients only". Verified notes only. */
+  eligibility?: string;
+  /** Memberships: the term being agreed to. Shown as the deciding difference. */
+  commitment?: string;
+  /**
+   * Omit (or `true`) to sell the option on the website. `false` keeps the row
+   * here — and the product untouched in Mindbody — while hiding it from every
+   * public selector. See `founding-membership-rolling`.
+   */
+  public?: boolean;
+  /** Short label for this option's selector button. Falls back to `name`. */
+  selectorLabel?: string;
 };
 
-export const pricingSections: {
+export type PricingSection = {
   id: PricingSectionId;
   heading: string;
   description: string;
-}[] = [
+  /** Visible question above the selector; also labels the radiogroup. */
+  selectorLabel: string;
+  /** `scale` is the 1→40 rail; `segmented` is a row of buttons. */
+  selector: "segmented" | "scale";
+  /**
+   * Show "save $N vs drop-in". Only meaningful where the pack buys the same
+   * class the drop-in buys — intro packs are a promotional rate for new
+   * clients and seniors have their own rate, so neither compares cleanly.
+   */
+  showSavings?: boolean;
+};
+
+export const pricingSections: PricingSection[] = [
   {
     id: "new-here",
     heading: "New here",
     description: "Two ways to try the studio, priced for a first visit.",
+    selectorLabel: "How would you like to start?",
+    selector: "segmented",
   },
   {
     id: "group-packs",
     heading: "Group class packs",
     description:
-      "Reformer and group classes, from a single drop-in to a full year.",
+      "Reformer and group classes, from a single drop-in to a full year. The more classes you buy up front, the less each one costs.",
+    selectorLabel: "How many classes would you like?",
+    selector: "scale",
+    showSavings: true,
   },
   {
     id: "memberships",
     heading: "Memberships",
-    description: "Unlimited group classes, billed monthly.",
+    description:
+      "Unlimited group classes, billed monthly. Both options give you the same access — the difference is how long you commit.",
+    selectorLabel: "How long would you like to commit?",
+    selector: "segmented",
   },
   {
     id: "seniors",
     heading: "Seniors",
     description: "Ten-session packs at a reduced rate for our senior members.",
+    selectorLabel: "Which class would you like?",
+    selector: "segmented",
   },
 ];
 
@@ -78,9 +117,10 @@ export const pricingOptions: PricingOption[] = [
     unit: "class",
     count: 1,
     validity: "2 weeks",
-    perUnit: "$20 / class",
     section: "new-here",
-    note: "New clients only",
+    selectorLabel: "1 class",
+    blurb: "The cheapest way to see whether the studio suits you.",
+    eligibility: "New clients only, once per person",
   },
   {
     key: "power-starter-pack",
@@ -91,9 +131,10 @@ export const pricingOptions: PricingOption[] = [
     unit: "class",
     count: 4,
     validity: "4 weeks",
-    perUnit: "$27.50 / class",
     section: "new-here",
-    note: "New clients only",
+    selectorLabel: "4 classes",
+    blurb: "Enough sessions to learn the reformer and feel a difference.",
+    eligibility: "New clients only, once per person",
   },
 
   // ---------- Group class packs ----------
@@ -105,8 +146,8 @@ export const pricingOptions: PricingOption[] = [
     interval: "once",
     unit: "class",
     count: 1,
-    perUnit: "$37 / class",
     section: "group-packs",
+    blurb: "A single class, no commitment. Best if you visit occasionally.",
   },
   {
     key: "reformer-10-pack",
@@ -117,8 +158,8 @@ export const pricingOptions: PricingOption[] = [
     unit: "class",
     count: 10,
     validity: "13 weeks",
-    perUnit: "$35 / class",
     section: "group-packs",
+    blurb: "A steady start — roughly one class a week over a season.",
   },
   {
     key: "loyalty-20",
@@ -129,9 +170,9 @@ export const pricingOptions: PricingOption[] = [
     unit: "class",
     count: 20,
     validity: "25 weeks",
-    perUnit: "$30 / class",
     section: "group-packs",
     badge: "Most popular",
+    blurb: "Our most-chosen pack, and the first real drop in price per class.",
   },
   {
     key: "loyalty-30",
@@ -142,8 +183,8 @@ export const pricingOptions: PricingOption[] = [
     unit: "class",
     count: 30,
     validity: "40 weeks",
-    perUnit: "$29 / class",
     section: "group-packs",
+    blurb: "For a regular twice-a-week habit across most of the year.",
   },
   {
     key: "loyalty-40",
@@ -154,8 +195,8 @@ export const pricingOptions: PricingOption[] = [
     unit: "class",
     count: 40,
     validity: "52 weeks",
-    perUnit: "$28 / class",
     section: "group-packs",
+    blurb: "The lowest price per class we offer, spread over a full year.",
   },
 
   // ---------- Memberships ----------
@@ -169,14 +210,26 @@ export const pricingOptions: PricingOption[] = [
     price: 250,
     interval: "month",
     section: "memberships",
+    selectorLabel: "12-month term",
+    commitment: "12-month term",
+    blurb: "A lower monthly rate in exchange for committing to a year.",
   },
   {
+    // HIDDEN FROM THE PUBLIC WEBSITE pending confirmation from Gary.
+    // Deliberately kept here, and untouched in Mindbody — `public: false`
+    // only removes it from the site's selectors. Note its serviceId is three
+    // digits where every other option is six; that is part of what needs
+    // confirming before it goes back on sale.
     key: "founding-membership-rolling",
     serviceId: "100",
     name: "Founding membership (unlimited, rolling)",
     price: 250,
     interval: "month",
     section: "memberships",
+    public: false,
+    selectorLabel: "Rolling",
+    commitment: "Rolling",
+    blurb: "",
   },
   {
     key: "monthly-unlimited",
@@ -185,9 +238,16 @@ export const pricingOptions: PricingOption[] = [
     price: 300,
     interval: "month",
     section: "memberships",
+    selectorLabel: "No commitment",
+    commitment: "No commitment",
+    blurb: "The same unlimited access, month to month, with no term.",
   },
 
   // ---------- Seniors ----------
+  // TO CONFIRM WITH GARY: Senior Fitness has no stated validity period, and
+  // neither senior option has a confirmed age or assessment requirement. The
+  // optional `validity` and `eligibility` fields are where those belong —
+  // filling them in here is all the card needs to start showing them.
   {
     key: "senior-reformer-10",
     serviceId: "100039",
@@ -197,8 +257,9 @@ export const pricingOptions: PricingOption[] = [
     unit: "session",
     count: 10,
     validity: "13 weeks",
-    perUnit: "$27 / class",
     section: "seniors",
+    selectorLabel: "Senior Reformer",
+    blurb: "Reformer work at a gentler pace, in a smaller group.",
   },
   {
     key: "senior-fitness-10",
@@ -208,28 +269,36 @@ export const pricingOptions: PricingOption[] = [
     interval: "once",
     unit: "session",
     count: 10,
-    perUnit: "$15 / class",
     section: "seniors",
+    selectorLabel: "Senior Fitness",
+    blurb: "Mat-based strength, balance, and mobility without the reformer.",
   },
 ];
 
 /**
- * One-on-one training. Booked with an instructor, so these carry a price
- * range rather than a single checkout amount and link to the schedule
- * instead of a Mindbody buy button.
+ * One-on-one training. Booked with an instructor rather than checked out
+ * online, so these carry no serviceId and link to the schedule instead of a
+ * Mindbody buy button.
  */
 export type PrivateOption = {
   key: string;
   name: string;
-  priceLabel: string;
+  blurb: string;
+  singlePrice: number;
+  /** "from" when the single-session price is a starting rate, not a fixed one. */
+  singleQualifier?: "from";
+  tenPrice: number;
+  /** Verified notes only — e.g. semi-private pricing being per person. */
   note?: string;
 };
 
 export const privateSection = {
+  id: "private",
   heading: "One-on-one training",
   description: "Private and semi-private sessions, one instructor to you.",
   intro:
     "Private sessions are booked directly with an instructor. Choose your time and package at booking.",
+  selectorLabel: "Which session would you like?",
   /** The studio schedule lives under /classes; #private anchors the section. */
   href: "/classes/schedule#private",
   cta: "Book a private",
@@ -239,20 +308,48 @@ export const privateOptions: PrivateOption[] = [
   {
     key: "private-pilates",
     name: "Private Pilates",
-    priceLabel: "from $100 single, $950 for 10 sessions",
+    blurb: "A full session built around your body, at whatever pace suits you.",
+    singlePrice: 100,
+    singleQualifier: "from",
+    tenPrice: 950,
   },
   {
     key: "private-gyrotonic",
-    name: "Private Gyrotonic",
-    priceLabel: "from $100 single, $950 for 10 sessions",
+    name: "Private GYROTONIC®",
+    blurb: "Circular, flowing movement on the GYROTONIC® tower, one to one.",
+    singlePrice: 100,
+    singleQualifier: "from",
+    tenPrice: 950,
   },
   {
     key: "semi-private",
     name: "Semi-private",
-    priceLabel: "$130 per session, $1,300 for 10",
+    blurb: "Train alongside a partner and share the instructor's attention.",
+    singlePrice: 130,
+    tenPrice: 1300,
     note: "Price per person",
   },
 ];
+
+/**
+ * Purchase terms shown near the bottom of the pricing page. Kept here so the
+ * wording is edited in one place rather than in the markup.
+ *
+ * TO CONFIRM WITH GARY: the studio's own price list corroborates the HST,
+ * new-client, 13-week validity, and availability lines. The refund, transfer,
+ * cancellation, and waiver lines should be checked against the final Terms &
+ * Conditions once /terms is written.
+ */
+export const purchaseTerms = [
+  "All prices are in Canadian dollars and do not include 13% HST.",
+  "Packages are non-refundable and non-transferable.",
+  "Sessions cannot be transferred or shared between clients.",
+  "Packages must be used within their stated validity period.",
+  "A 24-hour cancellation policy applies to all bookings.",
+  "Late cancellations and missed sessions are charged.",
+  "Classes are subject to availability.",
+  "Please complete the required health assessment and waiver before your first session.",
+] as const;
 
 /* ---------- Display helpers ---------- */
 
@@ -301,7 +398,48 @@ export function optionTerm(option: PricingOption): string | null {
   return option.interval === "month" ? "Billed monthly" : null;
 }
 
-/** Options for one section, in declaration order. */
+/** Options for one section, in declaration order — including hidden ones. */
 export function optionsForSection(section: PricingSectionId): PricingOption[] {
   return pricingOptions.filter((option) => option.section === section);
+}
+
+/** What the website actually sells: `optionsForSection` minus `public: false`. */
+export function publicOptionsForSection(
+  section: PricingSectionId,
+): PricingOption[] {
+  return optionsForSection(section).filter((option) => option.public !== false);
+}
+
+/** Look up one option by key. Undefined for an unknown or hidden-away key. */
+export function optionByKey(key: string): PricingOption | undefined {
+  return pricingOptions.find((option) => option.key === key);
+}
+
+/**
+ * The single-class price every pack is measured against. Read from the
+ * drop-in option rather than written as a literal, so repricing the drop-in
+ * re-derives every "save $N" on the page.
+ */
+const dropIn = pricingOptions.find(
+  (option) => option.key === "group-reformer-drop-in",
+);
+
+export const dropInPrice = dropIn?.price ?? 0;
+
+/** Rate line under the price: "$28 / class". Null when there is nothing to divide. */
+export function formatPerUnit(option: PricingOption): string | null {
+  if (!option.count || !option.unit || option.count < 1) return null;
+  // Rate is quoted per class even where the pack counts "sessions" — that is
+  // how the studio's own price list phrases it.
+  return `${formatPrice(option.price / option.count)} / class`;
+}
+
+/**
+ * Dollars saved against buying the same number of drop-ins. Null when the
+ * comparison does not hold: single classes, or no count at all.
+ */
+export function savingsVsDropIn(option: PricingOption): number | null {
+  if (!option.count || option.count < 2 || !dropInPrice) return null;
+  const saving = option.count * dropInPrice - option.price;
+  return saving > 0 ? saving : null;
 }

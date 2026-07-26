@@ -27,7 +27,10 @@ export default function SchedulePage() {
         </Container>
       </section>
 
-      <section className="pt-6 pb-16 sm:pt-8 sm:pb-20">
+      {/* id="private": the pricing page's "Book a private" CTA links to
+          /classes/schedule#private, so private bookings land on the widget
+          rather than at the top of the page. */}
+      <section id="private" className="pt-6 pb-16 sm:pt-8 sm:pb-20">
         <Container>
           {/* Mindbody Schedules widget (widget-id 2257513f307). The loader
               script scans the DOM for .mindbody-widget and hydrates this div. */}
