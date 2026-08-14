@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-/** Merged into the combined /about page; forward old links there. */
+/** The instructor story now lives on the dedicated Team page. */
 export default function OurTeamRedirect() {
-  return <RedirectStub to="/about" label="About" />;
+  return <RedirectStub to="/about/team" label="Our Team" />;
 }

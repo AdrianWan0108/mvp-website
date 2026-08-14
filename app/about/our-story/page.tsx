@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-/** Merged into the combined /about page; forward old links there. */
+/** The studio story now lives on the dedicated Studio page. */
 export default function OurStoryRedirect() {
-  return <RedirectStub to="/about" label="About" />;
+  return <RedirectStub to="/about/studio" label="Our Studio" />;
 }

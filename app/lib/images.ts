@@ -66,6 +66,82 @@ export const photos = {
   },
 
   // --- Equipment (one per signature class) ---
+  reformer2: {
+    src: `${opt}/equipment/reformer-2.webp`,
+    alt: "Close view along a Pilates reformer carriage in the first studio room.",
+  },
+  reformer3: {
+    src: `${opt}/equipment/reformer-3.webp`,
+    alt: "Pilates reformer details and spring system at Motion Vitality Pilates.",
+  },
+  reformer4: {
+    src: `${opt}/equipment/reformer-4.webp`,
+    alt: "Wide view of a Pilates reformer in the mirrored group studio.",
+  },
+  reformer5: {
+    src: `${opt}/equipment/reformer-5.webp`,
+    alt: "Pilates reformer and tower in the sunlit first studio room.",
+  },
+  spineAndBalls: {
+    src: `${opt}/equipment/spine-and-balls-1.webp`,
+    alt: "Anatomical spine model and small Pilates balls used for movement instruction.",
+  },
+  yogaBlocks: {
+    src: `${opt}/equipment/yoga-blocks-1.webp`,
+    alt: "Supportive yoga blocks available beside the reformer room.",
+  },
+  gyrotonic2: {
+    src: `${opt}/equipment/gyrotonic-2.webp`,
+    alt: "Full GYROTONIC® pulley tower combination unit in the third studio room.",
+  },
+  gyrotonic3: {
+    src: `${opt}/equipment/gyrotonic-3.webp`,
+    alt: "Wide view of GYROTONIC® equipment and curved movement rails.",
+  },
+  gyrotonic4: {
+    src: `${opt}/equipment/gyrotonic-4.webp`,
+    alt: "Detailed portrait of the GYROTONIC® pulley tower apparatus.",
+  },
+  gyrotonic5: {
+    src: `${opt}/equipment/gyrotonic-5.webp`,
+    alt: "Close view of the GYROTONIC® rotational pulley housing.",
+  },
+  gyrotonicBrandDetail: {
+    src: `${opt}/equipment/gyrotonic-logo-1.webp`,
+    alt: "GYROTONIC® branding carved into the wooden pulley tower.",
+  },
+  gyrotonicLogo6: {
+    src: `${opt}/equipment/gyrotonic-logo-6.webp`,
+    alt: "GYROTONIC® logo detail on the wooden apparatus base.",
+  },
+  gyrokinesisStool: {
+    src: `${opt}/equipment/gyrokinesis-1.webp`,
+    alt: "Padded GYROKINESIS® stool used for seated movement practice.",
+  },
+  trapezeTable: {
+    src: `${opt}/equipment/trapeze-table-1.webp`,
+    alt: "Trapeze Table with springs, push-through bar, and supportive loops.",
+  },
+  konnector2: {
+    src: `${opt}/equipment/konnecto2.webp`,
+    alt: "Konnector® cords and attachment points in the second studio room.",
+  },
+  wundaChair2: {
+    src: `${opt}/equipment/wunda-chair-2.webp`,
+    alt: "Wunda Chair pedal and spring details for supported strength work.",
+  },
+  wundaChair3: {
+    src: `${opt}/equipment/wunda-chair-3.webp`,
+    alt: "Side view of the compact Pilates Wunda Chair.",
+  },
+  wundaChair4: {
+    src: `${opt}/equipment/wunda-chair-4.webp`,
+    alt: "Wunda Chair positioned among the apparatus in the second room.",
+  },
+  barrel2: {
+    src: `${opt}/equipment/barrel-2.webp`,
+    alt: "Ladder Barrel and curved padding used for supported spinal movement.",
+  },
   reformer: {
     src: `${opt}/equipment/reformer-1.webp`,
     alt: "Pilates reformer with carriage, springs, and footbar at Motion Vitality Pilates.",
@@ -97,8 +173,32 @@ export const photos = {
     alt: "The Motion Vitality Pilates instructor team smiling together beneath the Polestar Pilates sign.",
   },
   teamPolestar: {
-    src: `${base}/instructor-team/team-mvp-polestar.jpg`,
+    src: `${opt}/instructor-team/team-mvp-polestar.webp`,
     alt: "The Motion Vitality Pilates instructor team together, trained in the Polestar method.",
+  },
+  garyTeamHeadshot: {
+    src: `${opt}/about-team/gary-headshot.webp`,
+    alt: "Portrait of Gary Fok, founder and director of Motion Vitality Pilates.",
+  },
+  garyTeamAction: {
+    src: `${opt}/about-team/gary-in-action.webp`,
+    alt: "Gary Fok demonstrating a Pilates movement at Motion Vitality Pilates.",
+  },
+  dorothyTeamHeadshot: {
+    src: `${opt}/about-team/dorothy-headshot.webp`,
+    alt: "Portrait of Dorothy Leung, Pilates instructor at Motion Vitality Pilates.",
+  },
+  dorothyTeamAction: {
+    src: `${opt}/about-team/dorothy-in-action.webp`,
+    alt: "Dorothy Leung demonstrating a Pilates movement at Motion Vitality Pilates.",
+  },
+  florenceTeamHeadshot: {
+    src: `${opt}/about-team/florence-headshot.webp`,
+    alt: "Portrait of Florence, Pilates instructor at Motion Vitality Pilates.",
+  },
+  florenceTeamAction: {
+    src: `${opt}/about-team/florence-in-action.webp`,
+    alt: "Florence demonstrating a Pilates movement at Motion Vitality Pilates.",
   },
   garyHeadshot: {
     src: `${opt}/instructor-headshots/gary-headshot-1.webp`,

@@ -78,10 +78,11 @@ export const mainNav: NavItem[] = [
   },
   {
     label: "About",
-    href: "/about",
+    href: "/about/studio",
     match: "/about",
     children: [
-      { label: "About", href: "/about" },
+      { label: "Studio", href: "/about/studio" },
+      { label: "Team", href: "/about/team" },
       { label: "MVP × Polestar", href: "/about/polestar" },
     ],
   },
@@ -104,7 +105,8 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Studio",
     items: [
-      { label: "About", href: "/about" },
+      { label: "Our Studio", href: "/about/studio" },
+      { label: "Our Team", href: "/about/team" },
       { label: "MVP × Polestar", href: "/about/polestar" },
       { label: "FAQ", href: "/faq" },
       { label: "Contact", href: "/contact" },

@@ -803,3 +803,21 @@ h4 {
       transparent 49% 100%
     );
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .instructor-card-image,
+  .instructor-card-frame,
+  .instructor-card-overlay,
+  .instructor-card-reveal,
+  .instructor-card-reveal-content {
+    transition: none !important;
+  }
+
+  .instructor-card-image {
+    transform: none !important;
+  }
+
+  .instructor-card-reveal-content {
+    transform: none !important;
+  }
+}
