@@ -38,6 +38,8 @@ export type PricingOption = {
   key: string;
   serviceId: string;
   name: string;
+  /** Short comparison-card title when the Mindbody product name is verbose. */
+  shortName?: string;
   price: number;
   interval: PricingInterval;
   /** Singular noun for what `count` counts; pluralized for display. */
@@ -61,18 +63,12 @@ export type PricingOption = {
    * public selector. See `founding-membership-rolling`.
    */
   public?: boolean;
-  /** Short label for this option's selector button. Falls back to `name`. */
-  selectorLabel?: string;
 };
 
 export type PricingSection = {
   id: PricingSectionId;
   heading: string;
   description: string;
-  /** Visible question above the selector; also labels the radiogroup. */
-  selectorLabel: string;
-  /** Plural noun for this section's options, e.g. "5 packs" in the index. */
-  indexNoun: string;
   /**
    * Show "save $N vs drop-in". Only meaningful where the pack buys the same
    * class the drop-in buys — intro packs are a promotional rate for new
@@ -86,32 +82,23 @@ export const pricingSections: PricingSection[] = [
     id: "new-here",
     heading: "New here",
     description: "Two ways to try the studio, priced for a first visit.",
-    selectorLabel: "How would you like to start?",
-    indexNoun: "options",
   },
   {
     id: "group-packs",
     heading: "Group class packs",
-    description:
-      "Reformer and group classes, from a single drop-in to a full year. The more classes you buy up front, the less each one costs.",
-    selectorLabel: "How many classes?",
-    indexNoun: "packs",
+    description: "Choose a single drop-in or save with a larger class pack.",
     showSavings: true,
   },
   {
     id: "memberships",
     heading: "Memberships",
     description:
-      "Unlimited group classes, billed monthly. Both options give you the same access — the difference is how long you commit.",
-    selectorLabel: "How long would you like to commit?",
-    indexNoun: "plans",
+      "Unlimited group classes with a fixed-term or flexible monthly option.",
   },
   {
     id: "seniors",
     heading: "Seniors",
     description: "Ten-session packs at a reduced rate for our senior members.",
-    selectorLabel: "Which programme?",
-    indexNoun: "programmes",
   },
 ];
 
@@ -127,7 +114,6 @@ export const pricingOptions: PricingOption[] = [
     count: 1,
     validity: "2 weeks",
     section: "new-here",
-    selectorLabel: "1 class",
     blurb:
       "A low-commitment first visit to meet the studio, try the equipment, and experience our teaching style.",
     highlights: [
@@ -147,7 +133,6 @@ export const pricingOptions: PricingOption[] = [
     count: 4,
     validity: "4 weeks",
     section: "new-here",
-    selectorLabel: "4 classes",
     blurb:
       "Four visits give you time to learn the reformer, try our signature group formats, and begin building confidence.",
     highlights: [
@@ -163,6 +148,7 @@ export const pricingOptions: PricingOption[] = [
     key: "group-reformer-drop-in",
     serviceId: "100022",
     name: "Group Reformer drop-in",
+    shortName: "Drop-in",
     price: 37,
     interval: "once",
     unit: "class",
@@ -258,10 +244,10 @@ export const pricingOptions: PricingOption[] = [
     key: "founding-membership-12-month",
     serviceId: "100038",
     name: "Founding membership (12-month term)",
+    shortName: "12-month membership",
     price: 250,
     interval: "month",
     section: "memberships",
-    selectorLabel: "12-month term",
     commitment: "12-month term",
     blurb:
       "Unlimited group training at our lower monthly membership rate, for clients ready to commit to a full year.",
@@ -284,7 +270,6 @@ export const pricingOptions: PricingOption[] = [
     interval: "month",
     section: "memberships",
     public: false,
-    selectorLabel: "Rolling",
     commitment: "Rolling",
     blurb: "",
     highlights: [],
@@ -293,10 +278,10 @@ export const pricingOptions: PricingOption[] = [
     key: "monthly-unlimited",
     serviceId: "100041",
     name: "Monthly unlimited (no commitment)",
+    shortName: "Flexible membership",
     price: 300,
     interval: "month",
     section: "memberships",
-    selectorLabel: "No commitment",
     commitment: "No commitment",
     blurb:
       "The same unlimited group-class access, with the flexibility to stay month to month and no fixed term.",
@@ -322,7 +307,6 @@ export const pricingOptions: PricingOption[] = [
     count: 10,
     validity: "13 weeks",
     section: "seniors",
-    selectorLabel: "Senior Reformer",
     blurb:
       "Supportive Reformer sessions at a gentler pace, designed to build everyday strength and confidence.",
     highlights: [
@@ -340,7 +324,6 @@ export const pricingOptions: PricingOption[] = [
     unit: "session",
     count: 10,
     section: "seniors",
-    selectorLabel: "Senior Fitness",
     blurb:
       "Accessible mat-based movement focused on the strength, balance, and mobility that support everyday life.",
     highlights: [
@@ -375,7 +358,6 @@ export const privateSection = {
   description: "Private and semi-private sessions, one instructor to you.",
   intro:
     "Private sessions are booked directly with an instructor. Choose your time and package at booking.",
-  selectorLabel: "Which session would you like?",
   /** The studio schedule lives under /classes; #private anchors the section. */
   href: "/classes/schedule#private",
   cta: "Book a private",
@@ -435,15 +417,36 @@ export const privateOptions: PrivateOption[] = [
  * cancellation, and waiver lines should be checked against the final Terms &
  * Conditions once /terms is written.
  */
-export const purchaseTerms = [
-  "All prices are in Canadian dollars and do not include 13% HST.",
-  "Packages are non-refundable and non-transferable.",
-  "Sessions cannot be transferred or shared between clients.",
-  "Packages must be used within their stated validity period.",
-  "A 24-hour cancellation policy applies to all bookings.",
-  "Late cancellations and missed sessions are charged.",
-  "Classes are subject to availability.",
-  "Please complete the required health assessment and waiver before your first session.",
+export const pricingFaqs = [
+  {
+    question: "Are taxes included in the displayed prices?",
+    answer:
+      "All prices are shown in Canadian dollars. The required 13% HST is added separately.",
+  },
+  {
+    question: "Can I refund, transfer, or share a package?",
+    answer:
+      "Packages are non-refundable and non-transferable. Sessions cannot be transferred or shared between clients.",
+  },
+  {
+    question: "When does my package expire?",
+    answer:
+      "Packages must be used within the validity period shown on the selected pricing option.",
+  },
+  {
+    question: "What is the cancellation policy?",
+    answer:
+      "A 24-hour cancellation policy applies to all bookings. Late cancellations and missed sessions are charged.",
+  },
+  {
+    question: "Are classes subject to availability?",
+    answer: "Yes. Classes are subject to availability.",
+  },
+  {
+    question: "What do I need to complete before my first session?",
+    answer:
+      "Please complete the required health assessment and waiver before your first session.",
+  },
 ] as const;
 
 /* ---------- Display helpers ---------- */
@@ -537,38 +540,4 @@ export function savingsVsDropIn(option: PricingOption): number | null {
   if (!option.count || option.count < 2 || !dropInPrice) return null;
   const saving = option.count * dropInPrice - option.price;
   return saving > 0 ? saving : null;
-}
-
-/** "$20–$110", or "$250–$300 / mo" for anything billed monthly. */
-export function formatPriceRange(
-  prices: number[],
-  interval: PricingInterval = "once",
-): string {
-  if (!prices.length) return "";
-  const low = Math.min(...prices);
-  const high = Math.max(...prices);
-  const suffix = interval === "month" ? " / mo" : "";
-  // An en dash, not a hyphen: this is a range, not a compound word.
-  return low === high
-    ? `${formatPrice(low)}${suffix}`
-    : `${formatPrice(low)}–${formatPrice(high)}${suffix}`;
-}
-
-/**
- * The index row for one section: how many options it holds and what they
- * span. Derived, so a reprice or a hidden option updates the contents page
- * without anyone remembering to.
- */
-export function sectionIndexEntry(section: PricingSection): {
-  count: string;
-  range: string;
-} {
-  const options = publicOptionsForSection(section.id);
-  return {
-    count: `${options.length} ${section.indexNoun}`,
-    range: formatPriceRange(
-      options.map((option) => option.price),
-      options[0]?.interval ?? "once",
-    ),
-  };
 }

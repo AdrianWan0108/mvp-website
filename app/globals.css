@@ -739,6 +739,7 @@ h4 {
     0 0 0 4rem color-mix(in oklab, var(--brand-500) 9%, transparent),
     0 0 0 9rem color-mix(in oklab, var(--brand-300) 5%, transparent);
   content: "";
+  opacity: 0.58;
   transform: rotate(18deg);
 }
 
@@ -754,54 +755,66 @@ h4 {
   background-size: 24px 24px;
   content: "";
   mask-image: linear-gradient(90deg, transparent 18%, black 100%);
-  opacity: 0.22;
-}
-
-.pricing-section::before {
-  position: absolute;
-  width: 28rem;
-  height: 28rem;
-  right: -14rem;
-  bottom: -15rem;
-  border: 1px solid color-mix(in oklab, var(--brand-700) 24%, transparent);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 3.5rem color-mix(in oklab, var(--brand-500) 7%, transparent),
-    0 0 0 7rem color-mix(in oklab, var(--brand-800) 4%, transparent);
-  content: "";
-  pointer-events: none;
-}
-
-.pricing-section > div {
-  position: relative;
-  z-index: 1;
+  opacity: 0.12;
 }
 
 .pricing-panel {
   box-shadow:
-    0 2px 3px color-mix(in oklab, var(--brand-900) 8%, transparent),
-    0 24px 56px -32px color-mix(in oklab, var(--brand-900) 58%, transparent);
+    0 2px 3px rgb(0 0 0 / 4%),
+    0 24px 52px -36px rgb(0 0 0 / 24%);
 }
 
-.pricing-index-card {
-  box-shadow:
-    0 1px 2px color-mix(in oklab, var(--brand-900) 10%, transparent),
-    0 18px 36px -24px color-mix(in oklab, var(--brand-900) 48%, transparent);
+@keyframes pricing-panel-enter-forward {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
 }
 
-.pricing-endcap {
-  background-image:
-    radial-gradient(
-      60% 120% at 100% 0%,
-      color-mix(in oklab, var(--brand-600) 36%, transparent),
-      transparent 68%
-    ),
-    linear-gradient(
-      135deg,
-      transparent 0 48%,
-      color-mix(in oklab, var(--brand-500) 8%, transparent) 48% 49%,
-      transparent 49% 100%
-    );
+@keyframes pricing-panel-enter-backward {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+}
+
+@keyframes pricing-panel-exit-forward {
+  to {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+}
+
+@keyframes pricing-panel-exit-backward {
+  to {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+}
+
+.pricing-tab-panel-enter-forward {
+  animation: pricing-panel-enter-forward 320ms ease-out both;
+}
+
+.pricing-tab-panel-enter-backward {
+  animation: pricing-panel-enter-backward 320ms ease-out both;
+}
+
+.pricing-tab-panel-exit-forward {
+  animation: pricing-panel-exit-forward 320ms ease-out both;
+}
+
+.pricing-tab-panel-exit-backward {
+  animation: pricing-panel-exit-backward 320ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-tab-panel-enter-forward,
+  .pricing-tab-panel-enter-backward,
+  .pricing-tab-panel-exit-forward,
+  .pricing-tab-panel-exit-backward {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
