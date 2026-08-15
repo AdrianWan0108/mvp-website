@@ -19,8 +19,7 @@ function isActive(pathname: string | null, item: NavItem): boolean {
   if (!pathname) return false;
   // `match` lets a parent highlight for a whole segment (About → /about,
   // active on all /about/*, including /about/polestar). A parent also
-  // highlights for any child that lives outside that segment — Studio owns
-  // /pricing, which is not under /classes.
+  // highlights when one of its dropdown children is active.
   const targets = [
     item.match ?? item.href,
     ...(item.children?.map((child) => child.href) ?? []),

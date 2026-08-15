@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Container } from "../../components/container";
+import { Container } from "../components/container";
 
 export const metadata: Metadata = {
   title: "Schedule",
@@ -27,10 +27,7 @@ export default function SchedulePage() {
         </Container>
       </section>
 
-      {/* id="private": the pricing page's "Book a private" CTA links to
-          /classes/schedule#private, so private bookings land on the widget
-          rather than at the top of the page. */}
-      <section id="private" className="pt-6 pb-16 sm:pt-8 sm:pb-20">
+      <section id="private" className="pb-16 pt-6 sm:pb-20 sm:pt-8">
         <Container>
           {/* Mindbody Schedules widget (widget-id 2257513f307). The loader
               script scans the DOM for .mindbody-widget and hydrates this div. */}

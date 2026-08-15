@@ -37,7 +37,7 @@ export default function ClassesPage() {
             <CtaButton href={links.register} size="lg">
               New Registration
             </CtaButton>
-            <CtaButton href="/classes/schedule" size="lg" variant="outline">
+            <CtaButton href="/schedule" size="lg" variant="outline">
               View Class Schedule
             </CtaButton>
           </div>

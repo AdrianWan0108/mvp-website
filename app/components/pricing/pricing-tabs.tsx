@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Check } from "lucide-react";
 import {
   useCallback,
@@ -24,7 +23,8 @@ import {
   type PricingSection,
   type PrivateOption,
 } from "@/app/lib/pricing-data";
-import { BuyNowWidget } from "./buy-now-widget";
+import { BuyNowWidget, MindbodyPricingLoader } from "./buy-now-widget";
+import { AppointmentsWidget } from "./appointments-widget";
 import { focusRing } from "./pricing-ui";
 import { sectionAnchorId, sectionHeadingId } from "./section-anchors";
 
@@ -47,7 +47,7 @@ const tabs: TabEntry[] = [
 ];
 
 const validScopes = new Set<PricingScope>(tabs.map((tab) => tab.scope));
-const PANEL_MOTION_MS = 320;
+const PANEL_MOTION_MS = 260;
 
 function tabId(scope: PricingScope) {
   return `${scope}-tab`;
@@ -137,9 +137,9 @@ function PricingCard({
   membershipBaseline?: number;
 }) {
   const saving = section.showSavings ? savingsVsDropIn(option) : null;
-  const membershipSaving =
+  const membershipTotalSaving =
     option.interval === "month" && membershipBaseline
-      ? membershipBaseline - option.price
+      ? (membershipBaseline - option.price) * 12
       : 0;
   const quantity =
     option.count && option.unit
@@ -147,8 +147,8 @@ function PricingCard({
       : "Unlimited classes";
   const savingLabel = saving
     ? `Save ${formatPrice(saving)} total`
-    : membershipSaving > 0
-      ? `Save ${formatPrice(membershipSaving)} / month`
+    : membershipTotalSaving > 0
+      ? `Save ${formatPrice(membershipTotalSaving)} total`
       : null;
   const hasSavingsSlot = Boolean(
     section.showSavings || section.id === "memberships",
@@ -167,22 +167,11 @@ function PricingCard({
           aria-hidden={!savingLabel}
         >
           {savingLabel ?? "No package saving"}
-          {option.badge && (
-            <span className="absolute right-3 rounded-full bg-white px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-brand-900 shadow-sm">
-              {option.badge}
-            </span>
-          )}
         </div>
       )}
 
       <div className="flex flex-1 flex-col p-6 sm:p-7">
         <div className="flex flex-1 flex-col text-center lg:h-[17rem] lg:flex-none">
-          {!hasSavingsSlot && option.badge && (
-            <span className="mx-auto rounded-full bg-brand-100 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-brand-900">
-              {option.badge}
-            </span>
-          )}
-
           <h3 className="font-serif text-3xl uppercase leading-none tracking-[0.025em] text-foreground sm:text-[2rem]">
             {option.shortName ?? option.name}
           </h3>
@@ -223,43 +212,115 @@ function PricingCard({
   );
 }
 
-function PrivateCard({ option }: { option: PrivateOption }) {
-  const single = `${option.singleQualifier ? "from " : ""}${formatPrice(option.singlePrice)}`;
+type PrivatePriceChoice = {
+  key: string;
+  option: PrivateOption;
+  sessionCount: 1 | 10;
+  price: number;
+};
+
+const privatePriceChoices: PrivatePriceChoice[] = [
+  ...privateOptions.map(
+    (option): PrivatePriceChoice => ({
+      key: `${option.key}-single`,
+      option,
+      sessionCount: 1,
+      price: option.singlePrice,
+    }),
+  ),
+  ...privateOptions.map(
+    (option): PrivatePriceChoice => ({
+      key: `${option.key}-ten`,
+      option,
+      sessionCount: 10,
+      price: option.tenPrice,
+    }),
+  ),
+];
+
+function PrivateCard({
+  choice,
+  bookingOpen,
+  onBook,
+}: {
+  choice: PrivatePriceChoice;
+  bookingOpen: boolean;
+  onBook: () => void;
+}) {
+  const { option } = choice;
+  const sessionLabel = `${choice.sessionCount} ${choice.sessionCount === 1 ? "session" : "sessions"}`;
+  const totalSaving =
+    choice.sessionCount === 10
+      ? option.singlePrice * choice.sessionCount - choice.price
+      : 0;
+  const savingLabel =
+    totalSaving > 0 ? `Save ${formatPrice(totalSaving)} total` : null;
   const details = [option.blurb, ...option.highlights].filter(Boolean).slice(0, 4);
 
+  function handleBook() {
+    window.gtag?.("event", "begin_checkout", {
+      item_name: `${option.name} — ${sessionLabel}`,
+      value: choice.price,
+      currency: "CAD",
+    });
+    onBook();
+  }
+
   return (
-    <article className="pricing-panel flex h-full flex-col rounded-2xl border border-border bg-white p-6 sm:p-7">
-      <div className="flex flex-1 flex-col text-center lg:h-[17rem] lg:flex-none">
-        <h3 className="font-serif text-3xl uppercase leading-none tracking-[0.025em] text-foreground sm:text-[2rem]">
-          {option.name}
-        </h3>
-
-        <p className="mt-4 font-serif text-[3.4rem] leading-none tabular-nums text-foreground sm:text-6xl">
-          {formatPrice(option.tenPrice)}
-        </p>
-
-        <dl className="mt-5 flex flex-wrap justify-center gap-x-10 gap-y-4">
-          <Stat label="Package" value="10 sessions" />
-          <Stat label="Single session" value={single} />
-          {option.note && <Stat label="Pricing note" value={option.note} />}
-        </dl>
-
-        <div className="mt-auto pt-6 text-left">
-          <Link
-            href={privateSection.href}
-            className={cn(
-              "block rounded-lg bg-brand-800 px-5 py-3 text-center font-serif text-xl uppercase leading-none tracking-[0.08em] text-white transition-colors hover:bg-brand-900",
-              focusRing,
-            )}
-          >
-            {privateSection.cta}
-            <span className="sr-only"> — {option.name}</span>
-            <span aria-hidden> →</span>
-          </Link>
+    <article className="pricing-panel flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white">
+      {choice.sessionCount === 10 && (
+        <div
+          className={cn(
+            "flex min-h-12 items-center justify-center px-4 text-center font-sans text-base font-bold",
+            savingLabel
+              ? "bg-brand-700 text-white"
+              : "bg-transparent text-transparent",
+          )}
+          aria-hidden={!savingLabel}
+        >
+          {savingLabel ?? "No package saving"}
         </div>
-      </div>
+      )}
 
-      <DetailList items={details} />
+      <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <div className="flex flex-1 flex-col text-center lg:h-[17rem] lg:flex-none">
+          <h3 className="font-serif text-3xl uppercase leading-none tracking-[0.025em] text-foreground sm:text-[2rem]">
+            {option.name}
+          </h3>
+
+          <p className="mt-4 text-foreground">
+            <span className="font-serif text-[3.4rem] leading-none tabular-nums sm:text-6xl">
+              {formatPrice(choice.price)}
+            </span>
+          </p>
+
+          <dl className="mt-5 flex justify-center">
+            <Stat
+              label={choice.sessionCount === 1 ? "Booking" : "Package"}
+              value={sessionLabel}
+            />
+          </dl>
+
+          <div className="mt-auto pt-6">
+            <button
+              type="button"
+              aria-expanded={bookingOpen}
+              aria-controls="private-appointments-widget"
+              onClick={handleBook}
+              className={cn(
+                "block w-full cursor-pointer rounded-lg bg-brand-800 px-5 py-3 text-center font-serif text-xl uppercase leading-none tracking-[0.08em] text-white transition-colors hover:bg-brand-900",
+                focusRing,
+              )}
+            >
+              Book now
+              <span className="sr-only"> — {option.name}, {sessionLabel}</span>
+              <span aria-hidden> →</span>
+            </button>
+          </div>
+        </div>
+
+        <DetailList items={details} />
+      </div>
     </article>
   );
 }
@@ -346,6 +407,28 @@ function PublicSectionPanel({ section }: { section: PricingSection }) {
 }
 
 function PrivatePanel() {
+  const [activeBookingKey, setActiveBookingKey] = useState<string | null>(null);
+  const bookingRegionRef = useRef<HTMLDivElement>(null);
+  const activeChoice = privatePriceChoices.find(
+    (choice) => choice.key === activeBookingKey,
+  );
+
+  useEffect(() => {
+    if (!activeBookingKey) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      bookingRegionRef.current?.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start",
+      });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [activeBookingKey]);
+
   return (
     <>
       <CategoryHeader
@@ -354,12 +437,29 @@ function PrivatePanel() {
         description={privateSection.description}
       />
       <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-6 lg:gap-6">
-        {privateOptions.map((option) => (
-          <div key={option.key} className="h-full lg:col-span-2">
-            <PrivateCard option={option} />
+        {privatePriceChoices.map((choice) => (
+          <div key={choice.key} className="h-full lg:col-span-2">
+            <PrivateCard
+              choice={choice}
+              bookingOpen={activeBookingKey === choice.key}
+              onBook={() => setActiveBookingKey(choice.key)}
+            />
           </div>
         ))}
       </div>
+
+      {activeChoice && (
+        <div
+          id="private-appointments-widget"
+          ref={bookingRegionRef}
+          className="mt-10 scroll-mt-24"
+        >
+          <AppointmentsWidget
+            key={activeChoice.key}
+            selectionName={`${activeChoice.option.name} — ${activeChoice.sessionCount} ${activeChoice.sessionCount === 1 ? "session" : "sessions"}`}
+          />
+        </div>
+      )}
     </>
   );
 }
@@ -367,8 +467,6 @@ function PrivatePanel() {
 export function PricingTabs() {
   const [activeScope, setActiveScope] =
     useState<PricingScope>("new-here");
-  const [outgoingScope, setOutgoingScope] =
-    useState<PricingScope | null>(null);
   const [direction, setDirection] = useState<MotionDirection>(null);
   const activeScopeRef = useRef<PricingScope>("new-here");
   const transitionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
@@ -401,19 +499,16 @@ export function PricingTabs() {
 
       activeScopeRef.current = scope;
       if (!animate || reduceMotion) {
-        setOutgoingScope(null);
         setDirection(null);
         setActiveScope(scope);
         return;
       }
 
-      setOutgoingScope(previous);
       setDirection(
         scopeIndex(scope) > scopeIndex(previous) ? "forward" : "backward",
       );
       setActiveScope(scope);
       transitionTimerRef.current = setTimeout(() => {
-        setOutgoingScope(null);
         setDirection(null);
         transitionTimerRef.current = null;
       }, PANEL_MOTION_MS);
@@ -470,13 +565,15 @@ export function PricingTabs() {
   }
 
   return (
-    <div className="relative left-1/2 w-screen -translate-x-1/2">
-      <div className="border-b border-border">
+    <div>
+      <MindbodyPricingLoader />
+
+      <div>
         <div
           role="tablist"
           aria-label="Pricing categories"
           aria-orientation="horizontal"
-          className="mx-auto flex w-full max-w-7xl snap-x snap-mandatory items-end gap-1 overflow-x-auto px-5 sm:px-8 lg:overflow-visible"
+          className="flex w-full snap-x snap-mandatory items-end gap-1 overflow-x-auto border-b border-border lg:overflow-visible"
         >
           {tabs.map((tab, index) => {
             const active = tab.scope === activeScope;
@@ -512,7 +609,7 @@ export function PricingTabs() {
                 <span
                   className={cn(
                     "mt-1 block text-base leading-tight sm:text-lg",
-                    active ? "font-bold" : "font-semibold",
+                    active ? "font-bold" : "font-normal",
                   )}
                 >
                   {tab.label}
@@ -524,10 +621,9 @@ export function PricingTabs() {
       </div>
 
       <div className="bg-background">
-        <div className="relative isolate mx-auto w-full max-w-7xl px-5 pb-10 pt-12 sm:px-8 sm:pb-14 sm:pt-16">
+        <div className="relative isolate pb-10 pt-12 sm:pb-14 sm:pt-16">
           {panelEntries.map((panel) => {
             const active = panel.scope === activeScope;
-            const outgoing = panel.scope === outgoingScope;
             return (
               <section
                 key={panel.scope}
@@ -537,7 +633,7 @@ export function PricingTabs() {
                 aria-hidden={!active}
                 inert={!active}
                 tabIndex={active ? 0 : -1}
-                hidden={!active && !outgoing}
+                hidden={!active}
                 className={cn(
                   active ? "relative z-10" : "pointer-events-none absolute inset-x-0 top-0 z-0",
                   active &&
@@ -546,12 +642,6 @@ export function PricingTabs() {
                   active &&
                     direction === "backward" &&
                     "pricing-tab-panel-enter-backward",
-                  outgoing &&
-                    direction === "forward" &&
-                    "pricing-tab-panel-exit-forward",
-                  outgoing &&
-                    direction === "backward" &&
-                    "pricing-tab-panel-exit-backward",
                   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-brand-900",
                 )}
               >

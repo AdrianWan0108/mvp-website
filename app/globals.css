@@ -722,42 +722,9 @@ h4 {
 /* ============================================================
    Pricing page atmosphere
    ------------------------------------------------------------
-   The pricing page needs more depth than the site's editorial pages. These
-   treatments stay palette-driven, so every theme keeps the same hierarchy:
-   dark canopy, verdant mid-tones, raised paper panels, and a quiet organic
-   pattern behind the content.
+   Neutral card depth and directional motion keep the comparison hierarchy
+   clear without competing with the photographic masthead.
    ============================================================ */
-.pricing-hero::before {
-  position: absolute;
-  width: 38rem;
-  height: 38rem;
-  right: -8rem;
-  top: -18rem;
-  border: 1px solid color-mix(in oklab, var(--brand-400) 48%, transparent);
-  border-radius: 42% 58% 63% 37% / 47% 38% 62% 53%;
-  box-shadow:
-    0 0 0 4rem color-mix(in oklab, var(--brand-500) 9%, transparent),
-    0 0 0 9rem color-mix(in oklab, var(--brand-300) 5%, transparent);
-  content: "";
-  opacity: 0.58;
-  transform: rotate(18deg);
-}
-
-.pricing-hero::after {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(
-    circle,
-    color-mix(in oklab, var(--brand-400) 42%, transparent) 1px,
-    transparent 1.5px
-  );
-  background-position: 0 0;
-  background-size: 24px 24px;
-  content: "";
-  mask-image: linear-gradient(90deg, transparent 18%, black 100%);
-  opacity: 0.12;
-}
-
 .pricing-panel {
   box-shadow:
     0 2px 3px rgb(0 0 0 / 4%),
@@ -767,52 +734,30 @@ h4 {
 @keyframes pricing-panel-enter-forward {
   from {
     opacity: 0;
-    transform: translateX(32px);
+    transform: translateX(18px);
   }
 }
 
 @keyframes pricing-panel-enter-backward {
   from {
     opacity: 0;
-    transform: translateX(-32px);
-  }
-}
-
-@keyframes pricing-panel-exit-forward {
-  to {
-    opacity: 0;
-    transform: translateX(-32px);
-  }
-}
-
-@keyframes pricing-panel-exit-backward {
-  to {
-    opacity: 0;
-    transform: translateX(32px);
+    transform: translateX(-18px);
   }
 }
 
 .pricing-tab-panel-enter-forward {
-  animation: pricing-panel-enter-forward 320ms ease-out both;
+  animation: pricing-panel-enter-forward 260ms cubic-bezier(0.22, 1, 0.36, 1)
+    both;
 }
 
 .pricing-tab-panel-enter-backward {
-  animation: pricing-panel-enter-backward 320ms ease-out both;
-}
-
-.pricing-tab-panel-exit-forward {
-  animation: pricing-panel-exit-forward 320ms ease-out both;
-}
-
-.pricing-tab-panel-exit-backward {
-  animation: pricing-panel-exit-backward 320ms ease-out both;
+  animation: pricing-panel-enter-backward 260ms cubic-bezier(0.22, 1, 0.36, 1)
+    both;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pricing-tab-panel-enter-forward,
-  .pricing-tab-panel-enter-backward,
-  .pricing-tab-panel-exit-forward,
-  .pricing-tab-panel-exit-backward {
+  .pricing-tab-panel-enter-backward {
     animation: none;
   }
 }

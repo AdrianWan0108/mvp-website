@@ -48,23 +48,13 @@ export type NavItem = {
   children?: NavItem[];
 };
 
-/** Primary navigation — Studio and Education are MVP's two parallel business
- *  directions (equal-weight items); Polestar lives under About as the
- *  credibility/relationship story, not a direction of its own. */
+/** Primary navigation — pricing and scheduling are exposed directly so
+ *  visitors can reach the studio's main booking tasks without a dropdown.
+ *  Polestar lives under About as the credibility/relationship story. */
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
-  {
-    label: "Studio",
-    href: "/classes",
-    match: "/classes",
-    children: [
-      { label: "Classes", href: "/classes" },
-      // Pricing sits outside /classes, so Studio stays highlighted on it via
-      // the children fallback in the header's isActive().
-      { label: "Pricing", href: "/pricing" },
-      { label: "Schedule", href: "/classes/schedule" },
-    ],
-  },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Schedule", href: "/schedule" },
   {
     label: "Education",
     href: "/education",

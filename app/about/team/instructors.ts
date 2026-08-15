@@ -60,7 +60,7 @@ export const instructors: Instructor[] = [
         position: "object-center",
       },
     ],
-    scheduleHref: "/classes/schedule",
+    scheduleHref: "/schedule",
     educationHref: "/education",
   },
   {
@@ -94,7 +94,7 @@ export const instructors: Instructor[] = [
         position: "object-center",
       },
     ],
-    scheduleHref: "/classes/schedule",
+    scheduleHref: "/schedule",
   },
   {
     slug: "florence",
@@ -122,7 +122,7 @@ export const instructors: Instructor[] = [
         position: "object-center",
       },
     ],
-    scheduleHref: "/classes/schedule",
+    scheduleHref: "/schedule",
   },
 ];
 

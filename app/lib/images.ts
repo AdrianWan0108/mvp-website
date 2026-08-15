@@ -240,6 +240,10 @@ export const photos = {
     src: `${base}/instructor-teaching-students-group-class/Gary/gary-group-3.JPG`,
     alt: "Gary Fok leading a small group reformer class at Motion Vitality Pilates in Markham.",
   },
+  pricingHero: {
+    src: `${opt}/instructor-teaching-students-group-class/Dorothy/dorothy-group-1-hero.jpg`,
+    alt: "Dorothy guiding clients through a group reformer class at Motion Vitality Pilates.",
+  },
 
   // --- Education / past training ---
   janeGotch: {

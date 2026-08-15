@@ -334,33 +334,20 @@ export const pricingOptions: PricingOption[] = [
   },
 ];
 
-/**
- * One-on-one training. Booked with an instructor rather than checked out
- * online, so these carry no serviceId and link to the schedule instead of a
- * Mindbody buy button.
- */
+/** One-on-one training prices opened through the Mindbody Appointments widget. */
 export type PrivateOption = {
   key: string;
   name: string;
   blurb: string;
   highlights: string[];
   singlePrice: number;
-  /** "from" when the single-session price is a starting rate, not a fixed one. */
-  singleQualifier?: "from";
   tenPrice: number;
-  /** Verified notes only — e.g. semi-private pricing being per person. */
-  note?: string;
 };
 
 export const privateSection = {
   id: "private",
   heading: "One-on-one training",
   description: "Private and semi-private sessions, one instructor to you.",
-  intro:
-    "Private sessions are booked directly with an instructor. Choose your time and package at booking.",
-  /** The studio schedule lives under /classes; #private anchors the section. */
-  href: "/classes/schedule#private",
-  cta: "Book a private",
 } as const;
 
 export const privateOptions: PrivateOption[] = [
@@ -375,7 +362,6 @@ export const privateOptions: PrivateOption[] = [
       "Ideal for rehabilitation, focused goals, or faster progress",
     ],
     singlePrice: 100,
-    singleQualifier: "from",
     tenPrice: 950,
   },
   {
@@ -389,7 +375,6 @@ export const privateOptions: PrivateOption[] = [
       "Develop functional strength, flexibility, and coordination",
     ],
     singlePrice: 100,
-    singleQualifier: "from",
     tenPrice: 950,
   },
   {
@@ -404,7 +389,6 @@ export const privateOptions: PrivateOption[] = [
     ],
     singlePrice: 130,
     tenPrice: 1300,
-    note: "Price per person",
   },
 ];
 

@@ -6,40 +6,54 @@ import { cn } from "@/app/lib/cn";
 /** Mindbody's widget loader. Constant across every pricing option. */
 const HEALCODE_SRC =
   "https://widgets.mindbodyonline.com/javascripts/healcode.js";
+const HEALCODE_SCRIPT_ID = "mindbody-healcode-loader";
 
 /** Studio identifiers — constant; only data-service-id varies per option. */
 const SITE_ID = "126134";
 const MB_SITE_ID = "5744643";
 
-/**
- * healcode.js scans the document for <healcode-widget> elements once, when it
- * executes, and never again. On a client-side navigation into this page the
- * script is already on the document, so nothing re-scans and every buy button
- * renders empty. Re-appending a fresh <script> forces another scan.
- *
- * That scan must happen exactly once no matter how many options the page
- * shows, so the (re)load is refcounted at module scope: the first widget to
- * mount loads the script — React has committed the whole tree by the time any
- * effect runs, so its siblings are already in the DOM to be scanned — and the
- * last to unmount removes it, leaving the next visit to load it fresh.
- */
-let mountedWidgets = 0;
+function loadHealcodeOnce() {
+  // Mindbody installs global helpers and injects a dependency chain. Reloading
+  // healcode.js during a later client navigation initializes those globals a
+  // second time and can crash the React tree. Keep the first loader for the
+  // lifetime of the document; its element observer handles widgets inserted
+  // by later visits to this route.
+  if (
+    document.getElementById(HEALCODE_SCRIPT_ID) ||
+    document.querySelector(`script[src="${HEALCODE_SRC}"]`) ||
+    "HealcodeWidget" in window
+  ) {
+    return;
+  }
 
-function removeHealcodeScripts() {
-  document
-    .querySelectorAll(`script[src="${HEALCODE_SRC}"]`)
-    .forEach((script) => script.remove());
-}
-
-function loadHealcode() {
-  // Drop any stale copy first so the browser re-executes rather than
-  // treating this as an already-loaded script.
-  removeHealcodeScripts();
   const script = document.createElement("script");
+  script.id = HEALCODE_SCRIPT_ID;
   script.src = HEALCODE_SRC;
   script.type = "text/javascript";
   script.async = true;
   document.body.appendChild(script);
+}
+
+/**
+ * Loads Mindbody once, after the complete pricing tree has committed.
+ *
+ * Loading from every card made the external DOM scan race React's development
+ * remount cycle during client-side navigation. A deferred page-level loader
+ * avoids overlapping scans, and the loader persists between route visits so
+ * Mindbody's global dependencies are never initialized twice.
+ */
+export function MindbodyPricingLoader() {
+  useEffect(() => {
+    // Deferring to the next task lets React finish the route transition and
+    // lets Strict Mode cancel its first development-only effect pass.
+    const timer = window.setTimeout(loadHealcodeOnce, 0);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, []);
+
+  return null;
 }
 
 type BuyNowWidgetProps = {
@@ -66,16 +80,12 @@ export function BuyNowWidget({
   emphasis = "solid",
 }: BuyNowWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    mountedWidgets += 1;
-    if (mountedWidgets === 1) loadHealcode();
-
-    return () => {
-      mountedWidgets -= 1;
-      if (mountedWidgets === 0) removeHealcodeScripts();
-    };
-  }, []);
+  // Mindbody uses the deprecated Custom Elements v0 lifecycle. Once its
+  // loader is active, creating <healcode-widget> through JSX invokes
+  // createdCallback before React assigns data-type, which crashes on a return
+  // client navigation. Parsing trusted, internal markup applies the complete
+  // attribute set before that callback runs.
+  const widgetMarkup = `<healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="${SITE_ID}" data-mb-site-id="${MB_SITE_ID}" data-service-id="${serviceId}" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Buy now"></healcode-widget>`;
 
   // The anchor is injected by healcode.js and swapped out on re-scan, so the
   // listener sits on the wrapper we own and catches the click as it bubbles.
@@ -114,17 +124,7 @@ export function BuyNowWidget({
         emphasis === "quiet" &&
           "[&_a:hover]:bg-brand-200 [&_a]:border [&_a]:border-brand-800 [&_a]:bg-transparent [&_a]:text-brand-900",
       )}
-    >
-      <healcode-widget
-        data-version="0.2"
-        data-link-class="healcode-pricing-option-text-link"
-        data-site-id={SITE_ID}
-        data-mb-site-id={MB_SITE_ID}
-        data-service-id={serviceId}
-        data-bw-identity-site="true"
-        data-type="pricing-link"
-        data-inner-html="Buy now"
-      />
-    </div>
+      dangerouslySetInnerHTML={{ __html: widgetMarkup }}
+    />
   );
 }
