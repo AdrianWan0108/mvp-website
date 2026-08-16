@@ -1,0 +1,82 @@
+.card {
+  transition:
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image {
+  transition:
+    transform 1400ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1100ms ease;
+}
+
+.overlay {
+  transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.description {
+  opacity: 0;
+  filter: blur(2px);
+  transform: translateY(1.5rem);
+  transition:
+    opacity 750ms ease,
+    filter 900ms ease,
+    transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arrow {
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 1.5rem 3rem rgb(21 36 31 / 22%);
+}
+
+.card:hover .image,
+.card:focus-within .image {
+  filter: saturate(1.08);
+  transform: scale(1.12);
+}
+
+.card:hover .overlay,
+.card:focus-within .overlay {
+  opacity: 1;
+}
+
+.card:hover .description,
+.card:focus-within .description {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+  transition-delay: 120ms;
+}
+
+.card:hover .arrow,
+.card:focus-within .arrow {
+  transform: translateX(0.3rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .image,
+  .overlay,
+  .description,
+  .arrow {
+    transition: none;
+  }
+
+  .card:hover,
+  .card:focus-within,
+  .card:hover .image,
+  .card:focus-within .image,
+  .card:hover .description,
+  .card:focus-within .description {
+    transform: none;
+  }
+
+  .description {
+    filter: none;
+  }
+}

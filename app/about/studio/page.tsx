@@ -231,6 +231,7 @@ function RoomCollage({ room }: { room: Room }) {
             src={photo.src}
             alt={photo.alt}
             fill
+            loading="eager"
             sizes={sizes}
             className={cn(
               "object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.025] motion-reduce:transition-none",

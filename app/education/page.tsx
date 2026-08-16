@@ -339,7 +339,7 @@ export default function EducationPage() {
                   <article
                     tabIndex={0}
                     aria-label={`Read why ${instructor.name} chose to teach`}
-                    className="instructor-story-card relative aspect-[3/4] cursor-pointer overflow-hidden rounded-3xl bg-transparent outline-none focus-visible:ring-4 focus-visible:ring-brand-500/45"
+                    className="instructor-story-card relative aspect-[3/4] cursor-pointer overflow-hidden rounded-3xl bg-secondary outline-none focus-visible:ring-4 focus-visible:ring-brand-500/45"
                   >
                     <Image
                       src={instructor.photo.src}
@@ -349,25 +349,20 @@ export default function EducationPage() {
                       className="instructor-story-image object-cover"
                     />
 
-                    <div
-                      aria-hidden
-                      className="instructor-story-overlay absolute inset-0 bg-brand-900/86"
-                    />
-
-                    <div className="absolute inset-0 flex items-center justify-center px-6 py-7 text-center text-white">
+                    <div className="instructor-story-content absolute inset-0 flex items-center justify-center px-6 py-7 text-center text-brand-900">
                       <div>
                         <span
                           aria-hidden
-                          className="instructor-story-mark block h-9 font-serif text-6xl leading-none text-brand-200"
+                          className="instructor-story-mark block h-9 font-serif text-6xl leading-none text-brand-500"
                         >
                           &ldquo;
                         </span>
                         <blockquote className="instructor-story-quote mt-2">
-                          <p className="font-sans text-lg font-semibold leading-[1.4] tracking-normal text-white sm:text-xl">
+                          <p className="font-sans text-lg font-semibold leading-[1.4] tracking-normal text-brand-900 sm:text-xl">
                             {instructor.quote}
                           </p>
                         </blockquote>
-                        <p className="instructor-story-description mx-auto mt-4 text-[0.9375rem] leading-[1.6] text-white/90">
+                        <p className="instructor-story-description mx-auto mt-4 text-[0.9375rem] leading-[1.6] text-brand-800/90">
                           {instructor.story}
                         </p>
                       </div>

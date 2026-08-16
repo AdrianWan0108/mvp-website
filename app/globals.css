@@ -272,33 +272,6 @@ h4 {
   }
 }
 
-/* Gallery wall marquee: photos scroll right -> left in a seamless loop.
-   The track holds two copies of the photo set; translating it -50% lands
-   the second copy exactly where the first began. Pauses on hover and for
-   users who prefer reduced motion. */
-@keyframes gallery-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.gallery-marquee-track {
-  animation: gallery-marquee 45s linear infinite;
-}
-
-.gallery-marquee-track:hover {
-  animation-play-state: paused;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gallery-marquee-track {
-    animation: none;
-  }
-}
-
 /* Equipment showcase: on hover the equipment name and its blurb fade + rise
    into view. Driven by `animation` (not `transition`) so the global transition
    reset above can't suppress it. The component staggers name vs. blurb via
@@ -341,16 +314,19 @@ h4 {
   }
 }
 
-/* Education instructor stories: the photo remains visible beneath a Verdant
-   veil while the testimonial enters in a deliberate sequence. Reverse delays
-   let the text leave before the veil clears, so pointer-out is animated too. */
+/* Education instructor stories: the photo slides out of frame on hover to
+   reveal the testimonial sitting directly in its place. Reverse delays let
+   the text leave before the photo returns, so pointer-out is animated too. */
 .instructor-story-image {
-  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 10;
+  transition:
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 650ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.instructor-story-overlay {
-  opacity: 0;
-  transition: opacity 650ms cubic-bezier(0.22, 1, 0.36, 1) 220ms;
+.instructor-story-content {
+  z-index: 0;
+  pointer-events: none;
 }
 
 .instructor-story-mark,
@@ -359,16 +335,16 @@ h4 {
   opacity: 0;
   transform: translateY(16px);
   transition:
-    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 480ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .instructor-story-mark {
-  transition-delay: 160ms;
+  transition-delay: 0ms;
 }
 
 .instructor-story-quote {
-  transition-delay: 80ms;
+  transition-delay: 0ms;
 }
 
 .instructor-story-description {
@@ -377,13 +353,8 @@ h4 {
 
 .instructor-story-card:hover .instructor-story-image,
 .instructor-story-card:focus-within .instructor-story-image {
-  transform: scale(1.05);
-}
-
-.instructor-story-card:hover .instructor-story-overlay,
-.instructor-story-card:focus-within .instructor-story-overlay {
-  opacity: 1;
-  transition-delay: 0ms;
+  transform: translateY(-102%);
+  opacity: 0;
 }
 
 .instructor-story-card:hover .instructor-story-mark,
@@ -398,22 +369,21 @@ h4 {
 
 .instructor-story-card:hover .instructor-story-mark,
 .instructor-story-card:focus-within .instructor-story-mark {
-  transition-delay: 100ms;
+  transition-delay: 180ms;
 }
 
 .instructor-story-card:hover .instructor-story-quote,
 .instructor-story-card:focus-within .instructor-story-quote {
-  transition-delay: 180ms;
+  transition-delay: 240ms;
 }
 
 .instructor-story-card:hover .instructor-story-description,
 .instructor-story-card:focus-within .instructor-story-description {
-  transition-delay: 260ms;
+  transition-delay: 300ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .instructor-story-image,
-  .instructor-story-overlay,
   .instructor-story-mark,
   .instructor-story-quote,
   .instructor-story-description {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "../container";
@@ -54,26 +54,111 @@ export function EquipmentShowcase() {
   // On touch devices there's no hover, so tapping a panel toggles its reveal.
   // `active` only drives the mobile/stacked layout; desktop still uses hover.
   const [active, setActive] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const heading = section.querySelector<HTMLElement>("[data-equip-heading]");
+    const panels = Array.from(
+      section.querySelectorAll<HTMLElement>("[data-equip-panel]"),
+    );
+
+    if (!heading || panels.length === 0) return;
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (
+      reducedMotion ||
+      !("IntersectionObserver" in window) ||
+      typeof heading.animate !== "function"
+    ) {
+      return;
+    }
+
+    heading.style.opacity = "0";
+    heading.style.transform = "translate3d(0, 28px, 0)";
+    panels.forEach((panel) => {
+      panel.style.opacity = "0";
+      panel.style.transform = "translate3d(0, 36px, 0)";
+    });
+
+    let animations: Animation[] = [];
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+
+        animations = [
+          heading.animate(
+            [
+              { opacity: 0, transform: "translate3d(0, 28px, 0)" },
+              { opacity: 1, transform: "translate3d(0, 0, 0)" },
+            ],
+            {
+              duration: 700,
+              easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+              fill: "forwards",
+            },
+          ),
+          ...panels.map((panel, index) =>
+            panel.animate(
+              [
+                { opacity: 0, transform: "translate3d(0, 36px, 0)" },
+                { opacity: 1, transform: "translate3d(0, 0, 0)" },
+              ],
+              {
+                duration: 700,
+                delay: 220 + index * 90,
+                easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                fill: "forwards",
+              },
+            ),
+          ),
+        ];
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -10% 0px" },
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      animations.forEach((animation) => animation.cancel());
+    };
+  }, []);
 
   return (
-    <section className="bg-[color-mix(in_oklab,var(--brand-300),var(--brand-700)_25%)] py-20 sm:py-24">
+    <section
+      ref={sectionRef}
+      className="bg-[color-mix(in_oklab,var(--brand-300),var(--brand-700)_25%)] pt-20 sm:pt-24"
+    >
       <Container>
-        <SectionHeading
-          align="center"
-          eyebrow="Equipment & methods"
-          title="Trained on the full studio"
-          intro="From the reformer to the Cadillac — professional apparatus for every body and goal."
-          className="[&_p:first-of-type]:text-brand-900"
-        />
+        <div data-equip-heading>
+          <SectionHeading
+            align="center"
+            eyebrow="Equipment & methods"
+            title="Trained on the full studio"
+            intro="From the reformer to the Cadillac — professional apparatus for every body and goal."
+            className="[&_p:first-of-type]:text-brand-900"
+          />
+        </div>
       </Container>
 
-      {/* Full-bleed panel strip */}
+      {/* Full-bleed panel strip. Flush with the section's bottom edge (no
+          bottom padding on the section) so the brand background doesn't
+          bleed past the images. */}
       <div className="relative mt-14 flex w-full flex-col bg-black lg:h-[52vh] lg:flex-row">
         {equipment.map((item, i) => {
           const isOpen = active === i;
           return (
             <div
               key={item.name}
+              data-equip-panel
               onClick={() => setActive(isOpen ? null : i)}
               className="group relative h-56 cursor-pointer overflow-hidden lg:h-auto lg:flex-1 lg:cursor-default"
             >

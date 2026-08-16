@@ -1,84 +1,100 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { Container } from "../container";
 import { CtaButton } from "../cta-button";
-import { photos } from "@/app/lib/images";
+import { brandLogos, photos } from "@/app/lib/images";
 import { links } from "@/app/lib/links";
+import styles from "./gallery-wall.module.css";
 
-/**
- * Membership band. Two columns (entrance wall photo + "Be our MVP" copy), with
- * a looping photo strip near the bottom of the section. The track renders the
- * set twice so the -50% translate loops seamlessly (.gallery-marquee-track in
- * globals.css).
- */
 const gallery = [
   photos.garyPose,
-  photos.dorothyPose,
-  photos.florencePose,
-  photos.privateSession,
   photos.team,
+  photos.dorothyPose,
+  photos.privateSession,
+  photos.florencePose,
+  photos.studioReformerFloor,
   photos.reformer,
   photos.gyrotonic,
   photos.konnector,
   photos.barrel,
-  photos.studioReformerFloor,
 ];
 
+const maskStyles: CSSProperties = {
+  WebkitMaskImage: `url(${brandLogos.monogram.verdant})`,
+  maskImage: `url(${brandLogos.monogram.verdant})`,
+  WebkitMaskPosition: "center",
+  maskPosition: "center",
+  WebkitMaskRepeat: "no-repeat",
+  maskRepeat: "no-repeat",
+  WebkitMaskSize: "100% 100%",
+  maskSize: "100% 100%",
+};
+
+/**
+ * Membership invitation and studio gallery combined into one brand moment.
+ * The approved MVP monogram masks a gently moving mosaic of community,
+ * teaching, studio, and equipment photography.
+ */
 export function GalleryWall() {
   return (
-    <section className="overflow-hidden bg-muted/40 pb-10 pt-20 text-foreground sm:pt-24">
-      <Container>
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          {/* Left: entrance wall photo */}
-          <div className="relative h-72 overflow-hidden rounded-2xl border border-border sm:h-96 lg:h-[28rem]">
-            <Image
-              src={photos.entranceWall.src}
-              alt={photos.entranceWall.alt}
-              fill
-              sizes="(min-width: 1024px) 45vw, 100vw"
-              className="object-cover"
-            />
-          </div>
+    <section
+      id="be-our-mvp"
+      className="relative isolate overflow-hidden bg-muted/40 py-20 text-foreground sm:py-28"
+    >
+      <div
+        aria-hidden
+        className="absolute -left-24 top-12 size-72 rounded-full bg-brand-200/35 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="absolute -right-24 bottom-4 size-80 rounded-full bg-brand-300/20 blur-3xl"
+      />
 
-          {/* Right: membership copy */}
-          <div>
-            <h2 className="font-serif text-5xl font-semibold leading-tight sm:text-6xl">
-              Be our MVP
-            </h2>
-            <p className="mt-5 max-w-lg text-xl leading-relaxed text-muted-foreground">
-              Join the MVP community and make movement a habit. Members enjoy
-              priority booking, member pricing, and a plan built around their
-              goals — with a Polestar-certified team in your corner every step
-              of the way.
-            </p>
-            <div className="mt-8">
-              <CtaButton href={links.register} size="lg">
-                Join membership
-              </CtaButton>
-            </div>
+      <Container className="relative flex flex-col items-center text-center">
+        <h2 className="font-serif text-5xl font-semibold leading-none sm:text-6xl lg:text-7xl">
+          Be our <span className="sr-only">MVP</span>
+        </h2>
+        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+          Join the MVP community and make movement a habit. Members enjoy
+          priority booking, member pricing, and a plan built around their goals
+          — with a Polestar-certified team in your corner every step of the way.
+        </p>
+
+        <div
+          role="img"
+          aria-label="The MVP logo filled with a collage of instructors, clients, and the Motion Vitality Pilates studio."
+          className={`${styles.logoMask} mt-12 w-full sm:mt-16`}
+          style={maskStyles}
+        >
+          <div className={styles.collage}>
+            {gallery.map((photo, index) => (
+              <div className={styles.tile} key={photo.src}>
+                <Image
+                  src={photo.src}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1280px) 16rem, (min-width: 640px) 20vw, 24vw"
+                  className={styles.photo}
+                  aria-hidden
+                />
+                <span aria-hidden className={styles.tint} />
+                {index === 0 ? (
+                  <span aria-hidden className={styles.sheen} />
+                ) : null}
+              </div>
+            ))}
           </div>
         </div>
-      </Container>
 
-      {/* Looping photo strip near the bottom (right -> left) */}
-      <div className="mt-16 w-full overflow-hidden sm:mt-20">
-        <ul className="gallery-marquee-track flex w-max shrink-0 gap-4 px-4">
-          {[...gallery, ...gallery].map((photo, i) => (
-            <li
-              key={`${photo.src}-${i}`}
-              className="relative h-32 w-44 shrink-0 overflow-hidden rounded-xl border border-border bg-card shadow-lg sm:h-40 sm:w-56"
-            >
-              <Image
-                src={photo.src}
-                alt={i < gallery.length ? photo.alt : ""}
-                aria-hidden={i >= gallery.length}
-                fill
-                sizes="14rem"
-                className="object-cover"
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
+        <p className="mt-8 max-w-lg text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:mt-10">
+          Movement. Vitality. People.
+        </p>
+        <div className="mt-7">
+          <CtaButton href={links.register} size="lg">
+            Join membership
+          </CtaButton>
+        </div>
+      </Container>
     </section>
   );
 }

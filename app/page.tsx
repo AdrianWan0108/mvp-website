@@ -1,10 +1,8 @@
 import { Hero } from "./components/home/hero";
-import { WelcomeIntro } from "./components/home/welcome-intro";
-import { NeedsFunnel } from "./components/home/needs-funnel";
+import { PricingGateway } from "./components/home/pricing-gateway";
+import { CoreValues } from "./components/home/core-values";
 import { EquipmentShowcase } from "./components/home/equipment-showcase";
 import { PolestarHighlight } from "./components/home/polestar-highlight";
-import { LogoReveal } from "./components/home/logo-reveal";
-import { CoreValues } from "./components/home/core-values";
 import { GalleryWall } from "./components/home/gallery-wall";
 import { GetStarted } from "./components/home/get-started";
 import { Testimonials } from "./components/home/testimonials";
@@ -16,14 +14,11 @@ export default function Home() {
     <>
       <Hero />
 
-      {/* WHY MVP — welcome / value props with hand-drawn logo video */}
-      <WelcomeIntro />
+      <PricingGateway />
 
-      <NeedsFunnel />
+      <CoreValues />
 
       <EquipmentShowcase />
-      <LogoReveal />
-      <CoreValues />
       <GalleryWall />
       <PolestarHighlight />
       <Testimonials />

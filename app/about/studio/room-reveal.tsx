@@ -19,9 +19,10 @@ export function RoomReveal({
   const collageStart = mediaRight
     ? "translate3d(110vw, 0, 0)"
     : "translate3d(-110vw, 0, 0)";
-  const explanationStart = mediaRight
-    ? "translate3d(-110vw, 0, 0)"
-    : "translate3d(110vw, 0, 0)";
+  // Equipment headings are anchor targets. Moving their entire panel sideways
+  // makes the browser horizontally scroll to that off-canvas position before
+  // the reveal completes, leaving left-side collages outside the viewport.
+  const explanationStart = "translate3d(0, 2.5rem, 0)";
 
   useEffect(() => {
     const root = rootRef.current;
@@ -29,55 +30,80 @@ export function RoomReveal({
     const explanationElement = explanationRef.current;
     if (!root || !collageElement || !explanationElement) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const showContent = () => {
       collageElement.style.transform = "none";
       explanationElement.style.transform = "none";
+      collageElement.style.willChange = "auto";
+      explanationElement.style.willChange = "auto";
+    };
+
+    let animations: Animation[] = [];
+    let revealFrame: number | null = null;
+    let hasStarted = false;
+
+    const startReveal = () => {
+      if (hasStarted) return;
+      hasStarted = true;
+
+      animations = [
+        collageElement.animate(
+          [
+            { transform: collageStart },
+            { transform: "translate3d(0, 0, 0)" },
+          ],
+          {
+            duration: 1400,
+            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+            fill: "forwards",
+          },
+        ),
+        explanationElement.animate(
+          [
+            { transform: explanationStart },
+            { transform: "translate3d(0, 0, 0)" },
+          ],
+          {
+            duration: 1400,
+            delay: 120,
+            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+            fill: "forwards",
+          },
+        ),
+      ];
+
+      Promise.all(animations.map((animation) => animation.finished))
+        .then(showContent)
+        .catch(() => {
+          // An animation rejects when it is cancelled during unmount.
+        });
+    };
+
+    const targetId = decodeURIComponent(window.location.hash.slice(1));
+    const hashTarget = targetId ? document.getElementById(targetId) : null;
+    const isDirectlyLinkedRoom = hashTarget
+      ? root.contains(hashTarget)
+      : false;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      showContent();
       return;
     }
 
-    let animations: Animation[] = [];
+    if (isDirectlyLinkedRoom) {
+      // Let the off-canvas start position paint once before revealing. This
+      // keeps direct equipment links animated instead of bypassing the room.
+      revealFrame = window.requestAnimationFrame(startReveal);
+      return () => {
+        if (revealFrame !== null) window.cancelAnimationFrame(revealFrame);
+        animations.forEach((animation) => animation.cancel());
+      };
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
         observer.disconnect();
-
-        animations = [
-          collageElement.animate(
-            [
-              { transform: collageStart },
-              { transform: "translate3d(0, 0, 0)" },
-            ],
-            {
-              duration: 1400,
-              easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-              fill: "forwards",
-            },
-          ),
-          explanationElement.animate(
-            [
-              { transform: explanationStart },
-              { transform: "translate3d(0, 0, 0)" },
-            ],
-            {
-              duration: 1400,
-              delay: 120,
-              easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-              fill: "forwards",
-            },
-          ),
-        ];
-
-        Promise.all(animations.map((animation) => animation.finished))
-          .then(() => {
-            collageElement.style.transform = "none";
-            explanationElement.style.transform = "none";
-            collageElement.style.willChange = "auto";
-            explanationElement.style.willChange = "auto";
-          })
-          .catch(() => {
-            // An animation rejects when it is cancelled during unmount.
-          });
+        startReveal();
       },
       { threshold: 0.01, rootMargin: "0px 0px 22% 0px" },
     );

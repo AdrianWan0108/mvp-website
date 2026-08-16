@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw video sources (keep only the optimized derivative in /public)
+public/assets/videos/website vid.mp4
