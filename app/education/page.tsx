@@ -124,11 +124,11 @@ export default function EducationPage() {
       {/* Current Polestar program, using the reference's editorial split. */}
       <section
         data-theme="education-light"
-        className="bg-brand-50 text-foreground"
+        className="bg-background text-foreground"
       >
         <ProgramReveal>
           <div className="grid overflow-hidden lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)]">
-            <div className="flex items-center bg-brand-50 px-6 py-12 sm:px-10 sm:py-14 lg:px-14 lg:py-14 xl:px-20">
+            <div className="flex items-center bg-background px-6 py-12 sm:px-10 sm:py-14 lg:px-14 lg:py-14 xl:px-20">
               <div className="max-w-2xl">
                 <div data-program-copy>
                   <h2 className="text-balance font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl xl:text-6xl">
@@ -316,7 +316,7 @@ export default function EducationPage() {
       {/* Compact instructor stories — each portrait crossfades into its story. */}
       <section
         data-theme="education-light"
-        className="bg-brand-100 py-14 text-foreground sm:py-16 lg:py-20"
+        className="bg-secondary py-14 text-foreground sm:py-16 lg:py-20"
       >
         <Container>
           <StoriesReveal>

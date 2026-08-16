@@ -20,7 +20,7 @@ const values = [
  */
 export function WelcomeIntro() {
   return (
-    <section className="bg-brand-200/50 py-10">
+    <section className="bg-muted/60 py-10">
       <Container size="wide">
         <p className="max-w-3xl font-serif text-2xl leading-snug sm:text-3xl">
           Welcome to MVP — a studio where strength, mobility, and recovery meet

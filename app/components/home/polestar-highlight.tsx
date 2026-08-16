@@ -10,18 +10,10 @@ const points = [
   "Rehab-informed teaching that meets you wherever your body is today.",
 ];
 
-/**
- * Home credibility band for the MVP × Polestar relationship. Uses
- * data-theme="polestar-brand" (Polestar's official slate + amber colors) so
- * the band renders in Polestar's identity — a taste of the relationship page.
- */
+/** Home credibility band for the MVP × Polestar relationship. */
 export function PolestarHighlight() {
   return (
-    <section
-      data-theme="polestar-brand"
-      className="relative isolate overflow-hidden bg-background text-foreground"
-    >
-      <div aria-hidden className="polestar-aurora absolute inset-0 -z-10" />
+    <section className="relative isolate overflow-hidden bg-muted/40 text-foreground">
       <Container className="grid items-center gap-12 py-20 sm:py-24 lg:grid-cols-2">
         <div>
           <SectionHeading

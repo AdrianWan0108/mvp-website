@@ -48,7 +48,7 @@ export default async function InstructorPage({
         </Container>
       </section>
 
-      <div className="border-b border-brand-200 bg-brand-100/70">
+      <div className="border-b border-border bg-muted/55">
         <Container>
           <nav aria-label="Breadcrumb">
             <ol className="flex min-h-20 flex-wrap items-stretch text-sm">

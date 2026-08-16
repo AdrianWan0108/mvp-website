@@ -6,8 +6,6 @@
    ACTIVE THEMES
    1. Verdant: the site-wide MVP default.
    2. Education / Education Light: the Teacher Training routes.
-   3. Polestar Brand / Polestar Brand Light: official Polestar
-      slate-and-amber surfaces.
 
    Each theme defines semantic CSS variables. The `@theme inline`
    block below maps them to Tailwind utilities such as
@@ -22,147 +20,93 @@
 [data-theme="verdant"] {
   color-scheme: light;
 
-  --brand-50: #f6fbf9;
-  --brand-100: #e9f6ef;
-  --brand-200: #d1ebdd;
-  --brand-300: #b4dfc8;
-  --brand-400: #91d0af;
-  --brand-500: #6ec196;
-  --brand-600: #60a782;
-  --brand-700: #518a6c;
-  --brand-800: #416a55;
-  --brand-900: #314b3e;
+  --brand-50: #f5f9f7;
+  --brand-100: #e7f1ec;
+  --brand-200: #cfe3d8;
+  --brand-300: #abd0bb;
+  --brand-400: #7eb495;
+  --brand-500: #569a79;
+  --brand-600: #478265;
+  --brand-700: #3a6853;
+  --brand-800: #315344;
+  --brand-900: #293f36;
+  --brand-950: #15241f;
 
-  --background: var(--brand-50);
-  --foreground: var(--brand-900);
+  --background: #ffffff;
+  --foreground: #111412;
   --card: #ffffff;
-  --card-foreground: var(--brand-900);
-  --primary: var(--brand-500);
-  --primary-foreground: #2a3f34; /* 500 fails AA with white text */
-  --secondary: var(--brand-200);
-  --secondary-foreground: var(--brand-900);
-  --muted: var(--brand-100);
-  --muted-foreground: var(--brand-800);
-  --accent: var(--brand-400);
-  --accent-foreground: var(--brand-900);
-  --border: var(--brand-200);
-  --input: var(--brand-200);
+  --card-foreground: #111412;
+  --primary: var(--brand-600);
+  --primary-foreground: #ffffff;
+  --secondary: #f1f2ef;
+  --secondary-foreground: #232724;
+  --muted: #f1f2ef;
+  --muted-foreground: #626862;
+  --accent: var(--brand-500);
+  --accent-foreground: #111412;
+  --border: #dfe2de;
+  --input: #dfe2de;
   --ring: var(--brand-500);
 }
 
 /* ---------- ACTIVE 2A — EDUCATION DARK ----------
    Editorial/institutional treatment for MVP's second business direction:
-   ~60% near-black NEUTRAL surfaces (#111111 ink — deliberately not the
+   ~60% near-black NEUTRAL surfaces (#111412 ink — deliberately not the
    verdant-tinted brand-900 and not pure #000), ~30% white relief via
    education-light sections, ~10% Verdant as ACCENT ONLY (tags, rules,
    icons, hover states — never body text or small links on white).
    Does NOT redefine the --brand-* ramp, so brand-* accents stay Verdant
-   (#6ec196 on #111111 ≈ 8.7:1, AA). Not in the switcher. */
+   (#569a79 on #111412 provides strong contrast). */
 [data-theme="education"] {
   color-scheme: dark;
 
-  --background: #111111;
-  --foreground: #f5f5f4;
-  --card: #1a1a1a;
-  --card-foreground: #f5f5f4;
-  --secondary: #242424;
-  --secondary-foreground: #f5f5f4;
-  --muted: #1a1a1a;
-  --muted-foreground: #b3b9b4; /* neutral grey, faint green cast; ~9:1 on ink */
+  --background: #111412;
+  --foreground: #f8faf8;
+  --card: #232724;
+  --card-foreground: #f8faf8;
+  --secondary: #2e332f;
+  --secondary-foreground: #f8faf8;
+  --muted: #232724;
+  --muted-foreground: #b9bfba;
   --border: color-mix(in oklab, #ffffff 14%, transparent);
   --input: color-mix(in oklab, #ffffff 14%, transparent);
 
   /* Verdant accent carries the brand on the ink base. */
   --primary: var(--brand-500);
-  --primary-foreground: #111111; /* #6ec196 fails AA with white text */
+  --primary-foreground: #111412;
   --accent: var(--brand-400);
-  --accent-foreground: #111111;
+  --accent-foreground: #111412;
   --ring: var(--brand-500);
 }
 
 /* ---------- ACTIVE 2B — EDUCATION LIGHT ----------
-   Light counterpart to Education Dark; steps accent text to
-   brand-800 (#416a55, ~6.1:1 on white) because brand-700 only clears AA
-   for large text. Same caveat as polestar-light: a light section must
-   also set the `text-foreground` utility. */
+   Light counterpart to Education Dark. A light section also sets the
+   `text-foreground` utility so inherited dark-theme text cannot wash out. */
 [data-theme="education-light"] {
   color-scheme: light;
 
   --background: #ffffff;
-  --foreground: #111111;
+  --foreground: #111412;
   --card: #ffffff;
-  --card-foreground: #111111;
-  --secondary: #f4f5f4;
-  --secondary-foreground: #111111;
-  --muted: #fafafa;
-  --muted-foreground: #4c504d;
-  --border: #e5e7e6;
-  --input: #e5e7e6;
+  --card-foreground: #111412;
+  --secondary: #f1f2ef;
+  --secondary-foreground: #232724;
+  --muted: #fafaf8;
+  --muted-foreground: #626862;
+  --border: #dfe2de;
+  --input: #dfe2de;
 
-  --primary: var(--brand-800); /* eyebrow / accent text on white, AA */
+  --primary: var(--brand-600);
   --primary-foreground: #ffffff;
-  --accent: var(--brand-800);
-  --accent-foreground: #ffffff;
-  --ring: var(--brand-800);
+  --accent: var(--brand-500);
+  --accent-foreground: #111412;
+  --ring: var(--brand-500);
 }
 
-/* ---------- ACTIVE 3A — POLESTAR BRAND DARK ----------
-   Used on /about/polestar (and the homepage Polestar band) because that
-   page represents Polestar's identity, not MVP's. A FIXED palette (not
-   --brand-derived): dark slate #2b4458 surfaces (white text ~10:1) with
-   amber #feb75a accents (~6.3:1 on slate). Amber FAILS AA with white
-   text, so its foreground is always slate. Not in the switcher. */
-[data-theme="polestar-brand"] {
-  color-scheme: dark;
-
-  --background: #2b4458;
-  --foreground: #f6f9fb;
-  --card: #35516a;
-  --card-foreground: #f6f9fb;
-  --secondary: #3e5d78;
-  --secondary-foreground: #f6f9fb;
-  --muted: #35516a;
-  --muted-foreground: #c3d2de;
-  --border: color-mix(in oklab, #f6f9fb 16%, transparent);
-  --input: color-mix(in oklab, #f6f9fb 16%, transparent);
-
-  --primary: #feb75a; /* amber accent */
-  --primary-foreground: #2b4458; /* amber fails AA with white text */
-  --accent: #feb75a;
-  --accent-foreground: #2b4458;
-  --ring: #feb75a;
-}
-
-/* ---------- ACTIVE 3B — POLESTAR BRAND LIGHT ----------
-   Slate text/accents on white (~10:1); amber on white is ~1.6:1, so it is
-   fill/decoration only — accent TEXT on white must be slate. Same
-   `text-foreground` caveat as the other light overrides. */
-[data-theme="polestar-brand-light"] {
-  color-scheme: light;
-
-  --background: #ffffff;
-  --foreground: #2b4458;
-  --card: #ffffff;
-  --card-foreground: #2b4458;
-  --secondary: #eef2f6;
-  --secondary-foreground: #2b4458;
-  --muted: #f6f8fa;
-  --muted-foreground: #4a6178;
-  --border: #dde4ea;
-  --input: #dde4ea;
-
-  --primary: #2b4458; /* accent text on white must be slate, never amber */
-  --primary-foreground: #ffffff;
-  --accent: #2b4458;
-  --accent-foreground: #ffffff;
-  --ring: #2b4458;
-}
-
-/* Decorative layers shared by the active dark branded surfaces.
+/* Decorative layers used by the active Education dark surfaces.
    Glow color comes from color-mix() with the (adaptive) accent vars, so
    they follow the selected palette. Pure decoration — safe to ignore if
    color-mix is unsupported. */
-[data-theme="polestar-brand"] .polestar-scrim,
 [data-theme="education"] .polestar-scrim {
   background:
     linear-gradient(
@@ -178,7 +122,6 @@
     );
 }
 
-[data-theme="polestar-brand"] .polestar-aurora,
 [data-theme="education"] .polestar-aurora {
   background:
     radial-gradient(
@@ -236,6 +179,7 @@
   --color-brand-700: var(--brand-700);
   --color-brand-800: var(--brand-800);
   --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
 
   --font-sans: var(--font-body);
   --font-serif: var(--font-heading);
@@ -829,5 +773,61 @@ h4 {
   --accent: var(--brand-700);
   --accent-foreground: #ffffff;
   --ring: var(--brand-700);
+}
+
+[ ---------- RETIRED POLESTAR PAGE THEMES ---------- ]
+Polestar remains important to MVP's story, but no longer owns a separate
+site-wide visual direction. The /about/polestar route now uses MVP Verdant.
+
+[ ---------- ACTIVE 3A — POLESTAR BRAND DARK ----------
+   Used on /about/polestar (and the homepage Polestar band) because that
+   page represents Polestar's identity, not MVP's. A FIXED palette (not
+   --brand-derived): dark slate #2b4458 surfaces (white text ~10:1) with
+   amber #feb75a accents (~6.3:1 on slate). Amber FAILS AA with white
+   text, so its foreground is always slate. Not in the switcher. ]
+[data-theme="polestar-brand"] {
+  color-scheme: dark;
+
+  --background: #2b4458;
+  --foreground: #f6f9fb;
+  --card: #35516a;
+  --card-foreground: #f6f9fb;
+  --secondary: #3e5d78;
+  --secondary-foreground: #f6f9fb;
+  --muted: #35516a;
+  --muted-foreground: #c3d2de;
+  --border: color-mix(in oklab, #f6f9fb 16%, transparent);
+  --input: color-mix(in oklab, #f6f9fb 16%, transparent);
+
+  --primary: #feb75a; [ amber accent ]
+  --primary-foreground: #2b4458; [ amber fails AA with white text ]
+  --accent: #feb75a;
+  --accent-foreground: #2b4458;
+  --ring: #feb75a;
+}
+
+[ ---------- ACTIVE 3B — POLESTAR BRAND LIGHT ----------
+   Slate text/accents on white (~10:1); amber on white is ~1.6:1, so it is
+   fill/decoration only — accent TEXT on white must be slate. Same
+   `text-foreground` caveat as the other light overrides. ]
+[data-theme="polestar-brand-light"] {
+  color-scheme: light;
+
+  --background: #ffffff;
+  --foreground: #2b4458;
+  --card: #ffffff;
+  --card-foreground: #2b4458;
+  --secondary: #eef2f6;
+  --secondary-foreground: #2b4458;
+  --muted: #f6f8fa;
+  --muted-foreground: #4a6178;
+  --border: #dde4ea;
+  --input: #dde4ea;
+
+  --primary: #2b4458; [ accent text on white must be slate, never amber ]
+  --primary-foreground: #ffffff;
+  --accent: #2b4458;
+  --accent-foreground: #ffffff;
+  --ring: #2b4458;
 }
    ============================================================ */

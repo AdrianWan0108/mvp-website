@@ -33,15 +33,10 @@ export function SiteHeader() {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const lastScrollY = useRef(0);
-  // Section color zones: Education routes use the ink theme, the MVP × Polestar
-  // page uses Polestar's brand theme; scope them to the header for cohesion.
+  // Education routes use the professional ink theme. All other routes,
+  // including MVP × Polestar, remain inside the shared Verdant system.
   const isEducation = pathname?.startsWith("/education") ?? false;
-  const isPolestarBrand = pathname === "/about/polestar";
-  const headerTheme = isEducation
-    ? "education"
-    : isPolestarBrand
-      ? "polestar-brand"
-      : undefined;
+  const headerTheme = isEducation ? "education" : undefined;
   // The home hero runs full-bleed behind the header — sit transparent over it
   // until the user scrolls.
   const isHome = pathname === "/";
@@ -58,9 +53,9 @@ export function SiteHeader() {
   // Palette is locked to Verdant brand-wide, so the logo is fixed.
   const logoSrc = navLogos.verdant;
   // The transparent mark is rendered white on any dark/colour bar (over the
-  // hero, on the scrolled brand bar, and on the dark Education / Polestar
-  // bars); on the plain light bar of other pages it shows as the coloured mark.
-  const logoInvert = onColor || isEducation || isPolestarBrand;
+  // hero, on the scrolled brand bar, and on the dark Education bar); on the
+  // plain light bar of other pages it shows as the coloured mark.
+  const logoInvert = onColor || isEducation;
 
   // Nav link colors flip to white while the header sits on a dark/colour bar.
   const navLink = (active: boolean) =>
@@ -100,8 +95,6 @@ export function SiteHeader() {
             ? "border-b border-white/20 bg-primary/[0.78] text-white shadow-[0_10px_30px_-18px_rgba(15,35,24,0.7)] backdrop-blur-xl"
             : isEducation
               ? "border-b border-primary/25 bg-[#111a15]/[0.94] text-foreground shadow-[0_10px_30px_-18px_rgba(17,45,31,0.85)] backdrop-blur-xl"
-              : isPolestarBrand
-                ? "border-b border-white/15 bg-background/[0.84] text-foreground shadow-[0_10px_30px_-18px_rgba(0,0,0,0.75)] backdrop-blur-xl"
               : "border-b border-border/70 bg-background/[0.78] text-foreground shadow-[0_10px_30px_-20px_rgba(34,61,47,0.45)] backdrop-blur-xl",
         hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}

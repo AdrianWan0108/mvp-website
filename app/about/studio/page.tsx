@@ -245,7 +245,7 @@ function RoomSection({ room }: { room: Room }) {
       <div
         aria-hidden
         className={cn(
-          "absolute -inset-x-5 inset-y-0 z-0 bg-brand-200 sm:-inset-x-8 lg:inset-x-auto lg:w-screen",
+          "absolute -inset-x-5 inset-y-0 z-0 bg-muted sm:-inset-x-8 lg:inset-x-auto lg:w-screen",
           room.mediaRight ? "lg:right-0" : "lg:left-0",
         )}
       />

@@ -24,7 +24,7 @@ export default function PolestarPage() {
   return (
     <>
       {/* Hero — the MVP × Polestar relationship */}
-      <section className="relative isolate flex min-h-[34rem] items-center overflow-hidden md:min-h-[42rem] lg:min-h-[46rem]">
+      <section className="relative isolate flex min-h-[34rem] items-center overflow-hidden bg-brand-900 text-white md:min-h-[42rem] lg:min-h-[46rem]">
         <div className="absolute inset-0 -z-10">
           <Image
             src={photos.polestarOnWall.src}
@@ -34,17 +34,16 @@ export default function PolestarPage() {
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 polestar-scrim" />
-          <div aria-hidden className="polestar-aurora absolute inset-0" />
+          <div className="absolute inset-0 bg-brand-900/80" />
         </div>
         <Container className="max-w-3xl py-24 sm:py-28">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-primary">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-brand-300">
             MVP is a Polestar studio
           </p>
           <h1 className="font-serif text-5xl font-semibold leading-tight sm:text-7xl">
             Motion Vitality, powered by Polestar
           </h1>
-          <p className="mt-6 text-xl leading-relaxed text-foreground/90">
+          <p className="mt-6 text-xl leading-relaxed text-white/90">
             Polestar isn&rsquo;t a class we offer — it&rsquo;s the method our whole
             studio is built on. Every instructor at MVP teaches within Polestar&rsquo;s
             globally recognized framework, which unites the classical Pilates
@@ -54,7 +53,7 @@ export default function PolestarPage() {
             <CtaButton href="/education/polestar-comprehensive-training" size="lg">
               Teacher Training 2026
             </CtaButton>
-            <CtaButton href={links.polestarInfo} size="lg" variant="outline">
+            <CtaButton href={links.polestarInfo} size="lg" variant="inverse">
               About Polestar
             </CtaButton>
           </div>
@@ -100,7 +99,6 @@ export default function PolestarPage() {
             {differences.map((item) => (
               <div
                 key={item.title}
-                data-theme="polestar-brand-light"
                 className="rounded-2xl border border-border bg-secondary p-6 text-foreground shadow-sm"
               >
                 <h3 className="font-serif text-3xl font-semibold leading-tight sm:text-4xl">
@@ -136,7 +134,6 @@ export default function PolestarPage() {
             ))}
           </div>
           <div aria-hidden className="absolute inset-0 -z-10 bg-background/80" />
-          <div aria-hidden className="polestar-aurora absolute inset-0 -z-10" />
           <Container className="relative flex min-h-[36rem] items-center justify-center py-32 text-center sm:min-h-[46rem]">
             <SectionHeading
               align="center"
@@ -150,7 +147,6 @@ export default function PolestarPage() {
         {/* Bridging block — straddles the collage and the community section */}
         <Container className="relative z-20 -my-16 sm:-my-20">
           <div
-            data-theme="polestar-brand-light"
             className="mx-auto max-w-2xl rounded-3xl border border-border bg-card p-6 text-foreground shadow-2xl sm:p-8"
           >
             <div className="space-y-3 text-base leading-relaxed text-foreground/90">
@@ -169,8 +165,7 @@ export default function PolestarPage() {
         </Container>
 
         {/* Part of a global Polestar community */}
-        <section className="relative isolate overflow-hidden bg-card pb-20 pt-32 sm:pb-24 sm:pt-36">
-          <div aria-hidden className="polestar-aurora absolute inset-0 -z-10" />
+        <section className="relative isolate overflow-hidden bg-muted/40 pb-20 pt-32 sm:pb-24 sm:pt-36">
           <Container>
             <SectionHeading
               eyebrow="A global community"

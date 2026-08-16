@@ -473,11 +473,9 @@ export default function TeacherTrainingPage() {
         </Container>
       </section>
 
-      {/* Schedule — the "light verdant" section. Uses the site's default
-         `verdant` theme (not education/education-light) so this reads as a
-         genuine brand-green breather, not a neutral one. */}
+      {/* Schedule — a paper-white breather within the Education system. */}
       <section
-        data-theme="verdant"
+        data-theme="education-light"
         className="bg-background text-foreground py-20 sm:py-24"
       >
         <Container>

@@ -9,12 +9,7 @@ import { cn } from "@/app/lib/cn";
 export function SiteFooter() {
   const pathname = usePathname();
   const isEducation = pathname?.startsWith("/education") ?? false;
-  const isPolestarBrand = pathname === "/about/polestar";
-  const footerTheme = isEducation
-    ? "education"
-    : isPolestarBrand
-      ? "polestar-brand"
-      : undefined;
+  const footerTheme = isEducation ? "education" : undefined;
   const year = new Date().getFullYear();
 
   return (
