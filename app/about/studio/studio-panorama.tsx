@@ -28,7 +28,7 @@ export function StudioPanorama() {
         1,
         Math.max(0, (viewport - rect.top) / (viewport + rect.height)),
       );
-      const offset = (progress - 0.5) * 260;
+      const offset = (progress - 0.5) * 400;
       moving.style.transform = `translate3d(0, ${offset}px, 0)`;
     };
     const onScroll = () => {
@@ -52,7 +52,7 @@ export function StudioPanorama() {
     >
       <div
         ref={movingRef}
-        className="absolute -inset-y-40 inset-x-0 will-change-transform motion-reduce:transform-none"
+        className="absolute -inset-y-52 inset-x-0 will-change-transform motion-reduce:transform-none"
       >
         <Image
           src={photos.studioReformerFloor.src}

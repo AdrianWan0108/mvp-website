@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { CalendarDays, UserRound } from "lucide-react";
+import { UserRound } from "lucide-react";
 import { Container } from "../components/container";
 import { CtaButton } from "../components/cta-button";
 import { photos } from "@/app/lib/images";
+import { ProgramReveal } from "./program-reveal";
+import { StoriesReveal } from "./stories-reveal";
 import { TeachingJourneyReveal } from "./teaching-journey-reveal";
 import { TimelineReveal } from "./timeline-reveal";
 
@@ -124,55 +126,68 @@ export default function EducationPage() {
         data-theme="education-light"
         className="bg-brand-50 text-foreground"
       >
-        <div className="grid overflow-hidden lg:grid-cols-2">
-          <div className="flex items-center bg-brand-50 px-6 py-12 sm:px-10 sm:py-14 lg:px-14 lg:py-16 xl:px-20">
-            <div className="max-w-2xl">
-              <h2 className="text-balance font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl xl:text-6xl">
-                Polestar Comprehensive Pilates Teacher Training
-              </h2>
-              <p className="mt-7 text-lg leading-relaxed text-brand-900/80 sm:text-xl">
-                Polestar&rsquo;s comprehensive pathway brings movement
-                principles, assessment, teaching practice, and the full Pilates
-                apparatus together in one 450-hour program, hosted at MVP from
-                September 2026 through July 2027.
-              </p>
-              <div className="mt-9 flex flex-wrap gap-4">
-                <CtaButton
-                  href="/education/polestar-comprehensive-training"
-                  size="lg"
-                >
-                  Explore the Program
-                </CtaButton>
+        <ProgramReveal>
+          <div className="grid overflow-hidden lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)]">
+            <div className="flex items-center bg-brand-50 px-6 py-12 sm:px-10 sm:py-14 lg:px-14 lg:py-14 xl:px-20">
+              <div className="max-w-2xl">
+                <div data-program-copy>
+                  <h2 className="text-balance font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl xl:text-6xl">
+                    Polestar Comprehensive Pilates Teacher Training
+                  </h2>
+                  <p className="mt-7 text-lg leading-relaxed text-brand-900/80 sm:text-xl">
+                    Polestar&rsquo;s comprehensive pathway brings movement
+                    principles, assessment, teaching practice, and the full
+                    Pilates apparatus together in one 450-hour program, hosted
+                    at MVP from September 2026 through July 2027.
+                  </p>
+                </div>
+                <div data-program-cta className="mt-9 flex flex-wrap gap-4">
+                  <CtaButton
+                    href="/education/polestar-comprehensive-training"
+                    size="lg"
+                  >
+                    Explore the Program
+                  </CtaButton>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="relative isolate mx-5 mb-5 flex min-h-[34rem] items-center overflow-hidden px-5 py-10 sm:mx-8 sm:mb-8 sm:px-8 sm:py-14 lg:my-8 lg:ml-0 lg:mr-8 lg:min-h-[36rem] lg:px-10">
-            <Image
-              src={photos.reformer2.src}
-              alt={photos.reformer2.alt}
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="-z-20 object-cover object-center"
-            />
-            <div aria-hidden className="absolute inset-0 -z-10 bg-brand-900/12" />
-            <dl className="mx-auto grid w-full max-w-3xl grid-cols-1 border-l border-t border-brand-200 bg-white/95 shadow-[0_24px_70px_rgba(18,43,35,0.18)] backdrop-blur-[2px] sm:grid-cols-2">
-              {programFacts.map((fact) => (
-                <div
-                  key={fact.label}
-                  className="flex min-h-28 flex-col items-center justify-center border-b border-r border-brand-200 px-5 py-6 text-center transition-colors duration-500 ease-out hover:bg-brand-200 sm:min-h-36 sm:px-7 motion-reduce:transition-none"
-                >
-                  <dt className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-800">
-                    {fact.label}
-                  </dt>
-                  <dd className="mt-3 font-serif text-2xl font-semibold leading-tight text-brand-900 sm:text-3xl">
-                    {fact.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <div
+              data-program-media
+              className="relative isolate mx-5 mb-5 flex min-h-[30rem] items-center overflow-hidden px-5 py-10 sm:mx-8 sm:mb-8 sm:min-h-[32rem] sm:px-8 sm:py-12 lg:my-6 lg:ml-0 lg:mr-8 lg:min-h-[30rem] lg:px-8"
+            >
+              <Image
+                src={photos.reformer2.src}
+                alt={photos.reformer2.alt}
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="-z-20 object-cover object-center"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 -z-10 bg-brand-900/12"
+              />
+              <dl
+                data-program-facts
+                className="mx-auto grid w-full max-w-3xl grid-cols-1 border-l border-t border-brand-200 bg-white/95 shadow-[0_24px_70px_rgba(18,43,35,0.18)] backdrop-blur-[2px] sm:grid-cols-2"
+              >
+                {programFacts.map((fact) => (
+                  <div
+                    key={fact.label}
+                    className="flex min-h-28 flex-col items-center justify-center border-b border-r border-brand-200 px-5 py-6 text-center transition-colors duration-500 ease-out hover:bg-brand-200 sm:min-h-32 sm:px-6 motion-reduce:transition-none"
+                  >
+                    <dt className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-800">
+                      {fact.label}
+                    </dt>
+                    <dd className="mt-3 font-serif text-2xl font-semibold leading-tight text-brand-900 sm:text-3xl">
+                      {fact.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           </div>
-        </div>
+        </ProgramReveal>
       </section>
 
       {/* A full-bleed progression from instructor to educator. */}
@@ -304,70 +319,76 @@ export default function EducationPage() {
         className="bg-brand-100 py-14 text-foreground sm:py-16 lg:py-20"
       >
         <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl">
-              They choose to teach because...
-            </h2>
-          </div>
+          <StoriesReveal>
+            <div
+              data-stories-heading
+              className="mx-auto max-w-3xl text-center"
+            >
+              <h2 className="font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl">
+                They choose to teach because...
+              </h2>
+            </div>
 
-          <div className="mx-auto mt-9 grid max-w-[42rem] gap-9 sm:mt-10 md:grid-cols-2 md:gap-12">
-            {instructorStories.map((instructor) => (
-              <div
-                key={instructor.name}
-                className="mx-auto w-full max-w-[19rem]"
-              >
-                <article
-                  tabIndex={0}
-                  aria-label={`Read why ${instructor.name} chose to teach`}
-                  className="instructor-story-card relative aspect-[3/4] cursor-pointer overflow-hidden rounded-3xl bg-transparent outline-none focus-visible:ring-4 focus-visible:ring-brand-500/45"
+            <div className="mx-auto mt-9 grid max-w-[42rem] gap-9 sm:mt-10 md:grid-cols-2 md:gap-12">
+              {instructorStories.map((instructor) => (
+                <div
+                  key={instructor.name}
+                  data-story-entry
+                  className="mx-auto w-full max-w-[19rem]"
                 >
-                  <Image
-                    src={instructor.photo.src}
-                    alt={instructor.photo.alt}
-                    fill
-                    sizes="19rem"
-                    className="instructor-story-image object-cover"
-                  />
+                  <article
+                    tabIndex={0}
+                    aria-label={`Read why ${instructor.name} chose to teach`}
+                    className="instructor-story-card relative aspect-[3/4] cursor-pointer overflow-hidden rounded-3xl bg-transparent outline-none focus-visible:ring-4 focus-visible:ring-brand-500/45"
+                  >
+                    <Image
+                      src={instructor.photo.src}
+                      alt={instructor.photo.alt}
+                      fill
+                      sizes="19rem"
+                      className="instructor-story-image object-cover"
+                    />
 
-                  <div
-                    aria-hidden
-                    className="instructor-story-overlay absolute inset-0 bg-brand-900/86"
-                  />
+                    <div
+                      aria-hidden
+                      className="instructor-story-overlay absolute inset-0 bg-brand-900/86"
+                    />
 
-                  <div className="absolute inset-0 flex items-center justify-center px-6 py-7 text-center text-white">
-                    <div>
-                      <span
-                        aria-hidden
-                        className="instructor-story-mark block h-9 font-serif text-6xl leading-none text-brand-200"
-                      >
-                        &ldquo;
-                      </span>
-                      <blockquote className="instructor-story-quote mt-2">
-                        <p className="font-sans text-lg font-semibold leading-[1.4] tracking-normal text-white sm:text-xl">
-                          {instructor.quote}
+                    <div className="absolute inset-0 flex items-center justify-center px-6 py-7 text-center text-white">
+                      <div>
+                        <span
+                          aria-hidden
+                          className="instructor-story-mark block h-9 font-serif text-6xl leading-none text-brand-200"
+                        >
+                          &ldquo;
+                        </span>
+                        <blockquote className="instructor-story-quote mt-2">
+                          <p className="font-sans text-lg font-semibold leading-[1.4] tracking-normal text-white sm:text-xl">
+                            {instructor.quote}
+                          </p>
+                        </blockquote>
+                        <p className="instructor-story-description mx-auto mt-4 text-[0.9375rem] leading-[1.6] text-white/90">
+                          {instructor.story}
                         </p>
-                      </blockquote>
-                      <p className="instructor-story-description mx-auto mt-4 text-[0.9375rem] leading-[1.6] text-white/90">
-                        {instructor.story}
-                      </p>
+                      </div>
                     </div>
-                  </div>
-                </article>
+                  </article>
 
-                <div className="mt-4 text-center">
-                  <h3 className="font-serif text-3xl font-semibold leading-none text-brand-900">
-                    {instructor.name}
-                  </h3>
-                  <p className="mt-3 text-lg font-semibold text-brand-900">
-                    {instructor.role}
-                  </p>
-                  <p className="mt-1.5 text-sm font-semibold text-brand-800">
-                    {instructor.status}
-                  </p>
+                  <div className="mt-4 text-center">
+                    <h3 className="font-serif text-3xl font-semibold leading-none text-brand-900">
+                      {instructor.name}
+                    </h3>
+                    <p className="mt-3 text-lg font-semibold text-brand-900">
+                      {instructor.role}
+                    </p>
+                    <p className="mt-1.5 text-sm font-semibold text-brand-800">
+                      {instructor.status}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </StoriesReveal>
         </Container>
       </section>
 
@@ -408,10 +429,7 @@ export default function EducationPage() {
                 data-timeline-copy
                 className="lg:col-start-3 lg:row-start-1 lg:pl-6"
               >
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-700">
-                  October 2025
-                </p>
-                <h3 className="mt-3 font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl">
+                <h3 className="font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl">
                   <span className="text-[#2b4458]">Pole</span>
                   <span className="text-[#feb75a]">star</span> Transition
                   <span className="block">(Bridging) Program</span>
@@ -422,14 +440,11 @@ export default function EducationPage() {
                     className="mt-0.5 size-7 shrink-0 text-brand-700"
                   />
                   <span>
-                    Master Educator
+                    Polestar Vice President &amp; Senior Faculty
                     <strong className="block text-brand-700">Shelly Power</strong>
                   </span>
                 </p>
-                <p className="mt-5 flex items-center gap-3 text-base font-semibold text-brand-800">
-                  <CalendarDays aria-hidden className="size-5 shrink-0" />
-                  Oct 17&ndash;19 &amp; 24&ndash;26, 2025
-                </p>
+                <p className="mt-5 text-base font-semibold text-brand-800">2025</p>
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
                   Canada&rsquo;s first-ever Polestar Transition program, hosted
                   on our own studio floor. Certified teachers from across the
@@ -474,10 +489,7 @@ export default function EducationPage() {
                 data-timeline-copy
                 className="lg:col-start-3 lg:row-start-1 lg:pl-6"
               >
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-700">
-                  September &amp; October 2025
-                </p>
-                <h3 className="mt-3 font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl">
+                <h3 className="font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl">
                   GYROKINESIS&reg; Level 1
                   <span className="block">Pre-Training &amp; Foundation</span>
                 </h3>
@@ -487,10 +499,11 @@ export default function EducationPage() {
                     className="mt-0.5 size-7 shrink-0 text-brand-700"
                   />
                   <span>
-                    Invited educator
+                    Invited GYROKINESIS&reg; Specialized Master Trainer
                     <strong className="block text-brand-700">Jane Gotch</strong>
                   </span>
                 </p>
+                <p className="mt-5 text-base font-semibold text-brand-800">2025</p>
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
                   MVP welcomed international educator Jane Gotch to lead a full
                   GYROKINESIS&reg; teacher-training cohort at the studio. The

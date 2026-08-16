@@ -28,7 +28,7 @@ export default function TeamPage() {
 
       <section className="border-b border-border bg-brand-100/65">
         <div className="grid lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-          <div className="relative min-h-[28rem] sm:min-h-[36rem] lg:min-h-[42rem]">
+          <div className="relative mx-5 mt-5 min-h-[28rem] sm:mx-8 sm:mt-8 sm:min-h-[36rem] lg:my-8 lg:ml-8 lg:mr-0 lg:min-h-[42rem]">
             <Image
               src={photos.teamPolestar.src}
               alt={photos.teamPolestar.alt}

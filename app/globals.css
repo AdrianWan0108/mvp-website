@@ -1,20 +1,23 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Motion Vitality Pilates — Theme system
+   Motion Vitality Pilates — active theme system
    ------------------------------------------------------------
-   Four switchable brand palettes (sampled from the studio logo)
-   + one auto-applied dark theme for the Polestar section.
+   ACTIVE THEMES
+   1. Verdant: the site-wide MVP default.
+   2. Education / Education Light: the Teacher Training routes.
+   3. Polestar Brand / Polestar Brand Light: official Polestar
+      slate-and-amber surfaces.
 
-   Each theme is a block of semantic CSS variables. The
-   `@theme inline` block below maps them onto Tailwind v4 color
-   tokens (var() references, not copies) so utility classes like
-   `bg-primary` / `text-foreground` re-render the moment the
-   active `data-theme` changes. Components must use these tokens
-   — never hardcoded hex.
+   Each theme defines semantic CSS variables. The `@theme inline`
+   block below maps them to Tailwind utilities such as
+   `bg-primary`, `text-foreground`, and `border-border`.
+
+   Inactive palette experiments are preserved in a commented
+   archive at the very bottom of this file.
    ============================================================ */
 
-/* ---------- DEFAULT — verdant (medium green) ---------- */
+/* ---------- ACTIVE 1 — MVP DEFAULT / VERDANT ---------- */
 :root,
 [data-theme="verdant"] {
   color-scheme: light;
@@ -47,307 +50,7 @@
   --ring: var(--brand-500);
 }
 
-/* ---------- VERDANT-DESIGNER — designer-anchored variant ----------
-   Same #6ec196 hero green on --brand-500, but the ramp is re-anchored to the
-   designer's forest green (#125b43) at --brand-900. Compared to the default
-   verdant it uses pure black body text, a neutral grey subtext, and a solid
-   #6ec196 accent. Provided for side-by-side comparison in the top-left switcher.
-   NOTE: --accent-foreground is white on the light --brand-500 accent, which is
-   below AA contrast — flagged for review if this variant is chosen. */
-[data-theme="verdant-designer"] {
-  color-scheme: light;
-
-  --brand-50: #f4faf7;
-  --brand-100: #e2f4ea;
-  --brand-200: #c2e9d4;
-  --brand-300: #9edabe;
-  --brand-400: #81d2aa;
-  --brand-500: #6ec196; /* designer hero green */
-  --brand-600: #54a57c;
-  --brand-700: #398361;
-  --brand-800: #216e53;
-  --brand-900: #125b43; /* designer forest green */
-
-  --background: var(--brand-50);
-  --foreground: #000000; /* designer black — crisp body text */
-  --card: #ffffff;
-  --card-foreground: var(--brand-900);
-  --primary: var(--brand-500);
-  --primary-foreground: var(--brand-900); /* forest green on light green */
-  --secondary: var(--brand-100);
-  --secondary-foreground: var(--brand-900);
-  --muted: var(--brand-50);
-  --muted-foreground: #555555; /* neutral subtext */
-  --accent: var(--brand-500);
-  --accent-foreground: #ffffff;
-  --border: var(--brand-200);
-  --input: var(--brand-200);
-  --ring: var(--brand-500);
-}
-
-/* ---------- FOREST — dark green / teal ---------- */
-[data-theme="forest"] {
-  color-scheme: light;
-
-  --brand-50: #f0f5f4;
-  --brand-100: #dbe7e3;
-  --brand-200: #b2cbc3;
-  --brand-300: #81ab9e;
-  --brand-400: #478471;
-  --brand-500: #0d5d44;
-  --brand-600: #0e523d;
-  --brand-700: #0f4635;
-  --brand-800: #10382c;
-  --brand-900: #122b23;
-
-  --background: var(--brand-50);
-  --foreground: var(--brand-900);
-  --card: #ffffff;
-  --card-foreground: var(--brand-900);
-  --primary: var(--brand-500);
-  --primary-foreground: #ffffff; /* 500 is dark enough for white text */
-  --secondary: var(--brand-200);
-  --secondary-foreground: var(--brand-900);
-  --muted: var(--brand-100);
-  --muted-foreground: var(--brand-800);
-  --accent: var(--brand-400);
-  --accent-foreground: #ffffff;
-  --border: var(--brand-200);
-  --input: var(--brand-200);
-  --ring: var(--brand-500);
-}
-
-/* ---------- SAGE — gray-green ---------- */
-[data-theme="sage"] {
-  color-scheme: light;
-
-  --brand-50: #f9fbf9;
-  --brand-100: #f0f4f1;
-  --brand-200: #dfe7e1;
-  --brand-300: #ccd9cf;
-  --brand-400: #b4c7b8;
-  --brand-500: #9cb5a2;
-  --brand-600: #889d8d;
-  --brand-700: #708175;
-  --brand-800: #58645b;
-  --brand-900: #404841;
-
-  --background: var(--brand-50);
-  --foreground: var(--brand-900);
-  --card: #ffffff;
-  --card-foreground: var(--brand-900);
-  --primary: var(--brand-500);
-  --primary-foreground: #2f3430; /* 500 fails AA with white text */
-  --secondary: var(--brand-200);
-  --secondary-foreground: var(--brand-900);
-  --muted: var(--brand-100);
-  --muted-foreground: var(--brand-800);
-  --accent: var(--brand-400);
-  --accent-foreground: var(--brand-900);
-  --border: var(--brand-200);
-  --input: var(--brand-200);
-  --ring: var(--brand-500);
-}
-
-/* ---------- MINT — light teal ---------- */
-[data-theme="mint"] {
-  color-scheme: light;
-
-  --brand-50: #f9fcfb;
-  --brand-100: #eff8f6;
-  --brand-200: #ddf0eb;
-  --brand-300: #c7e7de;
-  --brand-400: #aedbcf;
-  --brand-500: #94d0c0;
-  --brand-600: #81b4a6;
-  --brand-700: #6b9489;
-  --brand-800: #54726a;
-  --brand-900: #3d504b;
-
-  --background: var(--brand-50);
-  --foreground: var(--brand-900);
-  --card: #ffffff;
-  --card-foreground: var(--brand-900);
-  --primary: var(--brand-500);
-  --primary-foreground: #3a4c48; /* 500 fails AA with white text */
-  --secondary: var(--brand-200);
-  --secondary-foreground: var(--brand-900);
-  --muted: var(--brand-100);
-  --muted-foreground: var(--brand-800);
-  --accent: var(--brand-400);
-  --accent-foreground: var(--brand-900);
-  --border: var(--brand-200);
-  --input: var(--brand-200);
-  --ring: var(--brand-500);
-}
-
-/* ---------- BLUSH — dusty rose (warm pink) ----------
-   Dominant Dusty Rose lands on --brand-500 (light pages); Warm Ink on
-   --brand-900 (Polestar-dark derives its base from it). */
-[data-theme="blush"] {
-  color-scheme: light;
-
-  --brand-50: #faf6f5;  /* Warm White */
-  --brand-100: #f2e4e6; /* Petal */
-  --brand-200: #e2b5bc; /* Muted Blush */
-  --brand-300: #d4a1a9;
-  --brand-400: #c68d96;
-  --brand-500: #b87a84; /* Dusty Rose — dominant */
-  --brand-600: #95646c;
-  --brand-700: #724e54;
-  --brand-800: #493338;
-  --brand-900: #1a1518; /* Warm Ink */
-
-  --background: var(--brand-50);
-  --foreground: var(--brand-900);
-  --card: #ffffff;
-  --card-foreground: var(--brand-900);
-  --primary: var(--brand-500);
-  --primary-foreground: #1a1518; /* 500 fails AA with white text */
-  --secondary: var(--brand-200);
-  --secondary-foreground: var(--brand-900);
-  --muted: var(--brand-100);
-  --muted-foreground: var(--brand-800);
-  --accent: var(--brand-400);
-  --accent-foreground: var(--brand-900);
-  --border: var(--brand-200);
-  --input: var(--brand-200);
-  --ring: var(--brand-500);
-}
-
-/* ---------- AMBER — warm gold / honey ----------
-   Dominant Amber on --brand-500 (light pages); Obsidian on --brand-900. */
-[data-theme="amber"] {
-  color-scheme: light;
-
-  --brand-50: #f7f4ef;  /* Warm White */
-  --brand-100: #ede2ce; /* Parchment */
-  --brand-200: #e0cd9f;
-  --brand-300: #d4b870; /* Gold Sand */
-  --brand-400: #cea14d;
-  --brand-500: #c88b2a; /* Amber — dominant */
-  --brand-600: #a07026;
-  --brand-700: #765422;
-  --brand-800: #44331d;
-  --brand-900: #111118; /* Obsidian */
-
-  --background: var(--brand-50);
-  --foreground: var(--brand-900);
-  --card: #ffffff;
-  --card-foreground: var(--brand-900);
-  --primary: var(--brand-500);
-  --primary-foreground: #111118; /* 500 fails AA with white text */
-  --secondary: var(--brand-200);
-  --secondary-foreground: var(--brand-900);
-  --muted: var(--brand-100);
-  --muted-foreground: var(--brand-800);
-  --accent: var(--brand-400);
-  --accent-foreground: var(--brand-900);
-  --border: var(--brand-200);
-  --input: var(--brand-200);
-  --ring: var(--brand-500);
-}
-
-/* ---------- TERRACOTTA — warm clay over cool slate ----------
-   Dominant Terracotta on --brand-500 (light pages); Deep Slate on
-   --brand-900, with Slate sitting at --brand-700 so the dark Polestar
-   base reads as deep slate. The ramp turns from warm (50–600) to cool
-   (700–900) — intentional, mirroring the client's two-tone palette. */
-[data-theme="terracotta"] {
-  color-scheme: light;
-
-  --brand-50: #f7f3ed;  /* Ivory */
-  --brand-100: #ede6d8; /* Bone */
-  --brand-200: #e0c4af;
-  --brand-300: #d3a387;
-  --brand-400: #c5815e;
-  --brand-500: #b85f35; /* Terracotta — dominant */
-  --brand-600: #8a5a3f;
-  --brand-700: #4a6f7c; /* Slate */
-  --brand-800: #324e5a;
-  --brand-900: #1d2b34; /* Deep Slate */
-
-  --background: var(--brand-50);
-  --foreground: var(--brand-900);
-  --card: #ffffff;
-  --card-foreground: var(--brand-900);
-  --primary: var(--brand-500);
-  --primary-foreground: #ffffff; /* mid-tone 500: white is the closer-to-AA option */
-  --secondary: var(--brand-200);
-  --secondary-foreground: var(--brand-900);
-  --muted: var(--brand-100);
-  --muted-foreground: var(--brand-800);
-  --accent: var(--brand-400);
-  --accent-foreground: var(--brand-900);
-  --border: var(--brand-200);
-  --input: var(--brand-200);
-  --ring: var(--brand-500);
-}
-
-/* ---------- POLESTAR DARK — auto-applied on /polestar ----------
-   A palette-DERIVED dark theme: the dark surfaces are built from the
-   selected palette's own --brand-* ramp, deepened toward black just
-   enough to stay genuinely dark. So Mint reads as dark teal, Verdant as
-   dark green, Sage as dark grey-green, Forest as deep forest — each
-   recognizably itself instead of one fixed slate for every palette.
-   Crucially it does NOT redefine the --brand-* ramp, so it tracks the
-   palette active on <html>. Not in the switcher. */
-[data-theme="polestar-dark"] {
-  color-scheme: dark;
-
-  /* Palette-derived, dark-dominant. Elevation steps UP through the ramp:
-     background (deepest) → card → secondary, all in the selected hue. */
-  --background: color-mix(in oklab, var(--brand-900) 78%, #000);
-  --foreground: var(--brand-50);
-  --card: var(--brand-900);
-  --card-foreground: var(--brand-50);
-  --secondary: var(--brand-800);
-  --secondary-foreground: var(--brand-50);
-  --muted: var(--brand-900);
-  --muted-foreground: var(--brand-200);
-  --border: color-mix(in oklab, var(--brand-50) 14%, transparent);
-  --input: color-mix(in oklab, var(--brand-50) 14%, transparent);
-
-  /* Bright accents carry the palette identity on the dark base. */
-  --primary: var(--brand-300);
-  --primary-foreground: var(--background);
-  --accent: var(--brand-400);
-  --accent-foreground: var(--background);
-  --ring: var(--brand-300);
-}
-
-/* ---------- POLESTAR LIGHT — white "breather" sections ----------
-   Opt-in per-section override used inside the dark Polestar pages to
-   introduce light relief (the client wants range, not wall-to-wall dark).
-   Drop data-theme="polestar-light" on a <section> and the cascade re-resolves
-   every token to white-mode for that subtree only. Like polestar-dark it does
-   NOT redefine the --brand-* ramp, so it stays palette-adaptive; the accent
-   uses a dark brand step (700/800) so white text and eyebrows stay AA-safe
-   across all four palettes. NOTE: a light section must also set the
-   `text-foreground` utility on the <section>, since the dark wrapper's
-   inherited (computed) light text color would otherwise wash out on white. */
-[data-theme="polestar-light"] {
-  color-scheme: light;
-
-  --background: #ffffff;
-  --foreground: var(--brand-900); /* palette-tracked dark text on white */
-  --card: #ffffff;
-  --card-foreground: var(--brand-900);
-  --secondary: var(--brand-100);
-  --secondary-foreground: var(--brand-900);
-  --muted: var(--brand-50);
-  --muted-foreground: var(--brand-800); /* proven readable in the light palettes */
-  --border: var(--brand-200);
-  --input: var(--brand-200);
-
-  --primary: var(--brand-700); /* eyebrow / accent text on white */
-  --primary-foreground: #ffffff;
-  --accent: var(--brand-700);
-  --accent-foreground: #ffffff;
-  --ring: var(--brand-700);
-}
-
-/* ---------- EDUCATION — neutral ink, auto-applied on /education ----------
+/* ---------- ACTIVE 2A — EDUCATION DARK ----------
    Editorial/institutional treatment for MVP's second business direction:
    ~60% near-black NEUTRAL surfaces (#111111 ink — deliberately not the
    verdant-tinted brand-900 and not pure #000), ~30% white relief via
@@ -377,8 +80,8 @@
   --ring: var(--brand-500);
 }
 
-/* ---------- EDUCATION LIGHT — white breather sections ----------
-   Mirrors polestar-light but stays neutral-ink and steps accent text to
+/* ---------- ACTIVE 2B — EDUCATION LIGHT ----------
+   Light counterpart to Education Dark; steps accent text to
    brand-800 (#416a55, ~6.1:1 on white) because brand-700 only clears AA
    for large text. Same caveat as polestar-light: a light section must
    also set the `text-foreground` utility. */
@@ -403,7 +106,7 @@
   --ring: var(--brand-800);
 }
 
-/* ---------- POLESTAR BRAND — official Polestar Pilates colors ----------
+/* ---------- ACTIVE 3A — POLESTAR BRAND DARK ----------
    Used on /about/polestar (and the homepage Polestar band) because that
    page represents Polestar's identity, not MVP's. A FIXED palette (not
    --brand-derived): dark slate #2b4458 surfaces (white text ~10:1) with
@@ -430,7 +133,7 @@
   --ring: #feb75a;
 }
 
-/* ---------- POLESTAR BRAND LIGHT — white breathers on /about/polestar ----
+/* ---------- ACTIVE 3B — POLESTAR BRAND LIGHT ----------
    Slate text/accents on white (~10:1); amber on white is ~1.6:1, so it is
    fill/decoration only — accent TEXT on white must be slate. Same
    `text-foreground` caveat as the other light overrides. */
@@ -455,11 +158,10 @@
   --ring: #2b4458;
 }
 
-/* Palette-adaptive decorative layers for the dark Polestar surfaces.
+/* Decorative layers shared by the active dark branded surfaces.
    Glow color comes from color-mix() with the (adaptive) accent vars, so
    they follow the selected palette. Pure decoration — safe to ignore if
    color-mix is unsupported. */
-[data-theme="polestar-dark"] .polestar-scrim,
 [data-theme="polestar-brand"] .polestar-scrim,
 [data-theme="education"] .polestar-scrim {
   background:
@@ -476,7 +178,6 @@
     );
 }
 
-[data-theme="polestar-dark"] .polestar-aurora,
 [data-theme="polestar-brand"] .polestar-aurora,
 [data-theme="education"] .polestar-aurora {
   background:
@@ -822,3 +523,311 @@ h4 {
     transform: none !important;
   }
 }
+
+/* ============================================================
+   INACTIVE PALETTE ARCHIVE — NOT EMITTED AS CSS
+   ------------------------------------------------------------
+   These selectors have no runtime consumers. They are retained
+   here as design history and can be restored deliberately if a
+   future route or theme control needs them.
+
+[ ---------- VERDANT-DESIGNER — designer-anchored variant ----------
+   Same #6ec196 hero green on --brand-500, but the ramp is re-anchored to the
+   designer's forest green (#125b43) at --brand-900. Compared to the default
+   verdant it uses pure black body text, a neutral grey subtext, and a solid
+   #6ec196 accent. Provided for side-by-side comparison in the top-left switcher.
+   NOTE: --accent-foreground is white on the light --brand-500 accent, which is
+   below AA contrast — flagged for review if this variant is chosen. ]
+[data-theme="verdant-designer"] {
+  color-scheme: light;
+
+  --brand-50: #f4faf7;
+  --brand-100: #e2f4ea;
+  --brand-200: #c2e9d4;
+  --brand-300: #9edabe;
+  --brand-400: #81d2aa;
+  --brand-500: #6ec196; [ designer hero green ]
+  --brand-600: #54a57c;
+  --brand-700: #398361;
+  --brand-800: #216e53;
+  --brand-900: #125b43; [ designer forest green ]
+
+  --background: var(--brand-50);
+  --foreground: #000000; [ designer black — crisp body text ]
+  --card: #ffffff;
+  --card-foreground: var(--brand-900);
+  --primary: var(--brand-500);
+  --primary-foreground: var(--brand-900); [ forest green on light green ]
+  --secondary: var(--brand-100);
+  --secondary-foreground: var(--brand-900);
+  --muted: var(--brand-50);
+  --muted-foreground: #555555; [ neutral subtext ]
+  --accent: var(--brand-500);
+  --accent-foreground: #ffffff;
+  --border: var(--brand-200);
+  --input: var(--brand-200);
+  --ring: var(--brand-500);
+}
+
+[ ---------- FOREST — dark green / teal ---------- ]
+[data-theme="forest"] {
+  color-scheme: light;
+
+  --brand-50: #f0f5f4;
+  --brand-100: #dbe7e3;
+  --brand-200: #b2cbc3;
+  --brand-300: #81ab9e;
+  --brand-400: #478471;
+  --brand-500: #0d5d44;
+  --brand-600: #0e523d;
+  --brand-700: #0f4635;
+  --brand-800: #10382c;
+  --brand-900: #122b23;
+
+  --background: var(--brand-50);
+  --foreground: var(--brand-900);
+  --card: #ffffff;
+  --card-foreground: var(--brand-900);
+  --primary: var(--brand-500);
+  --primary-foreground: #ffffff; [ 500 is dark enough for white text ]
+  --secondary: var(--brand-200);
+  --secondary-foreground: var(--brand-900);
+  --muted: var(--brand-100);
+  --muted-foreground: var(--brand-800);
+  --accent: var(--brand-400);
+  --accent-foreground: #ffffff;
+  --border: var(--brand-200);
+  --input: var(--brand-200);
+  --ring: var(--brand-500);
+}
+
+[ ---------- SAGE — gray-green ---------- ]
+[data-theme="sage"] {
+  color-scheme: light;
+
+  --brand-50: #f9fbf9;
+  --brand-100: #f0f4f1;
+  --brand-200: #dfe7e1;
+  --brand-300: #ccd9cf;
+  --brand-400: #b4c7b8;
+  --brand-500: #9cb5a2;
+  --brand-600: #889d8d;
+  --brand-700: #708175;
+  --brand-800: #58645b;
+  --brand-900: #404841;
+
+  --background: var(--brand-50);
+  --foreground: var(--brand-900);
+  --card: #ffffff;
+  --card-foreground: var(--brand-900);
+  --primary: var(--brand-500);
+  --primary-foreground: #2f3430; [ 500 fails AA with white text ]
+  --secondary: var(--brand-200);
+  --secondary-foreground: var(--brand-900);
+  --muted: var(--brand-100);
+  --muted-foreground: var(--brand-800);
+  --accent: var(--brand-400);
+  --accent-foreground: var(--brand-900);
+  --border: var(--brand-200);
+  --input: var(--brand-200);
+  --ring: var(--brand-500);
+}
+
+[ ---------- MINT — light teal ---------- ]
+[data-theme="mint"] {
+  color-scheme: light;
+
+  --brand-50: #f9fcfb;
+  --brand-100: #eff8f6;
+  --brand-200: #ddf0eb;
+  --brand-300: #c7e7de;
+  --brand-400: #aedbcf;
+  --brand-500: #94d0c0;
+  --brand-600: #81b4a6;
+  --brand-700: #6b9489;
+  --brand-800: #54726a;
+  --brand-900: #3d504b;
+
+  --background: var(--brand-50);
+  --foreground: var(--brand-900);
+  --card: #ffffff;
+  --card-foreground: var(--brand-900);
+  --primary: var(--brand-500);
+  --primary-foreground: #3a4c48; [ 500 fails AA with white text ]
+  --secondary: var(--brand-200);
+  --secondary-foreground: var(--brand-900);
+  --muted: var(--brand-100);
+  --muted-foreground: var(--brand-800);
+  --accent: var(--brand-400);
+  --accent-foreground: var(--brand-900);
+  --border: var(--brand-200);
+  --input: var(--brand-200);
+  --ring: var(--brand-500);
+}
+
+[ ---------- BLUSH — dusty rose (warm pink) ----------
+   Dominant Dusty Rose lands on --brand-500 (light pages); Warm Ink on
+   --brand-900 (Polestar-dark derives its base from it). ]
+[data-theme="blush"] {
+  color-scheme: light;
+
+  --brand-50: #faf6f5;  [ Warm White ]
+  --brand-100: #f2e4e6; [ Petal ]
+  --brand-200: #e2b5bc; [ Muted Blush ]
+  --brand-300: #d4a1a9;
+  --brand-400: #c68d96;
+  --brand-500: #b87a84; [ Dusty Rose — dominant ]
+  --brand-600: #95646c;
+  --brand-700: #724e54;
+  --brand-800: #493338;
+  --brand-900: #1a1518; [ Warm Ink ]
+
+  --background: var(--brand-50);
+  --foreground: var(--brand-900);
+  --card: #ffffff;
+  --card-foreground: var(--brand-900);
+  --primary: var(--brand-500);
+  --primary-foreground: #1a1518; [ 500 fails AA with white text ]
+  --secondary: var(--brand-200);
+  --secondary-foreground: var(--brand-900);
+  --muted: var(--brand-100);
+  --muted-foreground: var(--brand-800);
+  --accent: var(--brand-400);
+  --accent-foreground: var(--brand-900);
+  --border: var(--brand-200);
+  --input: var(--brand-200);
+  --ring: var(--brand-500);
+}
+
+[ ---------- AMBER — warm gold / honey ----------
+   Dominant Amber on --brand-500 (light pages); Obsidian on --brand-900. ]
+[data-theme="amber"] {
+  color-scheme: light;
+
+  --brand-50: #f7f4ef;  [ Warm White ]
+  --brand-100: #ede2ce; [ Parchment ]
+  --brand-200: #e0cd9f;
+  --brand-300: #d4b870; [ Gold Sand ]
+  --brand-400: #cea14d;
+  --brand-500: #c88b2a; [ Amber — dominant ]
+  --brand-600: #a07026;
+  --brand-700: #765422;
+  --brand-800: #44331d;
+  --brand-900: #111118; [ Obsidian ]
+
+  --background: var(--brand-50);
+  --foreground: var(--brand-900);
+  --card: #ffffff;
+  --card-foreground: var(--brand-900);
+  --primary: var(--brand-500);
+  --primary-foreground: #111118; [ 500 fails AA with white text ]
+  --secondary: var(--brand-200);
+  --secondary-foreground: var(--brand-900);
+  --muted: var(--brand-100);
+  --muted-foreground: var(--brand-800);
+  --accent: var(--brand-400);
+  --accent-foreground: var(--brand-900);
+  --border: var(--brand-200);
+  --input: var(--brand-200);
+  --ring: var(--brand-500);
+}
+
+[ ---------- TERRACOTTA — warm clay over cool slate ----------
+   Dominant Terracotta on --brand-500 (light pages); Deep Slate on
+   --brand-900, with Slate sitting at --brand-700 so the dark Polestar
+   base reads as deep slate. The ramp turns from warm (50–600) to cool
+   (700–900) — intentional, mirroring the client's two-tone palette. ]
+[data-theme="terracotta"] {
+  color-scheme: light;
+
+  --brand-50: #f7f3ed;  [ Ivory ]
+  --brand-100: #ede6d8; [ Bone ]
+  --brand-200: #e0c4af;
+  --brand-300: #d3a387;
+  --brand-400: #c5815e;
+  --brand-500: #b85f35; [ Terracotta — dominant ]
+  --brand-600: #8a5a3f;
+  --brand-700: #4a6f7c; [ Slate ]
+  --brand-800: #324e5a;
+  --brand-900: #1d2b34; [ Deep Slate ]
+
+  --background: var(--brand-50);
+  --foreground: var(--brand-900);
+  --card: #ffffff;
+  --card-foreground: var(--brand-900);
+  --primary: var(--brand-500);
+  --primary-foreground: #ffffff; [ mid-tone 500: white is the closer-to-AA option ]
+  --secondary: var(--brand-200);
+  --secondary-foreground: var(--brand-900);
+  --muted: var(--brand-100);
+  --muted-foreground: var(--brand-800);
+  --accent: var(--brand-400);
+  --accent-foreground: var(--brand-900);
+  --border: var(--brand-200);
+  --input: var(--brand-200);
+  --ring: var(--brand-500);
+}
+
+[ ---------- POLESTAR DARK — auto-applied on /polestar ----------
+   A palette-DERIVED dark theme: the dark surfaces are built from the
+   selected palette's own --brand-* ramp, deepened toward black just
+   enough to stay genuinely dark. So Mint reads as dark teal, Verdant as
+   dark green, Sage as dark grey-green, Forest as deep forest — each
+   recognizably itself instead of one fixed slate for every palette.
+   Crucially it does NOT redefine the --brand-* ramp, so it tracks the
+   palette active on <html>. Not in the switcher. ]
+[data-theme="polestar-dark"] {
+  color-scheme: dark;
+
+  [ Palette-derived, dark-dominant. Elevation steps UP through the ramp:
+     background (deepest) → card → secondary, all in the selected hue. ]
+  --background: color-mix(in oklab, var(--brand-900) 78%, #000);
+  --foreground: var(--brand-50);
+  --card: var(--brand-900);
+  --card-foreground: var(--brand-50);
+  --secondary: var(--brand-800);
+  --secondary-foreground: var(--brand-50);
+  --muted: var(--brand-900);
+  --muted-foreground: var(--brand-200);
+  --border: color-mix(in oklab, var(--brand-50) 14%, transparent);
+  --input: color-mix(in oklab, var(--brand-50) 14%, transparent);
+
+  [ Bright accents carry the palette identity on the dark base. ]
+  --primary: var(--brand-300);
+  --primary-foreground: var(--background);
+  --accent: var(--brand-400);
+  --accent-foreground: var(--background);
+  --ring: var(--brand-300);
+}
+
+[ ---------- POLESTAR LIGHT — white "breather" sections ----------
+   Opt-in per-section override used inside the dark Polestar pages to
+   introduce light relief (the client wants range, not wall-to-wall dark).
+   Drop data-theme="polestar-light" on a <section> and the cascade re-resolves
+   every token to white-mode for that subtree only. Like polestar-dark it does
+   NOT redefine the --brand-* ramp, so it stays palette-adaptive; the accent
+   uses a dark brand step (700/800) so white text and eyebrows stay AA-safe
+   across all four palettes. NOTE: a light section must also set the
+   `text-foreground` utility on the <section>, since the dark wrapper's
+   inherited (computed) light text color would otherwise wash out on white. ]
+[data-theme="polestar-light"] {
+  color-scheme: light;
+
+  --background: #ffffff;
+  --foreground: var(--brand-900); [ palette-tracked dark text on white ]
+  --card: #ffffff;
+  --card-foreground: var(--brand-900);
+  --secondary: var(--brand-100);
+  --secondary-foreground: var(--brand-900);
+  --muted: var(--brand-50);
+  --muted-foreground: var(--brand-800); [ proven readable in the light palettes ]
+  --border: var(--brand-200);
+  --input: var(--brand-200);
+
+  --primary: var(--brand-700); [ eyebrow / accent text on white ]
+  --primary-foreground: #ffffff;
+  --accent: var(--brand-700);
+  --accent-foreground: #ffffff;
+  --ring: var(--brand-700);
+}
+   ============================================================ */
