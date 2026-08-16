@@ -56,10 +56,10 @@ export const mainNav: NavItem[] = [
   { label: "Pricing", href: "/pricing" },
   { label: "Schedule", href: "/schedule" },
   {
-    label: "Education",
+    label: "Teacher Training",
     href: "/education",
     children: [
-      { label: "Overview", href: "/education" },
+      { label: "Why Train at MVP", href: "/education" },
       {
         label: "Polestar Comprehensive Pilates Teacher Training",
         href: "/education/polestar-comprehensive-training",
@@ -85,7 +85,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     heading: "Explore",
     items: [
       { label: "Studio", href: "/classes" },
-      { label: "Education", href: "/education" },
+      { label: "Teacher Training", href: "/education" },
       {
         label: "Polestar Comprehensive Pilates Teacher Training",
         href: "/education/polestar-comprehensive-training",

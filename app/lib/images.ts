@@ -162,6 +162,18 @@ export const photos = {
     src: `${opt}/equipment/barrel-1.webp`,
     alt: "Pilates ladder barrel used for spinal extension and stretching.",
   },
+  polestarLogo: {
+    src: `${base}/polestar-logo/POLESTAR_TM_-_Default_Logo.png`,
+    alt: "Polestar Pilates logo.",
+  },
+  gyrotonicOfficialLogo: {
+    src: `${opt}/equipment/gyrotonic-logo-transparent.png`,
+    alt: "Official GYROTONIC logo.",
+  },
+  gyrokinesisWordmark: {
+    src: `${opt}/equipment/gyrokinesis-wordmark.webp`,
+    alt: "GYROKINESIS registered wordmark on MVP equipment.",
+  },
 
   // --- People ---
   team: {
@@ -221,6 +233,10 @@ export const photos = {
   garyPose: {
     src: `${opt}/pilates-pose/Gary/gary-pose-1.webp`,
     alt: "Instructor demonstrating a controlled Pilates movement, showing strength and alignment.",
+  },
+  garyMoveUpLadderCutout: {
+    src: `${opt}/pilates-pose/gary-move-up-ladder-cutout.png`,
+    alt: "Gary Fok reaching upward in a long split stance, representing his journey from instructor to educator.",
   },
   dorothyPose: {
     src: `${opt}/pilates-pose/Dorothy/dorothy-pose-1.webp`,

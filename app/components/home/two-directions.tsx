@@ -6,9 +6,9 @@ import { photos } from "@/app/lib/images";
 
 /**
  * The two-directions split — the structural heart of the homepage. MVP runs
- * two parallel businesses: the Studio (classes and sessions) and Education
- * (instructor training). Each panel carries its section's color treatment:
- * the Studio panel stays in the site's Verdant palette, the Education panel
+ * two parallel businesses: the Studio (classes and sessions) and Teacher
+ * Training. Each panel carries its section's color treatment: the Studio
+ * panel stays in the site's Verdant palette, the training panel
  * previews the neutral-ink education theme via data-theme.
  */
 const directions = [
@@ -21,9 +21,9 @@ const directions = [
     theme: undefined,
   },
   {
-    title: "Education",
-    body: "Become an instructor. MVP is the Markham / Toronto host site for Polestar Pilates programs, including Canada's first Comprehensive Teacher Training.",
-    cta: "Become an Instructor",
+    title: "Teacher Training",
+    body: "Become a Pilates instructor. MVP is the Markham / Toronto host site for Polestar Pilates programs, including the 2026 Comprehensive Teacher Training.",
+    cta: "Explore Teacher Training",
     href: "/education",
     photo: photos.polestarCohort,
     theme: "education",

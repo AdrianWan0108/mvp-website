@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Education",
+  title: "Teacher Training",
   description:
-    "Movement education at Motion Vitality Pilates — MVP is the Markham/Toronto host site for Polestar Pilates programs, including the Comprehensive Teacher Training.",
+    "Pilates teacher training at Motion Vitality Pilates, the Markham/Toronto host site for Polestar Pilates programs.",
 };
 
 /**
