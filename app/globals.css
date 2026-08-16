@@ -224,21 +224,21 @@ h4 {
   outline-offset: 2px;
 }
 
-/* Site navbar: a restrained active/hover indicator that works across the
-   light, Verdant, Education, and Polestar header color modes. */
+/* Editorial navbar indicator: the line grows from the leading edge, while the
+   tiny terminal dot gives the active state a more distinctive cadence. */
 .site-nav-link::after {
   position: absolute;
-  right: 0.75rem;
-  bottom: 0.2rem;
-  left: 0.75rem;
+  right: 0.8rem;
+  bottom: 0.3rem;
+  left: 0.8rem;
   height: 2px;
   border-radius: 9999px;
   background: currentColor;
   content: "";
-  opacity: 0.72;
+  opacity: 0.78;
   transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 180ms ease-out;
+  transform-origin: left;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .site-nav-link:hover::after,
@@ -247,9 +247,28 @@ h4 {
   transform: scaleX(1);
 }
 
+@keyframes mobile-nav-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-0.65rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-nav-enter {
+  animation: mobile-nav-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-nav-link::after {
     transition: none;
+  }
+
+  .mobile-nav-enter {
+    animation: none;
   }
 }
 

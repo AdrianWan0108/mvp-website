@@ -12,7 +12,7 @@ const variantClasses: Record<Variant, string> = {
   secondary: "bg-secondary text-secondary-foreground hover:bg-brand-300",
   outline: "border border-border text-foreground hover:bg-muted",
   // Solid white pill for use on a coloured/dark bar (e.g. the brand-colour navbar).
-  inverse: "bg-white text-foreground hover:bg-white/90",
+  inverse: "bg-white text-[#111412] hover:bg-white/90",
 };
 
 const sizeClasses: Record<Size, string> = {

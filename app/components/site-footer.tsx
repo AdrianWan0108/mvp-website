@@ -1,9 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Container } from "./container";
 import { footerNav, site } from "@/app/lib/site";
+import { brandLogos } from "@/app/lib/images";
 import { cn } from "@/app/lib/cn";
 
 export function SiteFooter() {
@@ -25,7 +27,23 @@ export function SiteFooter() {
     >
       <Container className="grid gap-10 py-14 md:grid-cols-[1.5fr_repeat(3,1fr)]">
         <div>
-          <p className="font-serif text-lg font-semibold">{site.name}</p>
+          <Link
+            href="/"
+            aria-label={`${site.name} — home`}
+            className="inline-flex rounded-sm focus-visible:outline-offset-4"
+          >
+            <Image
+              src={
+                isEducation
+                  ? brandLogos.primary.white
+                  : brandLogos.primary.verdant
+              }
+              alt={site.name}
+              width={220}
+              height={100}
+              className="h-16 w-auto object-contain"
+            />
+          </Link>
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">
             A Polestar-certified Pilates &amp; GYROTONIC&reg; studio in Markham,
             Ontario — movement for strength, mobility, and recovery.

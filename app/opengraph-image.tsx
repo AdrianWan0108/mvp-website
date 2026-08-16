@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 export const dynamic = "force-static";
 
@@ -7,7 +9,16 @@ export const alt =
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+  const logoData = await readFile(
+    join(
+      process.cwd(),
+      "public/assets/photos/mvp-logo/mvp-primary-lockup-white.png",
+    ),
+    "base64",
+  );
+  const logoSrc = `data:image/png;base64,${logoData}`;
+
   return new ImageResponse(
     (
       <div
@@ -15,30 +26,75 @@ export default function OpengraphImage() {
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          flexDirection: "row",
+          alignItems: "stretch",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #0d5d44 0%, #0c1f19 100%)",
+          background: "linear-gradient(135deg, #315344 0%, #15241f 100%)",
           color: "#ffffff",
           fontFamily: "serif",
-          padding: "80px",
-          textAlign: "center",
+          padding: "72px 84px",
         }}
       >
-        <div style={{ fontSize: 72, fontWeight: 700, letterSpacing: -1 }}>
-          Motion Vitality Pilates
+        <div
+          style={{
+            width: "43%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            paddingRight: 64,
+            borderRight: "1px solid rgba(255,255,255,0.25)",
+          }}
+        >
+          {/* ImageResponse renders native image elements rather than next/image. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logoSrc}
+            alt="Motion Vitality Pilates"
+            width={410}
+            height={186}
+            style={{ objectFit: "contain" }}
+          />
         </div>
         <div
           style={{
-            marginTop: 24,
-            fontSize: 32,
-            color: "#91d0af",
+            width: "57%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            paddingLeft: 64,
           }}
         >
-          Strong mind starts with a fit body
-        </div>
-        <div style={{ marginTop: 12, fontSize: 26, opacity: 0.85 }}>
-          Polestar-certified · Markham, Ontario
+          <div
+            style={{
+              fontSize: 20,
+              fontFamily: "sans-serif",
+              textTransform: "uppercase",
+              letterSpacing: 5,
+              color: "#abd0bb",
+            }}
+          >
+            Markham · Ontario
+          </div>
+          <div
+            style={{
+              marginTop: 22,
+              fontSize: 52,
+              lineHeight: 1.04,
+              letterSpacing: -1,
+            }}
+          >
+            Strong mind starts with a fit body
+          </div>
+          <div
+            style={{
+              marginTop: 24,
+              fontSize: 23,
+              fontFamily: "sans-serif",
+              color: "rgba(255,255,255,0.76)",
+            }}
+          >
+            Polestar-certified Pilates &amp; GYROTONIC® studio
+          </div>
         </div>
       </div>
     ),

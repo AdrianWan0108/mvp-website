@@ -23,6 +23,7 @@ type CollageImage = {
 };
 
 type EquipmentDetail = {
+  id?: string;
   name: string;
   description: string;
 };
@@ -39,6 +40,7 @@ const rooms: Room[] = [
     title: "The Reformer Room",
     equipment: [
       {
+        id: "reformer",
         name: "Reformer",
         description:
           "Spring resistance, a moving carriage, and an adjustable footbar make the Reformer remarkably versatile. It can build strength and control, restore mobility, or give the body support while learning a new movement pattern.",
@@ -95,11 +97,13 @@ const rooms: Room[] = [
     title: "The Apparatus Room",
     equipment: [
       {
+        id: "konnector",
         name: "Konnector®",
         description:
           "Four independent ropes connect the hands and feet, allowing every limb to participate in one coordinated movement. The system reveals imbalances and encourages the whole body to organize as a connected unit.",
       },
       {
+        id: "ladder-barrel",
         name: "Ladder Barrel",
         description:
           "The curved barrel supports the spine through flexion, extension, and side bending, while the ladder gives the hands and feet secure leverage. It creates space for mobility work that is both supported and active.",
@@ -151,11 +155,13 @@ const rooms: Room[] = [
     title: "The Specialized Studio",
     equipment: [
       {
+        id: "gyrotonic-pulley-tower",
         name: "GYROTONIC® Pulley Tower",
         description:
           "Weighted pulleys and rotating handles support continuous, circular movement through three dimensions. The resistance stays smooth as the body spirals, reaches, and changes direction, encouraging mobility without losing strength or control.",
       },
       {
+        id: "trapeze-table",
         name: "Trapeze Table",
         description:
           "Also known as the Cadillac, the table combines a stable platform with bars, springs, and hanging supports. It can assist movement, add resistance, or safely explore ranges that are difficult to access on the floor.",
@@ -254,7 +260,11 @@ function RoomSection({ room }: { room: Room }) {
       </h2>
       <div className="relative z-10 mt-9 space-y-8 sm:mt-10 sm:space-y-10">
         {room.equipment.map((item) => (
-          <section key={item.name}>
+          <section
+            key={item.name}
+            id={item.id}
+            className="scroll-mt-28"
+          >
             <h3 className="text-2xl font-semibold text-brand-800 sm:text-3xl">
               {item.name}
             </h3>

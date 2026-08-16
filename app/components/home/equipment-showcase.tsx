@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "../container";
 import { SectionHeading } from "../section-heading";
 import { photos } from "@/app/lib/images";
@@ -17,26 +18,31 @@ const equipment = [
     name: "Reformer",
     blurb: "Spring-resisted, full-body training — strength, control, and mobility.",
     photo: photos.reformer,
+    href: "/about/studio#reformer",
   },
   {
     name: "Konnector®",
     blurb: "Connected, whole-body movement that links every limb as one unit.",
     photo: photos.konnector,
+    href: "/about/studio#konnector",
   },
   {
     name: "Ladder Barrel",
     blurb: "Spinal extension, stretch, and strength for a mobile, resilient back.",
     photo: photos.barrel,
+    href: "/about/studio#ladder-barrel",
   },
   {
     name: "GYROTONIC®",
     blurb: "Flowing, circular movement on the pulley tower — easy on the joints.",
     photo: photos.gyrotonic,
+    href: "/about/studio#gyrotonic-pulley-tower",
   },
   {
     name: "Trapeze Table",
     blurb: "The classic Cadillac: supported, full-range work for every level.",
-    photo: photos.dorothyPose,
+    photo: photos.trapezeTable,
+    href: "/about/studio#trapeze-table",
   },
 ];
 
@@ -69,15 +75,6 @@ export function EquipmentShowcase() {
             <div
               key={item.name}
               onClick={() => setActive(isOpen ? null : i)}
-              role="button"
-              tabIndex={0}
-              aria-pressed={isOpen}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setActive(isOpen ? null : i);
-                }
-              }}
               className="group relative h-56 cursor-pointer overflow-hidden lg:h-auto lg:flex-1 lg:cursor-default"
             >
               <Image
@@ -126,6 +123,17 @@ export function EquipmentShowcase() {
                 >
                   {item.blurb}
                 </p>
+                <Link
+                  href={item.href}
+                  onClick={(event) => event.stopPropagation()}
+                  className={cn(
+                    "mt-5 inline-flex translate-y-2 border-b border-white/70 pb-1 text-sm font-semibold uppercase tracking-[0.16em] text-white opacity-0 drop-shadow transition-all duration-500 hover:border-white focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white",
+                    isOpen && "translate-y-0 opacity-100",
+                    "group-hover:translate-y-0 group-hover:opacity-100",
+                  )}
+                >
+                  Learn more
+                </Link>
               </div>
             </div>
           );

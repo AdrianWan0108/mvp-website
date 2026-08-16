@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Container } from "../../components/container";
-import { photos } from "@/app/lib/images";
+import { brandLogos, photos } from "@/app/lib/images";
 import { InstructorCards } from "./instructor-cards";
 import { instructors } from "./instructors";
 
@@ -69,8 +69,20 @@ export default function TeamPage() {
         </div>
       </section>
 
-      <section className="bg-background py-20 text-center sm:py-24">
-        <Container>
+      <section className="relative isolate overflow-hidden bg-muted/35 pb-14 pt-20 text-center sm:pb-16 sm:pt-24">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
+        >
+          <Image
+            src={brandLogos.monogram.verdant}
+            alt=""
+            width={1200}
+            height={412}
+            className="w-[min(72rem,105vw)] max-w-none opacity-[0.07]"
+          />
+        </div>
+        <Container className="relative z-10">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
             What MVP means
           </p>
@@ -93,8 +105,16 @@ export default function TeamPage() {
         </Container>
       </section>
 
-      <section className="border-y border-border bg-muted/35 py-20 sm:py-24">
+      <section className="bg-muted/35 pb-20 pt-8 sm:pb-24 sm:pt-10">
         <Container>
+          <div className="mb-12 text-center sm:mb-14">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
+              Our instructors
+            </p>
+            <h2 className="mx-auto mt-3 max-w-3xl text-balance text-4xl font-semibold leading-tight text-brand-800 sm:text-5xl">
+              Meet the team moving with you
+            </h2>
+          </div>
           <InstructorCards instructors={instructors} />
         </Container>
       </section>
