@@ -41,8 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 # Raw video masters. These live in assets-src/ alongside the photo masters, but
-# unlike the photos they stay out of git: "website vid.mp4" is 138MB, past
-# GitHub's 100MB per-file hard limit, and nothing references either file. The
-# clip the site actually plays is public/assets/video/core-values.mp4, which is
-# tracked normally.
+# unlike the photos they stay out of git: "website vid.mp4" is 138MB and
+# "website vid 2.mp4" is 374MB, both past GitHub's 100MB per-file hard limit,
+# and nothing references either file. The clip the site actually plays is
+# public/assets/video/core-values.mp4 — transcoded from "website vid 2.mp4"
+# (the 4K master whose ending carries the corrected MVP logo) down to 1080p
+# H.264 — which is tracked normally.
 assets-src/videos/
