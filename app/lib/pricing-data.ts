@@ -396,10 +396,10 @@ export const privateOptions: PrivateOption[] = [
  * Purchase terms shown near the bottom of the pricing page. Kept here so the
  * wording is edited in one place rather than in the markup.
  *
- * TO CONFIRM WITH GARY: the studio's own price list corroborates the HST,
- * new-client, 13-week validity, and availability lines. The refund, transfer,
- * cancellation, and waiver lines should be checked against the final Terms &
- * Conditions once /terms is written.
+ * The studio's own price list corroborates the HST, new-client, 13-week
+ * validity, and availability lines. The refund, transfer, cancellation, and
+ * waiver lines are reconciled with /terms — keep the two in step if either
+ * changes.
  */
 export const pricingFaqs = [
   {

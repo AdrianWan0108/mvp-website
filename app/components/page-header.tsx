@@ -3,10 +3,24 @@ import { Container } from "./container";
 
 /** Surface options for the title band. `muted` is the site-wide default;
  *  `brand` opens a page on a full verdant band (used by /pricing, which
- *  alternates brand bands down the page). */
+ *  alternates brand bands down the page); `dark` matches the deep-green
+ *  masthead used on /about/studio, with white eyebrow/title/intro text. */
 const tones = {
-  muted: "border-border bg-muted/40",
-  brand: "border-brand-300 bg-secondary text-secondary-foreground",
+  muted: {
+    band: "border-border bg-muted/40",
+    eyebrow: "text-primary",
+    intro: "text-muted-foreground",
+  },
+  brand: {
+    band: "border-brand-300 bg-secondary text-secondary-foreground",
+    eyebrow: "text-primary",
+    intro: "text-muted-foreground",
+  },
+  dark: {
+    band: "border-brand-800 bg-brand-800 text-white",
+    eyebrow: "text-white/80",
+    intro: "text-white/85",
+  },
 };
 
 /** Consistent page title band used by interior pages. */
@@ -24,11 +38,18 @@ export function PageHeader({
   compact?: boolean;
   tone?: keyof typeof tones;
 }) {
+  const palette = tones[tone];
+
   return (
-    <section className={cn("border-b", tones[tone])}>
+    <section className={cn("border-b", palette.band)}>
       <Container className={cn(compact ? "py-10 sm:py-12" : "py-16 sm:py-20")}>
         {eyebrow && (
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-primary">
+          <p
+            className={cn(
+              "mb-3 text-sm font-semibold uppercase tracking-[0.18em]",
+              palette.eyebrow,
+            )}
+          >
             {eyebrow}
           </p>
         )}
@@ -36,7 +57,12 @@ export function PageHeader({
           {title}
         </h1>
         {intro && (
-          <p className="mt-4 max-w-2xl text-xl leading-relaxed text-muted-foreground">
+          <p
+            className={cn(
+              "mt-4 max-w-2xl text-xl leading-relaxed",
+              palette.intro,
+            )}
+          >
             {intro}
           </p>
         )}
