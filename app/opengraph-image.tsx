@@ -13,7 +13,7 @@ export default async function OpengraphImage() {
   const logoData = await readFile(
     join(
       process.cwd(),
-      "public/assets/photos/mvp-logo/mvp-primary-lockup-white.png",
+      "public/assets/brand/mvp-primary-lockup-white.png",
     ),
     "base64",
   );

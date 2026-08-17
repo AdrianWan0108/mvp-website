@@ -1,5 +1,5 @@
 /**
- * Auto-orient EXIF-rotated JPEGs in public/assets/photos.
+ * Auto-orient EXIF-rotated JPEGs in assets-src/photos.
  *
  * Many phone/camera portraits are stored sideways with an EXIF orientation
  * flag. Browsers usually honor it, but image optimizers (incl. Next's) may not,
@@ -13,7 +13,7 @@ const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 
-const ROOT = path.join(__dirname, "..", "public", "assets", "photos");
+const ROOT = path.join(__dirname, "..", "assets-src", "photos");
 
 function walk(dir) {
   let out = [];

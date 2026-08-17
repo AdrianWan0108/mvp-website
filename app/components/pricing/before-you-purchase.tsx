@@ -124,7 +124,7 @@ function PricingFaqItem({
 export function BeforeYouPurchase() {
   return (
     <div>
-      <Meta className="text-muted-foreground">Before you purchase</Meta>
+      <Meta className="text-brand-700">Before you purchase</Meta>
       <h2
         id="before-you-purchase-heading"
         className="mt-2 font-serif text-4xl leading-none tracking-[0.03em] text-foreground sm:text-5xl"

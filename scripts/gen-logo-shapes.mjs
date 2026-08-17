@@ -9,8 +9,8 @@ import sharp from "sharp";
 import fs from "node:fs";
 import path from "node:path";
 
-const SRC = "public/assets/photos/polestar-logo/MVP LOGO 001.png";
-const OUT_DIR = "public/assets/photos/polestar-logo/shapes";
+const SRC = "assets-src/photos/polestar-logo/MVP LOGO 001.png";
+const OUT_DIR = "assets-src/photos/polestar-logo/shapes";
 const ALPHA_T = 40; // a pixel is "ink" if alpha > this
 const MIN_AREA_FRAC = 0.002; // ignore specks smaller than 0.2% of canvas
 const PAD = 12; // px padding around the union bounding box

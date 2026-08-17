@@ -9,8 +9,8 @@
 import sharp from "sharp";
 import path from "node:path";
 
-const SRC = "public/assets/photos/polestar-logo/MVP LOGO 001.png";
-const OUT = "public/assets/photos/polestar-logo/MVP LOGO 001 - stencil.png";
+const SRC = "assets-src/photos/polestar-logo/MVP LOGO 001.png";
+const OUT = "assets-src/photos/polestar-logo/MVP LOGO 001 - stencil.png";
 
 const FILL = { r: 255, g: 255, b: 255 }; // opaque area color (change if you want)
 

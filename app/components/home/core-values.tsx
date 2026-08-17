@@ -91,7 +91,7 @@ export function CoreValues() {
                 transform: "translate3d(-72px, 72px, 0) scale(0.94)",
               },
               {
-                opacity: 0.16,
+                opacity: 1,
                 transform: "translate3d(0, 0, 0) scale(1)",
               },
             ],
@@ -169,7 +169,7 @@ export function CoreValues() {
       <div
         data-values-mark
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-[3%] -left-[43%] z-0 w-[128%] opacity-[0.16] sm:-bottom-[8%] sm:-left-[25%] sm:w-[100%] lg:-bottom-[10%] lg:-left-[16%] lg:w-[74%]"
+        className="pointer-events-none absolute -bottom-[3%] -left-[43%] z-0 w-[128%] sm:-bottom-[8%] sm:-left-[25%] sm:w-[100%] lg:-bottom-[10%] lg:-left-[16%] lg:w-[74%]"
       >
         <Image
           src={brandLogos.scriptMark.verdant}

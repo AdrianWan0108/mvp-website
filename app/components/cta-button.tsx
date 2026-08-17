@@ -5,7 +5,7 @@ type Variant = "primary" | "secondary" | "outline" | "inverse";
 type Size = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-[transform,background-color,opacity] hover:-translate-y-0.5 active:translate-y-0";
+  "inline-flex items-center justify-center gap-2 font-medium transition-[transform,background-color,opacity] hover:-translate-y-0.5 active:translate-y-0";
 
 const variantClasses: Record<Variant, string> = {
   primary: "bg-primary text-primary-foreground hover:opacity-90",
@@ -28,6 +28,8 @@ type CtaButtonProps = {
   className?: string;
   /** Force external behavior; otherwise inferred from an http(s) href. */
   external?: boolean;
+  /** Squared corners instead of the default pill shape. */
+  square?: boolean;
 };
 
 /**
@@ -41,8 +43,15 @@ export function CtaButton({
   size = "md",
   className,
   external,
+  square = false,
 }: CtaButtonProps) {
-  const classes = cn(base, variantClasses[variant], sizeClasses[size], className);
+  const classes = cn(
+    base,
+    square ? "rounded-none" : "rounded-full",
+    variantClasses[variant],
+    sizeClasses[size],
+    className,
+  );
   const isExternal = external ?? /^https?:\/\//.test(href);
 
   if (isExternal) {

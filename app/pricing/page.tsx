@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "../components/container";
+import { ScrollReveal } from "../components/scroll-reveal";
 import { BeforeYouPurchase } from "../components/pricing/before-you-purchase";
 import { PricingMasthead } from "../components/pricing/pricing-masthead";
 import { PricingTabs } from "../components/pricing/pricing-tabs";
@@ -17,17 +18,29 @@ export default function PricingPage() {
 
       <section
         aria-label="Pricing options"
-        className="relative z-20 bg-background pb-20 pt-10 text-foreground sm:pb-24 sm:pt-14"
+        className="relative isolate z-20 overflow-hidden bg-brand-50 pb-20 pt-10 text-foreground sm:pb-24 sm:pt-14"
       >
-        <Container>
-          <PricingTabs />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-32 top-10 -z-10 size-96 rounded-full bg-brand-300/25 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-24 bottom-0 -z-10 size-80 rounded-full bg-brand-400/20 blur-3xl"
+        />
 
-          <div
-            className="mt-24 sm:mt-32"
-            aria-labelledby="before-you-purchase-heading"
-          >
-            <BeforeYouPurchase />
-          </div>
+        <Container>
+          <ScrollReveal>
+            <div data-reveal>
+              <PricingTabs />
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal className="mt-24 sm:mt-32">
+            <div data-reveal aria-labelledby="before-you-purchase-heading">
+              <BeforeYouPurchase />
+            </div>
+          </ScrollReveal>
         </Container>
       </section>
     </>

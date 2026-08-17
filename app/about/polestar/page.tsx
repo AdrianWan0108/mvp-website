@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { Container } from "../../components/container";
 import { SectionHeading } from "../../components/section-heading";
 import { CtaButton } from "../../components/cta-button";
@@ -21,6 +22,8 @@ const differences = [
 ];
 
 export default function PolestarPage() {
+  notFound();
+
   return (
     <>
       {/* Hero — the MVP × Polestar relationship */}

@@ -14,18 +14,38 @@ export function SiteFooter() {
   const footerTheme = isEducation ? "education" : undefined;
   const year = new Date().getFullYear();
 
+  // Mirrors the header's per-page width logic: the Teacher Training landing
+  // page runs edge-to-edge, home and about/studio use the site's established
+  // max-w-[110rem] "wide" convention, everything else stays at max-w-7xl.
+  const isAboutStudio = pathname === "/about/studio";
+  const footerSize =
+    pathname === "/education"
+      ? "full"
+      : pathname === "/" || isAboutStudio
+        ? "extraWide"
+        : "default";
+  // about/studio's own sections add extra inset at xl/2xl on top of the base
+  // px-5 sm:px-8 — match it so the footer doesn't run wider than the content.
+  const footerExtraPadding = isAboutStudio ? "xl:px-10 2xl:px-12" : "";
+
   return (
     <footer
       data-theme={footerTheme}
       className={cn(
-        "mt-auto border-t border-border text-foreground",
-        // A solid surface on the dark themes: bg-muted/40 is 40%-opaque, so over
-        // the light page body it composites to a washed gray that kills text
-        // contrast. The light theme keeps the subtle translucent tint.
-        footerTheme ? "bg-background" : "bg-muted/40",
+        "mt-auto border-t border-white/15 text-white",
+        // Both surfaces are dark now — near-black keeps Education's separate
+        // brand direction (see the education theme's own comment), while the
+        // default site gets a dark Verdant instead of the old pale tint.
+        footerTheme ? "bg-background" : "bg-brand-900",
       )}
     >
-      <Container className="grid gap-10 py-14 md:grid-cols-[1.5fr_repeat(3,1fr)]">
+      <Container
+        size={footerSize}
+        className={cn(
+          "grid gap-10 py-14 md:grid-cols-[1.5fr_repeat(3,1fr)]",
+          footerExtraPadding,
+        )}
+      >
         <div>
           <Link
             href="/"
@@ -33,30 +53,26 @@ export function SiteFooter() {
             className="inline-flex rounded-sm focus-visible:outline-offset-4"
           >
             <Image
-              src={
-                isEducation
-                  ? brandLogos.primary.white
-                  : brandLogos.primary.verdant
-              }
+              src={brandLogos.scriptLockup.white}
               alt={site.name}
               width={220}
               height={100}
-              className="h-16 w-auto object-contain"
+              className="h-24 w-auto object-contain"
             />
           </Link>
-          <p className="mt-3 max-w-xs text-sm text-muted-foreground">
+          <p className="mt-3 max-w-xs text-sm text-white/70">
             A Polestar-certified Pilates &amp; GYROTONIC&reg; studio in Markham,
             Ontario — movement for strength, mobility, and recovery.
           </p>
-          <address className="mt-4 space-y-1 text-sm not-italic">
+          <address className="mt-4 space-y-1 text-sm not-italic text-white/85">
             <p>{site.address.street}</p>
             <p>
-              <a className="hover:text-foreground" href={`tel:${site.phone}`}>
+              <a className="hover:text-white" href={`tel:${site.phone}`}>
                 {site.phoneDisplay}
               </a>
             </p>
             <p>
-              <a className="hover:text-foreground" href={`mailto:${site.email}`}>
+              <a className="hover:text-white" href={`mailto:${site.email}`}>
                 {site.email}
               </a>
             </p>
@@ -65,7 +81,7 @@ export function SiteFooter() {
 
         {footerNav.map((group) => (
           <nav key={group.heading} aria-label={group.heading}>
-            <p className="text-sm font-semibold uppercase tracking-wide">
+            <p className="text-sm font-semibold uppercase tracking-wide text-white">
               {group.heading}
             </p>
             <ul className="mt-4 space-y-2.5">
@@ -73,7 +89,7 @@ export function SiteFooter() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="text-sm text-white/70 transition-colors hover:text-white"
                   >
                     {item.label}
                   </Link>
@@ -84,8 +100,14 @@ export function SiteFooter() {
         ))}
       </Container>
 
-      <div className="border-t border-border">
-        <Container className="flex flex-col items-center justify-between gap-2 py-5 text-xs text-muted-foreground sm:flex-row">
+      <div className="border-t border-white/15">
+        <Container
+          size={footerSize}
+          className={cn(
+            "flex flex-col items-center justify-between gap-2 py-5 text-xs text-white/60 sm:flex-row",
+            footerExtraPadding,
+          )}
+        >
           <p>
             &copy; {year} {site.name}. All rights reserved.
           </p>

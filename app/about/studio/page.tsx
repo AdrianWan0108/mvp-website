@@ -7,6 +7,7 @@ import { site } from "@/app/lib/site";
 import { cn } from "@/app/lib/cn";
 import { RoomReveal } from "./room-reveal";
 import { StudioPanorama } from "./studio-panorama";
+import { ScrollReveal } from "../../components/scroll-reveal";
 
 export const metadata: Metadata = {
   title: "Our Studio",
@@ -296,16 +297,22 @@ export default function StudioPage() {
     <>
       <section className="bg-brand-800 text-white">
         <Container className="max-w-[110rem] px-5 py-14 text-center sm:px-8 sm:py-16 lg:px-10 lg:py-20 2xl:px-12">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-white/70">
-            About · Studio
-          </p>
-          <h1 className="mx-auto mt-3 max-w-6xl text-balance text-5xl font-semibold leading-[1.02] sm:text-6xl lg:text-7xl">
-            Three rooms. One thoughtful movement experience.
-          </h1>
-          <p className="mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-white/85 sm:text-xl">
-            Step inside our Markham studio and discover spaces designed for
-            focused teaching, purposeful equipment, and movement adapted to you.
-          </p>
+          <ScrollReveal>
+            <h1
+              data-reveal
+              className="mx-auto max-w-6xl text-balance text-5xl font-semibold leading-[1.02] sm:text-6xl lg:text-7xl"
+            >
+              Our Studio
+            </h1>
+            <p
+              data-reveal
+              className="mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-white/85 sm:text-xl"
+            >
+              Step inside our Markham studio: three connected rooms, each
+              purposefully equipped for focused teaching and movement adapted
+              to you.
+            </p>
+          </ScrollReveal>
         </Container>
       </section>
 

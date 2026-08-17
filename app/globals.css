@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* Hides the scrollbar on horizontally-scrolling filmstrips (e.g. the
+   education-page mentor carousel) while keeping native scroll/drag intact. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* ============================================================
    Motion Vitality Pilates — active theme system
    ------------------------------------------------------------
@@ -288,6 +298,79 @@ h4 {
   }
 }
 
+/* Home hero entry: copy fades + rises, the photo settles out of a slow zoom,
+   and the glow points pop in last. Deliberately CSS-only rather than the
+   IntersectionObserver-driven `ScrollReveal` used further down the page — the
+   hero is above the fold, so it should already be animating on first paint
+   instead of waiting for client JS to hydrate. Elements stagger themselves
+   with Tailwind `[animation-delay:…]` utilities; `both` holds the from-state
+   through the delay so nothing flashes in before its turn. */
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Longhands, not the `animation` shorthand: the rules in this file are
+   unlayered, so they outrank Tailwind's `@layer utilities` no matter the
+   specificity — and the shorthand would reset animation-delay to 0s, killing
+   the `[animation-delay:…]` utilities the markup staggers with. Leaving the
+   delay undeclared here lets those utilities through. */
+.hero-enter {
+  animation-name: hero-enter;
+  animation-duration: 850ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+/* Points scale rather than rise, so they read as switching on over the body
+   part they label instead of drifting up onto it. */
+@keyframes hero-point-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-point-enter {
+  animation-name: hero-point-enter;
+  animation-duration: 620ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes hero-image-enter {
+  from {
+    opacity: 0.55;
+    transform: scale(1.07);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-image-enter {
+  animation: hero-image-enter 1500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter,
+  .hero-point-enter,
+  .hero-image-enter {
+    animation: none;
+  }
+}
+
 /* Hero glow points: a stronger, further-reaching "growing" pulse than
    Tailwind's default `animate-ping` (which only scales to 2×). The ring
    expands to ~4× and fades, so the dots read as actively radiating. Two
@@ -304,8 +387,14 @@ h4 {
   }
 }
 
+/* Longhands for the same reason as `.hero-enter` above: the shorthand's
+   implicit `animation-delay: 0s` was overriding the second ring's
+   `[animation-delay:0.9s]`, so both rings pulsed in sync instead of waving. */
 .animate-hero-ping {
-  animation: hero-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation-name: hero-ping;
+  animation-duration: 1.8s;
+  animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  animation-iteration-count: infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

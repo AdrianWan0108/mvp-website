@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CtaButton } from "./cta-button";
 import { mainNav, site, type NavItem } from "@/app/lib/site";
-import { links } from "@/app/lib/links";
 import { brandLogos } from "@/app/lib/images";
 import { cn } from "@/app/lib/cn";
 
@@ -39,6 +38,22 @@ export function SiteHeader() {
   const logoSrc = onDarkSurface
     ? brandLogos.primary.white
     : brandLogos.primary.verdant;
+
+  // Bar width matches whatever the page's own sections are doing: the
+  // education landing page (Teacher Training) runs its showcase sections
+  // edge-to-edge, home and about/studio use the site's established
+  // max-w-[110rem] "wide" convention, and everything else keeps the
+  // standard max-w-7xl Container width.
+  const isAboutStudio = pathname === "/about/studio";
+  const barMaxWidth =
+    pathname === "/education"
+      ? ""
+      : isHome || isAboutStudio
+        ? "max-w-[110rem]"
+        : "max-w-7xl";
+  // about/studio's own sections add extra inset at xl/2xl on top of the base
+  // px-5 sm:px-8 — match it so the bar doesn't run wider than the content.
+  const barExtraPadding = isAboutStudio ? "xl:px-10 2xl:px-12" : "";
 
   const closeMenu = () => {
     setMenu((current) => ({ ...current, open: false }));
@@ -112,8 +127,9 @@ export function SiteHeader() {
       >
         <div
           className={cn(
-            "mx-auto flex w-full max-w-[96rem] items-center justify-between gap-5 px-5 transition-[height,padding] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none sm:px-8 lg:px-10 xl:px-12",
-            scrolled ? "h-16 lg:h-[4.5rem]" : "h-20 lg:h-24",
+            "mx-auto flex h-16 w-full items-center justify-between gap-5 px-5 sm:px-8 lg:h-[4.5rem]",
+            barMaxWidth,
+            barExtraPadding,
           )}
         >
           <Link
@@ -128,10 +144,7 @@ export function SiteHeader() {
               width={176}
               height={80}
               priority
-              className={cn(
-                "w-auto object-contain transition-[height,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/logo:-translate-y-0.5 group-hover/logo:scale-[1.025] group-focus-visible/logo:-translate-y-0.5 group-focus-visible/logo:scale-[1.025] motion-reduce:transition-none",
-                scrolled ? "h-10 lg:h-11" : "h-11 lg:h-14",
-              )}
+              className="h-10 w-auto object-contain transition-transform duration-300 ease-out group-hover/logo:-translate-y-0.5 group-hover/logo:scale-[1.025] group-focus-visible/logo:-translate-y-0.5 group-focus-visible/logo:scale-[1.025] motion-reduce:transition-none lg:h-11"
             />
           </Link>
 
@@ -205,12 +218,16 @@ export function SiteHeader() {
                 </Link>
               ),
             )}
+            {/* Points at the studio's own schedule page rather than straight
+                out to Mindbody — the schedule is where the week's classes and
+                the booking hand-off both live. */}
             <CtaButton
-              href={links.book}
+              href="/schedule"
+              square
               variant={onDarkSurface ? "inverse" : "primary"}
               className="group/book ml-3 overflow-hidden shadow-[0_10px_24px_-16px_rgba(21,36,31,0.65)]"
             >
-              <span>Book Now</span>
+              <span>Book a Class</span>
               <span
                 aria-hidden
                 className="transition-transform duration-300 group-hover/book:translate-x-1 motion-reduce:transition-none"
@@ -336,12 +353,13 @@ export function SiteHeader() {
                 </div>
               ))}
               <CtaButton
-                href={links.book}
+                href="/schedule"
                 size="lg"
+                square
                 variant={isEducation ? "inverse" : "primary"}
                 className={cn("mt-5 w-full", open && "mobile-nav-enter")}
               >
-                Book Now <span aria-hidden>→</span>
+                Book a Class <span aria-hidden>→</span>
               </CtaButton>
             </nav>
           </div>

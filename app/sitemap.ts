@@ -12,7 +12,6 @@ const routes = [
   "/education/polestar-comprehensive-training",
   "/about/studio",
   "/about/team",
-  "/about/polestar",
   "/contact",
   "/faq",
   "/terms",

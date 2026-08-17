@@ -73,7 +73,9 @@ export function PricingGateway() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const heading = section.querySelector<HTMLElement>("[data-pricing-heading]");
+    const heading = section.querySelector<HTMLElement>(
+      "[data-pricing-heading]",
+    );
     const intro = section.querySelector<HTMLElement>("[data-pricing-intro]");
     const cards = Array.from(
       section.querySelectorAll<HTMLElement>("[data-pricing-card]"),
@@ -164,77 +166,88 @@ export function PricingGateway() {
     <section
       id="pricing-options"
       ref={sectionRef}
-      className="scroll-mt-20 bg-brand-200 py-16 sm:py-20 lg:py-24"
+      className="scroll-mt-20 bg-brand-500 py-16 sm:py-20 lg:py-24"
     >
       <div className="mx-auto w-full max-w-[110rem] px-5 sm:px-8">
         <div className="max-w-5xl">
           <h2
             data-pricing-heading
-            className="text-balance font-serif text-4xl font-semibold leading-tight text-brand-950 sm:text-5xl"
+            className="text-balance font-serif text-4xl font-semibold leading-tight text-white sm:text-5xl"
           >
             Explore our pricing options
           </h2>
           <p
             data-pricing-intro
-            className="mt-4 max-w-4xl text-lg leading-relaxed text-brand-900/75 sm:text-xl"
+            className="mt-4 max-w-4xl text-lg leading-relaxed text-white sm:text-xl"
           >
-            Compare introductory offers, group class packs, memberships,
-            senior rates, and one-on-one training before viewing full prices.
+            Compare introductory offers, group class packs, memberships, senior
+            rates, and one-on-one training before viewing full prices.
           </p>
         </div>
       </div>
 
       <div className="mx-auto mt-10 grid w-full max-w-[110rem] grid-cols-1 gap-4 px-5 sm:grid-cols-2 sm:px-8 lg:mt-12 lg:grid-cols-5 lg:gap-3 xl:gap-4">
-          {pricingPathways.map((pathway) => (
-            <article
-              key={pathway.id}
-              data-pricing-card
-              className={`${styles.card} group relative aspect-square overflow-hidden bg-brand-900 text-white`}
-            >
-              <Image
-                src={pathway.photo.src}
-                alt={pathway.photo.alt}
-                fill
-                sizes="(min-width: 1760px) 336px, (min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
-                className={`${styles.image} object-cover ${pathway.imagePosition ?? "object-center"}`}
-              />
+        {pricingPathways.map((pathway) => (
+          <article
+            key={pathway.id}
+            data-pricing-card
+            className={`${styles.card} group relative aspect-square overflow-hidden bg-brand-900 text-white`}
+          >
+            <Image
+              src={pathway.photo.src}
+              alt={pathway.photo.alt}
+              fill
+              sizes="(min-width: 1760px) 336px, (min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
+              className={`${styles.image} object-cover ${pathway.imagePosition ?? "object-center"}`}
+            />
 
-              <div
-                aria-hidden
-                className="absolute inset-0 bg-gradient-to-t from-brand-950/95 via-brand-950/30 to-brand-950/20"
-              />
-              <div
-                aria-hidden
-                className={`${styles.overlay} absolute inset-0 bg-brand-950/55 opacity-0`}
-              />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-brand-950/95 via-brand-950/30 to-brand-950/20"
+            />
+            <div
+              aria-hidden
+              className={`${styles.overlay} absolute inset-0 bg-brand-950/55 opacity-0`}
+            />
 
-              <div className="absolute inset-0 z-10 flex flex-col p-5 sm:p-6 lg:p-4 xl:p-5">
-                <h3 className="max-w-[12rem] text-balance font-serif text-3xl font-semibold leading-none [text-shadow:0_1px_5px_rgba(0,0,0,0.55)] lg:text-[1.7rem] xl:text-3xl">
-                  {pathway.name}
-                </h3>
-                <p className="mt-2 text-sm font-semibold uppercase tracking-[0.08em] text-white/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.5)]">
-                  Start from {formatPrice(pathway.startingPrice)}
+            <div className="absolute inset-0 z-10 flex flex-col p-5 sm:p-6 lg:p-4 xl:p-5">
+              <h3 className="max-w-[12rem] text-balance font-serif text-3xl font-semibold leading-none [text-shadow:0_1px_5px_rgba(0,0,0,0.55)] lg:text-[1.7rem] xl:text-3xl">
+                {pathway.name}
+              </h3>
+              <p className="mt-2 text-sm font-semibold uppercase tracking-[0.08em] text-white/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.5)]">
+                Start from {formatPrice(pathway.startingPrice)}
+              </p>
+
+              <div className="mt-auto">
+                <p
+                  className={`${styles.description} text-sm font-medium leading-snug text-white/90 lg:text-[0.8rem] xl:text-sm`}
+                >
+                  {pathway.description}
                 </p>
-
-                <div className="mt-auto">
-                  <p className={`${styles.description} text-sm font-medium leading-snug text-white/90 lg:text-[0.8rem] xl:text-sm`}>
-                    {pathway.description}
-                  </p>
-                  <Link
-                    href={`/pricing#pricing-${pathway.id}`}
-                    className="mt-4 inline-flex min-h-10 items-center gap-2 border border-white bg-white px-4 py-2 text-sm font-semibold text-brand-950 transition-[color,background-color,transform] duration-300 hover:bg-transparent hover:text-white group-hover:[&_svg]:translate-x-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white [&_svg]:transition-transform [&_svg]:duration-300"
-                  >
-                    See prices
-                    <ArrowRight
-                      aria-hidden
-                      className={`${styles.arrow} size-4`}
-                    />
-                  </Link>
-                </div>
+                <Link
+                  href={`/pricing#pricing-${pathway.id}`}
+                  className="mt-4 inline-flex min-h-10 items-center gap-2 border border-white bg-white px-4 py-2 text-sm font-semibold text-brand-950 transition-[color,background-color,transform] duration-300 hover:bg-transparent hover:text-white group-hover:[&_svg]:translate-x-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white [&_svg]:transition-transform [&_svg]:duration-300"
+                >
+                  See prices
+                  <ArrowRight
+                    aria-hidden
+                    className={`${styles.arrow} size-4`}
+                  />
+                </Link>
               </div>
-            </article>
-          ))}
-        </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="mx-auto mt-10 w-full max-w-[110rem] px-5 sm:px-8 lg:mt-12">
+        <Link
+          href="/schedule"
+          className="text-base font-semibold text-white underline decoration-2 underline-offset-8 transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:text-lg"
+        >
+          Not sure which one? See the class schedule
+        </Link>
+      </div>
     </section>
   );
 }

@@ -70,7 +70,7 @@ function pluralizeUnit(unit: string, count: number) {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+      <dt className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-brand-700">
         {label}
       </dt>
       <dd className="mt-1 font-serif text-2xl leading-none tabular-nums text-foreground">
@@ -150,25 +150,18 @@ function PricingCard({
     : membershipTotalSaving > 0
       ? `Save ${formatPrice(membershipTotalSaving)} total`
       : null;
-  const hasSavingsSlot = Boolean(
-    section.showSavings || section.id === "memberships",
-  );
 
   return (
     <article className="pricing-panel flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white">
-      {hasSavingsSlot && (
-        <div
-          className={cn(
-            "relative flex min-h-12 items-center justify-center px-4 text-center font-sans text-base font-bold",
-            savingLabel
-              ? "bg-brand-700 text-white"
-              : "bg-transparent text-transparent",
-          )}
-          aria-hidden={!savingLabel}
-        >
-          {savingLabel ?? "No package saving"}
-        </div>
-      )}
+      <div
+        aria-hidden={!savingLabel}
+        className={cn(
+          "relative flex min-h-12 items-center justify-center px-4 text-center font-sans text-base font-bold",
+          savingLabel && "bg-brand-500 text-brand-900",
+        )}
+      >
+        {savingLabel}
+      </div>
 
       <div className="flex flex-1 flex-col p-6 sm:p-7">
         <div className="flex flex-1 flex-col text-center lg:h-[17rem] lg:flex-none">
@@ -268,19 +261,15 @@ function PrivateCard({
 
   return (
     <article className="pricing-panel flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white">
-      {choice.sessionCount === 10 && (
-        <div
-          className={cn(
-            "flex min-h-12 items-center justify-center px-4 text-center font-sans text-base font-bold",
-            savingLabel
-              ? "bg-brand-700 text-white"
-              : "bg-transparent text-transparent",
-          )}
-          aria-hidden={!savingLabel}
-        >
-          {savingLabel ?? "No package saving"}
-        </div>
-      )}
+      <div
+        aria-hidden={!savingLabel}
+        className={cn(
+          "flex min-h-12 items-center justify-center px-4 text-center font-sans text-base font-bold",
+          savingLabel && "bg-brand-500 text-brand-900",
+        )}
+      >
+        {savingLabel}
+      </div>
 
       <div className="flex flex-1 flex-col p-6 sm:p-7">
         <div className="flex flex-1 flex-col text-center lg:h-[17rem] lg:flex-none">
@@ -308,7 +297,7 @@ function PrivateCard({
               aria-controls="private-appointments-widget"
               onClick={handleBook}
               className={cn(
-                "block w-full cursor-pointer rounded-lg bg-brand-800 px-5 py-3 text-center font-serif text-xl uppercase leading-none tracking-[0.08em] text-white transition-colors hover:bg-brand-900",
+                "block w-full cursor-pointer rounded-lg bg-brand-500 px-5 py-3 text-center font-serif text-xl uppercase leading-none tracking-[0.08em] text-brand-900 transition-colors hover:bg-brand-600",
                 focusRing,
               )}
             >
@@ -589,7 +578,7 @@ export function PricingTabs() {
                 onClick={() => activate(tab.scope)}
                 onKeyDown={(event) => handleTabKeyDown(index, event)}
                 className={cn(
-                  "group relative -mb-px min-h-16 w-40 shrink-0 cursor-pointer snap-start px-4 py-3 text-left font-sans transition-[color,transform] duration-200 after:absolute after:inset-x-4 after:bottom-0 after:h-1 after:origin-center after:rounded-t-full after:bg-brand-700 after:transition-transform after:duration-200 sm:w-44 lg:w-auto lg:flex-1",
+                  "group relative -mb-px min-h-16 w-40 shrink-0 cursor-pointer snap-start px-4 py-3 text-left font-sans transition-[color,transform] duration-200 after:absolute after:inset-x-4 after:bottom-0 after:h-1 after:origin-center after:rounded-t-full after:bg-brand-500 after:transition-transform after:duration-200 sm:w-44 lg:w-auto lg:flex-1",
                   active
                     ? "text-foreground after:scale-x-100"
                     : "text-muted-foreground after:scale-x-0 hover:-translate-y-0.5 hover:text-foreground hover:after:scale-x-50",
@@ -600,7 +589,7 @@ export function PricingTabs() {
                   className={cn(
                     "inline-flex min-w-6 items-center justify-center rounded-full text-[0.65rem] font-semibold tabular-nums tracking-[0.1em] transition-colors duration-200",
                     active
-                      ? "bg-brand-800 px-1.5 py-0.5 text-white"
+                      ? "bg-brand-500 px-1.5 py-0.5 text-brand-900"
                       : "text-brand-700",
                   )}
                 >
@@ -620,7 +609,7 @@ export function PricingTabs() {
         </div>
       </div>
 
-      <div className="bg-background">
+      <div>
         <div className="relative isolate pb-10 pt-12 sm:pb-14 sm:pt-16">
           {panelEntries.map((panel) => {
             const active = panel.scope === activeScope;

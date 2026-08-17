@@ -21,6 +21,14 @@ export const links = {
   firstTimer: MINDBODY_PLACEHOLDER,
   buyClasses: MINDBODY_PLACEHOLDER,
 
+  // --- Google Business Profile ---
+  // TODO: swap for the studio's one-tap review link, which opens the star
+  // dialog directly: https://search.google.com/local/writereview?placeid=<ID>
+  // (get <ID> from the Google Business Profile dashboard, "Ask for reviews").
+  // Until then this lands on the profile, where "Write a review" is one click.
+  googleReview:
+    "https://www.google.com/maps/search/?api=1&query=Motion+Vitality+Pilates",
+
   // --- Real external links (verified from the live site) ---
   polestarRegister:
     "https://polestarpilates.com/product/2026-fall-comprehensive-program/",

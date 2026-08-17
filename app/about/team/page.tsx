@@ -4,6 +4,7 @@ import { Container } from "../../components/container";
 import { brandLogos, photos } from "@/app/lib/images";
 import { InstructorCards } from "./instructor-cards";
 import { instructors } from "./instructors";
+import { ScrollReveal } from "../../components/scroll-reveal";
 
 export const metadata: Metadata = {
   title: "Our Team",
@@ -16,19 +17,33 @@ export default function TeamPage() {
     <>
       <section className="bg-brand-800 text-white">
         <Container className="py-12 text-center sm:py-14 lg:py-16">
-          <h1 className="mx-auto max-w-5xl text-balance text-5xl font-semibold leading-[1.05] sm:text-6xl">
-            Meet the people moving with you
-          </h1>
-          <p className="mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-white/85 sm:text-xl">
-            A close-knit team teaching with knowledge, patience, and genuine
-            curiosity about how your body moves.
-          </p>
+          <ScrollReveal>
+            <h1
+              data-reveal
+              className="mx-auto max-w-5xl text-balance text-5xl font-semibold leading-[1.05] sm:text-6xl"
+            >
+              Our Team
+            </h1>
+            <p
+              data-reveal
+              className="mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-white/85 sm:text-xl"
+            >
+              A close-knit team teaching with knowledge, patience, and genuine
+              curiosity about how your body moves.
+            </p>
+          </ScrollReveal>
         </Container>
       </section>
 
       <section className="border-b border-border bg-muted/45">
-        <div className="grid lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-          <div className="relative mx-5 mt-5 min-h-[28rem] sm:mx-8 sm:mt-8 sm:min-h-[36rem] lg:my-8 lg:ml-8 lg:mr-0 lg:min-h-[42rem]">
+        <ScrollReveal
+          stagger={160}
+          className="grid lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]"
+        >
+          <div
+            data-reveal
+            className="relative mx-5 mt-5 min-h-[28rem] sm:mx-8 sm:mt-8 sm:min-h-[36rem] lg:my-8 lg:ml-8 lg:mr-0 lg:min-h-[42rem]"
+          >
             <Image
               src={photos.teamPolestar.src}
               alt={photos.teamPolestar.alt}
@@ -37,9 +52,12 @@ export default function TeamPage() {
               className="object-cover object-[center_38%]"
             />
           </div>
-          <div className="flex flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 lg:px-14 lg:py-20 xl:px-20 2xl:pr-[max(5rem,calc((100vw-110rem)/2+5rem))]">
+          <div
+            data-reveal
+            className="flex flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 lg:px-14 lg:py-20 xl:px-20 2xl:pr-[max(5rem,calc((100vw-110rem)/2+5rem))]"
+          >
             <Image
-              src="/mvp-website/assets/photos/polestar-logo/POLESTAR_TM_-_Default_Logo.png"
+              src="/mvp-website/assets/brand/polestar-logo.png"
               alt="Polestar Pilates"
               width={360}
               height={126}
@@ -66,10 +84,10 @@ export default function TeamPage() {
               </p>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-muted/35 pb-14 pt-20 text-center sm:pb-16 sm:pt-24">
+      <section className="relative isolate overflow-hidden bg-brand-100 pb-14 pt-20 text-center sm:pb-16 sm:pt-24">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
@@ -79,43 +97,48 @@ export default function TeamPage() {
             alt=""
             width={1200}
             height={412}
-            className="w-[min(72rem,105vw)] max-w-none opacity-[0.07]"
+            className="w-[min(72rem,105vw)] max-w-none opacity-[0.16]"
           />
         </div>
         <Container className="relative z-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
-            What MVP means
-          </p>
-          <h2 className="mx-auto mt-4 max-w-4xl text-balance text-5xl font-semibold leading-tight text-brand-800 sm:text-6xl">
-            You are our Most Valuable Player.
-          </h2>
-          <div className="mx-auto mt-7 max-w-3xl space-y-4 text-lg leading-relaxed text-muted-foreground">
-            <p>
-              Founded by Gary Fok in 2025, Motion Vitality Pilates brings
-              Pilates and GYROTONIC® movement together with methods including
-              TRX®, HIIT, Schroth, and functional movement. Every session is
-              shaped around the client’s needs, goals, budget, and schedule.
-            </p>
-            <p>
-              Just like our name, you are our MVP. We are here to make movement
-              feel intelligent, personal, and joyful as we guide you toward your
-              health and wellness goals.
-            </p>
-          </div>
+          <ScrollReveal>
+            <h2
+              data-reveal
+              className="mx-auto max-w-4xl text-balance text-5xl font-semibold leading-tight text-brand-800 sm:text-6xl"
+            >
+              You are our Most Valuable Player.
+            </h2>
+            <div
+              data-reveal
+              className="mx-auto mt-7 max-w-3xl space-y-4 text-lg font-medium leading-relaxed text-muted-foreground"
+            >
+              <p>
+                Founded by Gary Fok in 2025, Motion Vitality Pilates brings
+                Pilates and GYROTONIC® movement together with methods
+                including TRX®, HIIT, Schroth, and functional movement. Every
+                session is shaped around the client’s needs, goals, budget,
+                and schedule.
+              </p>
+              <p>
+                Just like our name, you are our MVP. We are here to make
+                movement feel intelligent, personal, and joyful as we guide
+                you toward your health and wellness goals.
+              </p>
+            </div>
+          </ScrollReveal>
         </Container>
       </section>
 
-      <section className="bg-muted/35 pb-20 pt-8 sm:pb-24 sm:pt-10">
+      <section className="bg-brand-100 pb-20 pt-8 sm:pb-24 sm:pt-10">
         <Container>
-          <div className="mb-12 text-center sm:mb-14">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
-              Our instructors
-            </p>
-            <h2 className="mx-auto mt-3 max-w-3xl text-balance text-4xl font-semibold leading-tight text-brand-800 sm:text-5xl">
-              Meet the team moving with you
-            </h2>
-          </div>
-          <InstructorCards instructors={instructors} />
+          <ScrollReveal>
+            <div data-reveal className="mb-12 text-center sm:mb-14">
+              <h2 className="mx-auto mt-3 max-w-3xl text-balance text-4xl font-semibold leading-tight text-brand-800 sm:text-5xl">
+                MEET THE TEAM
+              </h2>
+            </div>
+            <InstructorCards instructors={instructors} />
+          </ScrollReveal>
         </Container>
       </section>
     </>

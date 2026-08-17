@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { UserRound } from "lucide-react";
+import { Calendar, UserRound } from "lucide-react";
 import { Container } from "../components/container";
 import { CtaButton } from "../components/cta-button";
+import { ScrollReveal } from "../components/scroll-reveal";
 import { photos } from "@/app/lib/images";
+import { MentorCarousel } from "./mentor-carousel";
 import { ProgramReveal } from "./program-reveal";
 import { StoriesReveal } from "./stories-reveal";
 import { TeachingJourneyReveal } from "./teaching-journey-reveal";
@@ -20,26 +22,6 @@ const programFacts = [
   { label: "Training hours", value: "450 hours" },
   { label: "Format", value: "Mat + full apparatus" },
   { label: "Certification", value: "Polestar (international)" },
-];
-
-/**
- * Temporary stand-ins for Gary-with-mentor photographs. Keeping these in one
- * list means the final images, alt text, and captions can be replaced without
- * changing the editorial layout.
- */
-const mentorImages = [
-  {
-    photo: photos.polestarFaculty,
-    caption: "Polestar faculty and trainees gathered at a training retreat.",
-  },
-  {
-    photo: photos.team,
-    caption: "The MVP team together beneath the Polestar sign.",
-  },
-  {
-    photo: photos.teamPolestar,
-    caption: "Gary and fellow Polestar-trained members of the MVP team.",
-  },
 ];
 
 const movementMethods = [
@@ -98,26 +80,32 @@ export default function EducationPage() {
           />
           <div aria-hidden className="absolute inset-0 bg-brand-900/78" />
         </div>
-        <Container className="max-w-3xl py-24 sm:py-28">
-          <h1 className="font-serif text-5xl font-semibold leading-tight sm:text-7xl">
-            Teacher Training at MVP
-          </h1>
-          <p className="mt-6 text-xl leading-relaxed text-white/90">
-            MVP is a working studio and a home for movement education. Train in
-            Markham through Polestar&rsquo;s comprehensive approach, with
-            internationally connected faculty and local support.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <CtaButton
-              href="/education/polestar-comprehensive-training"
-              size="lg"
+        <Container size="full" className="py-24 sm:py-28">
+          <ScrollReveal stagger={100} className="max-w-3xl">
+            <h1
+              data-reveal
+              className="font-serif text-5xl font-semibold leading-tight sm:text-7xl"
             >
-              Explore the 2026 Program
-            </CtaButton>
-            <CtaButton href="/contact" size="lg" variant="outline">
-              Talk to Gary
-            </CtaButton>
-          </div>
+              Teacher Training at MVP
+            </h1>
+            <p
+              data-reveal
+              className="mt-6 text-xl leading-relaxed text-white/90"
+            >
+              MVP is a working studio and a home for movement education. Train
+              in Markham through Polestar&rsquo;s comprehensive approach, with
+              internationally connected faculty and local support.
+            </p>
+            <div data-reveal className="mt-8 flex flex-wrap gap-4">
+              <CtaButton
+                href="/education/polestar-comprehensive-training"
+                size="lg"
+                square
+              >
+                Explore the 2026 Program
+              </CtaButton>
+            </div>
+          </ScrollReveal>
         </Container>
       </section>
 
@@ -128,7 +116,7 @@ export default function EducationPage() {
       >
         <ProgramReveal>
           <div className="grid overflow-hidden lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)]">
-            <div className="flex items-center bg-background px-6 py-12 sm:px-10 sm:py-14 lg:px-14 lg:py-14 xl:px-20">
+            <div className="flex items-center bg-background px-5 py-12 sm:px-8 sm:py-14 lg:py-14">
               <div className="max-w-2xl">
                 <div data-program-copy>
                   <h2 className="text-balance font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl xl:text-6xl">
@@ -145,6 +133,7 @@ export default function EducationPage() {
                   <CtaButton
                     href="/education/polestar-comprehensive-training"
                     size="lg"
+                    square
                   >
                     Explore the Program
                   </CtaButton>
@@ -208,7 +197,7 @@ export default function EducationPage() {
               <span className="block">to Move</span>
             </p>
 
-            <div className="relative z-10 mx-auto max-w-xl xl:ml-20 xl:mr-[22rem] xl:flex xl:min-h-[52rem] xl:max-w-sm xl:flex-col">
+            <div className="relative z-10 mx-auto max-w-xl xl:ml-8 xl:mr-[22rem] xl:flex xl:min-h-[52rem] xl:max-w-sm xl:flex-col">
               <header>
                 <h2 className="font-serif text-5xl font-semibold leading-none text-brand-900 sm:text-6xl">
                   Move Up the Ladder
@@ -293,7 +282,7 @@ export default function EducationPage() {
               <span className="block">to Learn</span>
             </p>
 
-            <article className="relative z-10 mx-auto max-w-xl xl:ml-[22rem] xl:mr-20 xl:mt-52 xl:max-w-sm">
+            <article className="relative z-10 mx-auto max-w-xl xl:ml-[22rem] xl:mr-8 xl:mt-52 xl:max-w-sm">
               <h3 className="font-serif text-4xl font-semibold text-white sm:text-5xl">
                 Grow into an Educator
               </h3>
@@ -339,7 +328,7 @@ export default function EducationPage() {
                   <article
                     tabIndex={0}
                     aria-label={`Read why ${instructor.name} chose to teach`}
-                    className="instructor-story-card relative aspect-[3/4] cursor-pointer overflow-hidden rounded-3xl bg-secondary outline-none focus-visible:ring-4 focus-visible:ring-brand-500/45"
+                    className="instructor-story-card relative aspect-[3/4] cursor-pointer overflow-hidden bg-secondary outline-none focus-visible:ring-4 focus-visible:ring-brand-500/45"
                   >
                     <Image
                       src={instructor.photo.src}
@@ -392,7 +381,7 @@ export default function EducationPage() {
         data-theme="education-light"
         className="bg-[#f7f9f7] py-16 text-foreground sm:py-20 lg:py-24"
       >
-        <Container>
+        <Container size="full">
           <div className="max-w-2xl">
             <h2 className="text-balance font-serif text-4xl font-semibold leading-tight text-brand-900 sm:text-5xl">
               A place for learning and connection
@@ -429,18 +418,28 @@ export default function EducationPage() {
                   <span className="text-[#feb75a]">star</span> Transition
                   <span className="block">(Bridging) Program</span>
                 </h3>
-                <p className="mt-6 flex items-start gap-3 font-serif text-2xl font-semibold leading-tight text-brand-900 sm:text-3xl">
+                <div className="mt-6 flex items-center gap-3">
                   <UserRound
                     aria-hidden
-                    className="mt-0.5 size-7 shrink-0 text-brand-700"
+                    className="size-7 shrink-0 text-brand-700"
                   />
-                  <span>
-                    Polestar Vice President &amp; Senior Faculty
-                    <strong className="block text-brand-700">Shelly Power</strong>
-                  </span>
+                  <p className="font-serif text-2xl font-semibold leading-tight text-brand-700 sm:text-3xl">
+                    Shelly Power
+                  </p>
+                </div>
+                <p className="mt-1 pl-10 text-sm font-semibold uppercase tracking-[0.12em] text-brand-800">
+                  Polestar Vice President &amp; Senior Faculty
                 </p>
-                <p className="mt-5 text-base font-semibold text-brand-800">2025</p>
-                <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+                <div className="mt-5 flex items-center gap-3">
+                  <Calendar
+                    aria-hidden
+                    className="size-7 shrink-0 text-brand-700"
+                  />
+                  <p className="font-serif text-2xl font-semibold leading-tight text-brand-700 sm:text-3xl">
+                    2025
+                  </p>
+                </div>
+                <p className="mt-5 max-w-xl text-lg font-medium leading-relaxed text-foreground/80">
                   Canada&rsquo;s first-ever Polestar Transition program, hosted
                   on our own studio floor. Certified teachers from across the
                   country bridged into Polestar&rsquo;s internationally recognized
@@ -458,7 +457,7 @@ export default function EducationPage() {
                 data-timeline-media
                 className="lg:col-start-1 lg:row-start-1"
               >
-                <div className="relative aspect-[16/10] overflow-hidden rounded-3xl border border-border bg-white">
+                <div className="relative aspect-[16/10] overflow-hidden border border-border bg-white">
                   <Image
                     src={photos.polestarCohort.src}
                     alt={photos.polestarCohort.alt}
@@ -488,18 +487,28 @@ export default function EducationPage() {
                   GYROKINESIS&reg; Level 1
                   <span className="block">Pre-Training &amp; Foundation</span>
                 </h3>
-                <p className="mt-6 flex items-start gap-3 font-serif text-2xl font-semibold leading-tight text-brand-900 sm:text-3xl">
+                <div className="mt-6 flex items-center gap-3">
                   <UserRound
                     aria-hidden
-                    className="mt-0.5 size-7 shrink-0 text-brand-700"
+                    className="size-7 shrink-0 text-brand-700"
                   />
-                  <span>
-                    Invited GYROKINESIS&reg; Specialized Master Trainer
-                    <strong className="block text-brand-700">Jane Gotch</strong>
-                  </span>
+                  <p className="font-serif text-2xl font-semibold leading-tight text-brand-700 sm:text-3xl">
+                    Jane Gotch
+                  </p>
+                </div>
+                <p className="mt-1 pl-10 text-sm font-semibold uppercase tracking-[0.12em] text-brand-800">
+                  Invited GYROKINESIS&reg; Specialized Master Trainer
                 </p>
-                <p className="mt-5 text-base font-semibold text-brand-800">2025</p>
-                <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+                <div className="mt-5 flex items-center gap-3">
+                  <Calendar
+                    aria-hidden
+                    className="size-7 shrink-0 text-brand-700"
+                  />
+                  <p className="font-serif text-2xl font-semibold leading-tight text-brand-700 sm:text-3xl">
+                    2025
+                  </p>
+                </div>
+                <p className="mt-5 max-w-xl text-lg font-medium leading-relaxed text-foreground/80">
                   MVP welcomed international educator Jane Gotch to lead a full
                   GYROKINESIS&reg; teacher-training cohort at the studio. The
                   courses brought the flowing, spiraling method to a new
@@ -517,7 +526,7 @@ export default function EducationPage() {
                 data-timeline-media
                 className="relative max-w-md lg:col-start-1 lg:row-start-1 lg:w-full lg:max-w-none"
               >
-                <div className="relative aspect-[3/4] overflow-hidden rounded-3xl border border-border bg-white">
+                <div className="relative aspect-[3/4] overflow-hidden border border-border bg-white">
                   <Image
                     src={photos.gyrokinesisCohort.src}
                     alt={photos.gyrokinesisCohort.alt}
@@ -527,7 +536,7 @@ export default function EducationPage() {
                     className="object-cover"
                   />
                 </div>
-                <div className="absolute bottom-3 left-3 w-[22%] overflow-hidden rounded-xl border border-white bg-white shadow-xl sm:bottom-4 sm:left-4">
+                <div className="absolute bottom-3 left-3 w-[22%] overflow-hidden border border-white bg-white shadow-xl sm:bottom-4 sm:left-4">
                   <div className="relative aspect-square">
                     <Image
                       src={photos.janeGotch.src}
@@ -548,75 +557,78 @@ export default function EducationPage() {
         </Container>
       </section>
 
-      {/* Mentor close — a dark Verdant bookend with replaceable image slots. */}
+      {/* Mentor close — a dark Verdant bookend with a single Polestar faculty image. */}
       <section className="bg-brand-900 py-20 text-brand-50 sm:py-24">
-        <Container
-          size="wide"
-          className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16"
-        >
-          <div>
-            <h2 className="font-serif text-4xl font-semibold leading-tight text-white sm:text-6xl">
+        <Container size="full" className="text-center">
+          <ScrollReveal stagger={140}>
+            <h2
+              data-reveal
+              className="mx-auto max-w-3xl font-serif text-4xl font-semibold leading-tight text-white sm:text-6xl"
+            >
               A Journey Shaped by Teachers
             </h2>
-            <div className="mt-6 space-y-4 text-lg leading-relaxed text-brand-100">
-              <p>
-                Across three decades of teaching and learning, Gary credits the
-                educators and mentors who shared their knowledge, inspiration,
-                and guidance with him.
-              </p>
-              <p>
-                Their influence connects MVP to a wider movement community built
-                on collaboration, apprenticeship, humility, and continued
-                professional growth.
-              </p>
+
+            <div
+              data-reveal
+              className="mt-12 grid items-center gap-12 text-left lg:grid-cols-[0.82fr_1.18fr] lg:gap-16"
+            >
+              <div className="space-y-4 text-lg leading-relaxed text-brand-100">
+                <p>
+                  Across three decades of teaching and learning, Gary credits
+                  the educators and mentors who shared their knowledge,
+                  inspiration, and guidance with him. After a career in
+                  fitness and martial arts left him with injuries, it was
+                  Polestar training and rehabilitation that brought him back
+                  to full, pain-free movement.
+                </p>
+                <p>
+                  Polestar&apos;s holistic approach blends contemporary
+                  research with established practice across orthopedics,
+                  sports medicine, and movement science, and its global
+                  faculty network builds a community where educators and
+                  mentors support one another&apos;s growth. As a Polestar
+                  Educator and Mentor, Gary carries that same lineage of
+                  guidance into his own teaching.
+                </p>
+                <p>
+                  Their influence connects MVP to a wider movement community
+                  built on collaboration, apprenticeship, humility, and
+                  continued professional growth.
+                </p>
+              </div>
+
+              <div className="relative aspect-[16/9] overflow-hidden border border-white/15 bg-brand-800">
+                <Image
+                  src={photos.polestarFaculty.src}
+                  alt={photos.polestarFaculty.alt}
+                  fill
+                  sizes="(min-width: 1024px) 52vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
-            <p className="mt-10 max-w-xl font-serif text-4xl font-semibold leading-tight text-brand-300 sm:text-5xl">
-              Learn to Move. Move to Learn.
+
+            <p
+              data-reveal
+              className="mx-auto mt-16 max-w-3xl text-balance font-serif text-6xl font-semibold leading-tight text-brand-300 sm:text-7xl"
+            >
+              &ldquo;Learn to Move. Move to Learn.&rdquo;
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
+
+            <div data-reveal>
+              <MentorCarousel />
+            </div>
+
+            <div data-reveal className="mt-10 flex justify-center">
               <CtaButton
                 href="/education/polestar-comprehensive-training"
                 size="lg"
+                square
               >
                 Explore the 2026 Program
               </CtaButton>
-              <CtaButton href="/contact" size="lg" variant="outline">
-                Talk to Gary
-              </CtaButton>
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            {mentorImages.map((item, index) => (
-              <figure
-                key={item.photo.src}
-                className={index === 0 ? "col-span-2" : "col-span-1"}
-              >
-                <div
-                  className={
-                    index === 0
-                      ? "relative aspect-[16/9] overflow-hidden rounded-3xl border border-white/15 bg-brand-800"
-                      : "relative aspect-[3/4] overflow-hidden rounded-3xl border border-white/15 bg-brand-800"
-                  }
-                >
-                  <Image
-                    src={item.photo.src}
-                    alt={item.photo.alt}
-                    fill
-                    sizes={
-                      index === 0
-                        ? "(min-width: 1024px) 52vw, 100vw"
-                        : "(min-width: 1024px) 25vw, 50vw"
-                    }
-                    className="object-cover"
-                  />
-                </div>
-                <figcaption className="mt-2 text-sm leading-relaxed text-brand-200">
-                  {item.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+          </ScrollReveal>
         </Container>
       </section>
     </>

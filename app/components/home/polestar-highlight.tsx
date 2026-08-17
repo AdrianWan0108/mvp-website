@@ -33,14 +33,7 @@ export function PolestarHighlight() {
             ))}
           </ul>
           <div className="mt-9 flex flex-wrap gap-4">
-            <CtaButton href="/about/polestar" size="lg">
-              MVP × Polestar
-            </CtaButton>
-            <CtaButton
-              href="/education/polestar-comprehensive-training"
-              size="lg"
-              variant="outline"
-            >
+            <CtaButton href="/education/polestar-comprehensive-training" size="lg">
               Teacher Training 2026
             </CtaButton>
           </div>

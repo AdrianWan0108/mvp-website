@@ -135,16 +135,15 @@ export function EquipmentShowcase() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[color-mix(in_oklab,var(--brand-300),var(--brand-700)_25%)] pt-20 sm:pt-24"
+      className="bg-brand-500 pt-20 text-white sm:pt-24"
     >
       <Container>
         <div data-equip-heading>
           <SectionHeading
             align="center"
-            eyebrow="Equipment & methods"
-            title="Trained on the full studio"
-            intro="From the reformer to the Cadillac — professional apparatus for every body and goal."
-            className="[&_p:first-of-type]:text-brand-900"
+            title="Our Equipment"
+            intro="Reformer, Konnector®, Ladder Barrel, GYROTONIC®, and Trapeze Table — a full studio of professional apparatus for every body and goal."
+            className="[&_p:first-of-type]:text-white"
           />
         </div>
       </Container>

@@ -41,7 +41,7 @@ export function InstructorCards({
         const headshot = instructor.gallery[0];
 
         return (
-          <article key={instructor.slug}>
+          <article key={instructor.slug} data-reveal>
             <div
               tabIndex={0}
               aria-expanded={open}

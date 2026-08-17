@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { photos } from "@/app/lib/images";
 import { Container } from "../container";
-import { Meta } from "./pricing-ui";
+import { ScrollReveal } from "../scroll-reveal";
 
 /**
  * Pricing intro grounded in a real group class. The directional Verdant
@@ -23,24 +23,31 @@ export function PricingMasthead() {
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-900/85 via-brand-900/55 to-brand-900/10" />
 
       <Container className="relative z-10 py-24 sm:py-32 lg:py-36">
-        <Meta className="text-brand-300">Motion Vitality Pilates · Markham</Meta>
-
-        <h1 className="mt-4 max-w-3xl font-serif text-[3.5rem] leading-[0.9] tracking-[0.02em] sm:text-[5.25rem]">
-          Find your way to move
-        </h1>
-
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-brand-100 sm:text-xl">
-          Compare classes, memberships, and private training at a glance.
-        </p>
-
-        <div className="mt-8">
-          <Link
-            href="/schedule"
-            className="text-base font-semibold text-white underline decoration-brand-500 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-300"
+        <ScrollReveal stagger={100}>
+          <h1
+            data-reveal
+            className="max-w-3xl font-serif text-[3.5rem] leading-[0.9] tracking-[0.02em] sm:text-[5.25rem]"
           >
-            View class schedule →
-          </Link>
-        </div>
+            Pricing
+          </h1>
+
+          <p
+            data-reveal
+            className="mt-6 max-w-2xl text-lg leading-relaxed text-brand-100 sm:text-xl"
+          >
+            Group classes, memberships, senior sessions, and private
+            training — compare them all below to find your fit.
+          </p>
+
+          <div data-reveal className="mt-8">
+            <Link
+              href="/schedule"
+              className="text-lg font-semibold text-white underline decoration-brand-500 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-300 sm:text-xl"
+            >
+              View class schedule →
+            </Link>
+          </div>
+        </ScrollReveal>
       </Container>
     </section>
   );

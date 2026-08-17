@@ -5,15 +5,18 @@
   filter: drop-shadow(0 22px 35px rgb(27 53 43 / 0.16));
 }
 
+/* The grid is overscanned 9% past each side of the mask box (logoMask clips
+   the excess via overflow + the monogram mask itself) so the whole mosaic can
+   slide left/right as one piece — see collage-drift below — without ever
+   exposing the .logoMask backdrop at the edges. */
 .collage {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  width: 108%;
-  height: 116%;
-  margin: -3% 0 0 -4%;
-  animation: collage-drift 17s ease-in-out infinite alternate;
-  will-change: transform;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  width: 118%;
+  height: 100.6%;
+  margin: -0.3% -9%;
+  animation: collage-drift 16s ease-in-out infinite alternate;
 }
 
 .tile {
@@ -26,18 +29,7 @@
 
 .photo {
   object-fit: cover;
-  transform: scale(1.04);
-  animation: photo-breathe 14s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-.tile:nth-child(2n) .photo {
-  animation-direction: alternate-reverse;
-  animation-duration: 17s;
-}
-
-.tile:nth-child(3n) .photo {
-  animation-duration: 19s;
+  transform: scale(1.02);
 }
 
 .tint {
@@ -63,23 +55,11 @@
 }
 
 @keyframes collage-drift {
-  0% {
-    transform: translate3d(-1.5%, -1%, 0) scale(1.01);
-  }
-  50% {
-    transform: translate3d(0.75%, 1.5%, 0) scale(1.025);
-  }
-  100% {
-    transform: translate3d(1.75%, -0.25%, 0) scale(1.015);
-  }
-}
-
-@keyframes photo-breathe {
   from {
-    transform: scale(1.04) translate3d(-1%, 0, 0);
+    transform: translate3d(-7%, 0, 0);
   }
   to {
-    transform: scale(1.12) translate3d(1%, -1%, 0);
+    transform: translate3d(7%, 0, 0);
   }
 }
 
@@ -104,27 +84,12 @@
     width: calc(100vw - 2rem);
     max-width: none;
   }
-
-  .collage {
-    width: 112%;
-    height: 124%;
-    margin: -5% 0 0 -6%;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .collage,
-  .photo,
   .sheen {
     animation: none;
-  }
-
-  .collage {
-    transform: none;
-  }
-
-  .photo {
-    transform: scale(1.06);
   }
 
   .sheen {

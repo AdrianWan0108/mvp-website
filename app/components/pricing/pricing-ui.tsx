@@ -38,13 +38,15 @@ export function Meta({
   children,
   className,
   id,
+  "data-reveal": dataReveal,
 }: {
   children: ReactNode;
   className?: string;
   id?: string;
+  "data-reveal"?: boolean;
 }) {
   return (
-    <span id={id} className={cn(metaClass, className)}>
+    <span id={id} data-reveal={dataReveal} className={cn(metaClass, className)}>
       {children}
     </span>
   );
