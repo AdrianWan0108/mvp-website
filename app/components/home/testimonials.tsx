@@ -160,7 +160,7 @@ export function Testimonials() {
                 <p className="font-serif text-xl font-semibold tracking-[0.08em]">
                   {t.name}
                 </p>
-                <p className="mt-1 text-sm text-muted-foreground">{t.detail}</p>
+                <p className="mt-1 text-base text-foreground/70">{t.detail}</p>
               </figcaption>
             </figure>
           ))}

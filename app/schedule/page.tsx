@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import { Container } from "../components/container";
 import { ScrollReveal } from "../components/scroll-reveal";
+import { ScheduleWidget } from "../components/schedule/schedule-widget";
 import { photos } from "@/app/lib/images";
 
 export const metadata: Metadata = {
@@ -58,17 +58,7 @@ export default function SchedulePage() {
 
       <section id="private" className="bg-brand-50 pb-16 pt-6 sm:pb-20 sm:pt-8">
         <Container>
-          {/* Mindbody Schedules widget (widget-id 2257513f307). The loader
-              script scans the DOM for .mindbody-widget and hydrates this div. */}
-          <div
-            className="mindbody-widget"
-            data-widget-type="Schedules"
-            data-widget-id="2257513f307"
-          />
-          <Script
-            src="https://brandedweb.mindbodyonline.com/embed/widget.js"
-            strategy="afterInteractive"
-          />
+          <ScheduleWidget />
         </Container>
       </section>
     </>

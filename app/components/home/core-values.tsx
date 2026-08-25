@@ -209,7 +209,7 @@ export function CoreValues() {
               <li
                 key={value.title}
                 data-values-item
-                className={`absolute font-serif text-3xl font-normal uppercase tracking-[0.08em] text-brand-800 sm:text-4xl ${value.position}`}
+                className={`absolute font-serif text-4xl font-normal uppercase tracking-[0.08em] text-brand-800 sm:text-5xl ${value.position}`}
               >
                 {value.title}
               </li>

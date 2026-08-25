@@ -85,7 +85,7 @@ export function GalleryWall() {
 
           <p
             data-reveal
-            className="mt-8 max-w-lg text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:mt-10"
+            className="mt-8 max-w-lg text-base font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:mt-10 sm:text-lg"
           >
             Movement. Vitality. People.
           </p>
@@ -94,6 +94,7 @@ export function GalleryWall() {
               href={`/pricing#${sectionAnchorId("memberships")}`}
               size="lg"
               square
+              className="px-8 py-4 text-lg"
             >
               See membership options
             </CtaButton>

@@ -143,7 +143,7 @@ export function EquipmentShowcase() {
             align="center"
             title="Our Equipment"
             intro="Reformer, Konnector®, Ladder Barrel, GYROTONIC®, and Trapeze Table — a full studio of professional apparatus for every body and goal."
-            className="[&_p:first-of-type]:text-white"
+            className="[&_h2]:text-5xl [&_h2]:sm:text-6xl [&_p:first-of-type]:text-white"
           />
         </div>
       </Container>

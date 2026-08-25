@@ -46,7 +46,7 @@ function HeroCopy() {
       </h1>
       {/* The Markham · Ontario locality moved here from the eyebrow — same
           keyword for local SEO, read as a sentence instead of a label. */}
-      <p className="hero-enter mt-6 max-w-xl text-xl leading-relaxed text-white/80 [animation-delay:240ms]">
+      <p className="hero-enter mt-6 max-w-xl text-xl font-normal leading-relaxed text-white [animation-delay:240ms]">
         State-of-the-art Pilates &amp; GYROTONIC&reg; in Markham, Ontario,
         taught by a Polestar-certified team. Group classes, private sessions,
         and rehab-informed movement for every body.
