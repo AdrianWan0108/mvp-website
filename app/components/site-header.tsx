@@ -4,10 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Award, Building2, Compass, Users } from "lucide-react";
 import { CtaButton } from "./cta-button";
 import { mainNav, site, type NavItem } from "@/app/lib/site";
 import { brandLogos } from "@/app/lib/images";
 import { cn } from "@/app/lib/cn";
+
+// Maps the icon *name* stored in site.ts to the actual lucide component —
+// site.ts stays a plain data file rather than importing React components.
+const dropdownIcons = { Compass, Award, Building2, Users } satisfies Record<
+  NonNullable<NavItem["icon"]>,
+  React.ComponentType<{ className?: string }>
+>;
 
 function matchesPath(pathname: string, target: string): boolean {
   return target === "/" ? pathname === "/" : pathname.startsWith(target);
@@ -145,7 +153,7 @@ export function SiteHeader() {
         ? "bg-brand-100/65 font-semibold text-brand-700"
         : "text-brand-950/75 hover:bg-brand-100/80 hover:text-brand-800";
 
-  const panelDescription = onDarkSurface ? "text-white/50" : "text-brand-950/50";
+  const panelDescription = onDarkSurface ? "text-white/65" : "text-brand-950/65";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -287,27 +295,42 @@ export function SiteHeader() {
                         panelSurface,
                       )}
                     >
-                      {item.children.map((child) => (
+                      {item.children.map((child) => {
+                        const Icon = child.icon
+                          ? dropdownIcons[child.icon]
+                          : null;
+                        const active = pathname === child.href;
+
+                        return (
                         <li key={child.href}>
                           <Link
                             href={child.href}
                             onClick={closeDropdown}
-                            aria-current={
-                              pathname === child.href ? "page" : undefined
-                            }
+                            aria-current={active ? "page" : undefined}
                             className={cn(
-                              "group/drop flex items-center justify-between gap-4 rounded-lg px-3.5 py-2.5 text-sm transition-[background-color,color] duration-200",
-                              panelItem(pathname === child.href),
+                              "group/drop flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm transition-[background-color,color] duration-200",
+                              panelItem(active),
                             )}
                           >
-                            <span className="min-w-0">
-                              <span className="block leading-snug">
+                            {Icon && (
+                              <Icon
+                                aria-hidden
+                                className={cn(
+                                  "size-[18px] shrink-0",
+                                  onDarkSurface
+                                    ? "text-white/60"
+                                    : "text-brand-500",
+                                )}
+                              />
+                            )}
+                            <span className="min-w-0 flex-1">
+                              <span className="block font-semibold leading-snug">
                                 {child.label}
                               </span>
                               {child.description && (
                                 <span
                                   className={cn(
-                                    "mt-0.5 block text-xs leading-snug",
+                                    "mt-0.5 block text-xs font-medium leading-snug",
                                     panelDescription,
                                   )}
                                 >
@@ -326,7 +349,8 @@ export function SiteHeader() {
                             </span>
                           </Link>
                         </li>
-                      ))}
+                        );
+                      })}
                     </ul>
                   </div>
                 </div>

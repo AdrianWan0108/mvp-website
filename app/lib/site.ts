@@ -51,6 +51,10 @@ export type NavItem = {
    *  labels; "descriptive" gives each row a label + `description` line, which
    *  lets the labels stay short when the destinations need explaining. */
   menu?: "simple" | "descriptive";
+  /** Name of a lucide-react icon shown beside a `menu: "descriptive"` child
+   *  row. A name, not a component, so this stays a plain data file — the
+   *  header maps it to the actual icon. */
+  icon?: "Compass" | "Award" | "Building2" | "Users";
   /** Optional dropdown sub-links (desktop) / nested links (mobile). */
   children?: NavItem[];
 };
@@ -74,11 +78,13 @@ export const mainNav: NavItem[] = [
         label: "Why Train at MVP",
         href: "/education",
         description: "Our approach, studio, and mentorship",
+        icon: "Compass",
       },
       {
         label: "Polestar Comprehensive",
         href: "/education/polestar-comprehensive-training",
         description: "The full certification pathway",
+        icon: "Award",
       },
     ],
   },
@@ -92,11 +98,13 @@ export const mainNav: NavItem[] = [
         label: "Studio",
         href: "/about/studio",
         description: "Our space, equipment, and Polestar roots",
+        icon: "Building2",
       },
       {
         label: "Team",
         href: "/about/team",
         description: "Meet the instructors and staff",
+        icon: "Users",
       },
     ],
   },
