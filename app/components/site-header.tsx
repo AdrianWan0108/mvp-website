@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CtaButton } from "./cta-button";
 import { mainNav, site, type NavItem } from "@/app/lib/site";
 import { brandLogos } from "@/app/lib/images";
@@ -30,6 +30,60 @@ export function SiteHeader() {
   });
   const [scrolled, setScrolled] = useState(false);
   const open = menu.open && menu.path === pathname;
+
+  // Desktop dropdown, keyed by the parent item's href. Held in state rather
+  // than pure `group-hover` so the close can be delayed — a diagonal cursor
+  // path toward an off-centre child link used to slip outside the group and
+  // snap the menu shut. Also lets the trigger expose aria-expanded.
+  // Stored with the path it was opened on so a navigation implicitly dismisses
+  // it — the panel used to stay up after a child link navigated, since the
+  // cursor never leaves it and no mouseleave ever fires.
+  const [dropdown, setDropdown] = useState<{ href: string; path: string | null }>(
+    { href: "", path: null },
+  );
+  const openMenu = dropdown.path === pathname ? dropdown.href : "";
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const cancelClose = useCallback(() => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }, []);
+
+  const openDropdown = useCallback(
+    (href: string) => {
+      cancelClose();
+      setDropdown({ href, path: pathname });
+    },
+    [cancelClose, pathname],
+  );
+
+  const closeDropdown = useCallback(() => {
+    cancelClose();
+    setDropdown({ href: "", path: null });
+  }, [cancelClose]);
+
+  const scheduleClose = useCallback(() => {
+    cancelClose();
+    closeTimer.current = setTimeout(
+      () => setDropdown({ href: "", path: null }),
+      120,
+    );
+  }, [cancelClose]);
+
+  useEffect(() => cancelClose, [cancelClose]);
+
+  useEffect(() => {
+    if (!openMenu) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeDropdown();
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [openMenu, closeDropdown]);
 
   const isEducation = pathname?.startsWith("/education") ?? false;
   const isHome = pathname === "/";
@@ -74,6 +128,24 @@ export function SiteHeader() {
       : active
         ? "font-semibold text-brand-700"
         : "text-brand-950/78 hover:text-brand-700";
+
+  // The dropdown panel follows the bar it hangs from. Previously it was
+  // hardcoded cream, so over the home hero and on the dark /education header
+  // a white trigger opened a light panel — a hard theme break mid-interaction.
+  const panelSurface = onDarkSurface
+    ? "border-white/12 bg-[#111412]/97 shadow-[0_22px_55px_-24px_rgba(0,0,0,0.85)]"
+    : "border-brand-200/80 bg-[#fbfaf6]/98 shadow-[0_22px_55px_-24px_rgba(21,36,31,0.45)]";
+
+  const panelItem = (active: boolean) =>
+    onDarkSurface
+      ? active
+        ? "bg-white/10 font-semibold text-white"
+        : "text-white/72 hover:bg-white/8 hover:text-white"
+      : active
+        ? "bg-brand-100/65 font-semibold text-brand-700"
+        : "text-brand-950/75 hover:bg-brand-100/80 hover:text-brand-800";
+
+  const panelDescription = onDarkSurface ? "text-white/50" : "text-brand-950/50";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -151,14 +223,29 @@ export function SiteHeader() {
           <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
             {mainNav.map((item) =>
               item.children ? (
-                <div key={item.href} className="group relative">
+                <div
+                  key={item.href}
+                  className="relative"
+                  onMouseEnter={() => openDropdown(item.href)}
+                  onMouseLeave={scheduleClose}
+                  onFocus={() => openDropdown(item.href)}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                      closeDropdown();
+                    }
+                  }}
+                >
                   <Link
                     href={item.href}
                     aria-haspopup="true"
+                    aria-expanded={openMenu === item.href}
                     aria-current={pathname === item.href ? "page" : undefined}
                     data-active={isActive(pathname, item)}
+                    // Enter still navigates to the section landing page, but
+                    // the panel opens on focus and the overview row repeats
+                    // that destination, so keyboard users never lose it.
                     className={cn(
-                      "site-nav-link relative flex items-center gap-1.5 px-3 py-3 text-[0.98rem] font-medium tracking-[0.01em] transition-[color,transform] duration-300 hover:-translate-y-0.5 motion-reduce:transition-none xl:px-3.5",
+                      "site-nav-link relative flex items-center gap-1.5 px-3 py-3 text-[0.98rem] font-medium tracking-[0.01em] transition-colors duration-300 motion-reduce:transition-none xl:px-3.5",
                       navLink(isActive(pathname, item)),
                     )}
                   >
@@ -173,27 +260,67 @@ export function SiteHeader() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       aria-hidden
-                      className="mt-0.5 transition-transform duration-300 ease-out group-hover:rotate-180 group-focus-within:rotate-180 motion-reduce:transition-none"
+                      className={cn(
+                        "mt-0.5 transition-transform duration-300 ease-out motion-reduce:transition-none",
+                        openMenu === item.href && "rotate-180",
+                      )}
                     >
                       <polyline points="6 9 12 15 18 9" />
                     </svg>
                   </Link>
-                  <div className="pointer-events-none invisible absolute left-1/2 top-full w-max min-w-72 -translate-x-1/2 -translate-y-1 scale-[0.97] pt-2 opacity-0 transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100 motion-reduce:transition-none">
-                    <ul className="overflow-hidden rounded-xl border border-brand-200/80 bg-[#fbfaf6]/98 p-2 shadow-[0_22px_55px_-24px_rgba(21,36,31,0.45)] backdrop-blur-xl">
+                  <div
+                    className={cn(
+                      // Anchored to the trigger's leading edge rather than
+                      // centred — a centred panel under a wide label reads as
+                      // floating, and About sits close enough to the CTA that
+                      // a centred wide panel crowded it.
+                      "absolute left-0 top-full pt-2 transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+                      item.menu === "descriptive" ? "w-80" : "w-56",
+                      openMenu === item.href
+                        ? "visible translate-y-0 scale-100 opacity-100"
+                        : "pointer-events-none invisible -translate-y-1 scale-[0.97] opacity-0",
+                    )}
+                  >
+                    <ul
+                      className={cn(
+                        "overflow-hidden rounded-xl border p-2 backdrop-blur-xl",
+                        panelSurface,
+                      )}
+                    >
                       {item.children.map((child) => (
                         <li key={child.href}>
                           <Link
                             href={child.href}
+                            onClick={closeDropdown}
+                            aria-current={
+                              pathname === child.href ? "page" : undefined
+                            }
                             className={cn(
-                              "group/drop flex items-center justify-between gap-5 rounded-lg px-3.5 py-3 text-sm text-brand-950/75 transition-[background-color,color,padding] duration-200 hover:bg-brand-100/80 hover:pl-4 hover:text-brand-800",
-                              pathname === child.href &&
-                                "bg-brand-100/65 font-semibold text-brand-700",
+                              "group/drop flex items-center justify-between gap-4 rounded-lg px-3.5 py-2.5 text-sm transition-[background-color,color] duration-200",
+                              panelItem(pathname === child.href),
                             )}
                           >
-                            <span>{child.label}</span>
+                            <span className="min-w-0">
+                              <span className="block leading-snug">
+                                {child.label}
+                              </span>
+                              {child.description && (
+                                <span
+                                  className={cn(
+                                    "mt-0.5 block text-xs leading-snug",
+                                    panelDescription,
+                                  )}
+                                >
+                                  {child.description}
+                                </span>
+                              )}
+                            </span>
                             <span
                               aria-hidden
-                              className="translate-x-1 text-brand-500 opacity-0 transition-[opacity,transform] duration-200 group-hover/drop:translate-x-0 group-hover/drop:opacity-100"
+                              className={cn(
+                                "shrink-0 translate-x-1 opacity-0 transition-[opacity,transform] duration-200 group-hover/drop:translate-x-0 group-hover/drop:opacity-100 motion-reduce:transition-none",
+                                onDarkSurface ? "text-white/70" : "text-brand-500",
+                              )}
                             >
                               →
                             </span>
@@ -210,7 +337,7 @@ export function SiteHeader() {
                   aria-current={pathname === item.href ? "page" : undefined}
                   data-active={isActive(pathname, item)}
                   className={cn(
-                    "site-nav-link relative px-3 py-3 text-[0.98rem] font-medium tracking-[0.01em] transition-[color,transform] duration-300 hover:-translate-y-0.5 motion-reduce:transition-none xl:px-3.5",
+                    "site-nav-link relative px-3 py-3 text-[0.98rem] font-medium tracking-[0.01em] transition-colors duration-300 motion-reduce:transition-none xl:px-3.5",
                     navLink(isActive(pathname, item)),
                   )}
                 >
@@ -224,16 +351,11 @@ export function SiteHeader() {
             <CtaButton
               href="/schedule"
               square
+              arrow
               variant={onDarkSurface ? "inverse" : "primary"}
-              className="group/book ml-3 overflow-hidden shadow-[0_10px_24px_-16px_rgba(21,36,31,0.65)]"
+              className="ml-3"
             >
-              <span>Book a Class</span>
-              <span
-                aria-hidden
-                className="transition-transform duration-300 group-hover/book:translate-x-1 motion-reduce:transition-none"
-              >
-                →
-              </span>
+              Book a Class
             </CtaButton>
           </nav>
 
@@ -356,10 +478,11 @@ export function SiteHeader() {
                 href="/schedule"
                 size="lg"
                 square
+                arrow
                 variant={isEducation ? "inverse" : "primary"}
                 className={cn("mt-5 w-full", open && "mobile-nav-enter")}
               >
-                Book a Class <span aria-hidden>→</span>
+                Book a Class
               </CtaButton>
             </nav>
           </div>

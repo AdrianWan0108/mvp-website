@@ -44,6 +44,13 @@ export type NavItem = {
   /** Optional path prefix for active-state matching when it differs from href
    *  (e.g. "About" stays active across all /about/* pages). */
   match?: string;
+  /** One-line supporting copy shown under the label in desktop dropdowns.
+   *  Only set on children of `menu: "descriptive"` items. */
+  description?: string;
+  /** Desktop dropdown presentation. "simple" (default) is a compact list of
+   *  labels; "descriptive" gives each row a label + `description` line, which
+   *  lets the labels stay short when the destinations need explaining. */
+  menu?: "simple" | "descriptive";
   /** Optional dropdown sub-links (desktop) / nested links (mobile). */
   children?: NavItem[];
 };
@@ -58,11 +65,20 @@ export const mainNav: NavItem[] = [
   {
     label: "Teacher Training",
     href: "/education",
+    // Descriptive menu: the Polestar programme's full name is far too long to
+    // sit in a dropdown row, so the label carries a short form and the
+    // description does the explaining.
+    menu: "descriptive",
     children: [
-      { label: "Why Train at MVP", href: "/education" },
       {
-        label: "Polestar Comprehensive Pilates Teacher Training",
+        label: "Why Train at MVP",
+        href: "/education",
+        description: "Our approach, studio, and mentorship",
+      },
+      {
+        label: "Polestar Comprehensive",
         href: "/education/polestar-comprehensive-training",
+        description: "The full certification pathway",
       },
     ],
   },
@@ -70,9 +86,18 @@ export const mainNav: NavItem[] = [
     label: "About",
     href: "/about/studio",
     match: "/about",
+    menu: "descriptive",
     children: [
-      { label: "Studio", href: "/about/studio" },
-      { label: "Team", href: "/about/team" },
+      {
+        label: "Studio",
+        href: "/about/studio",
+        description: "Our space, equipment, and Polestar roots",
+      },
+      {
+        label: "Team",
+        href: "/about/team",
+        description: "Meet the instructors and staff",
+      },
     ],
   },
   { label: "Contact", href: "/contact" },

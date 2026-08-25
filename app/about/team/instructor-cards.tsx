@@ -114,7 +114,7 @@ export function InstructorCards({
                         <Link
                           href={`/about/team/${instructor.slug}`}
                           onClick={(event) => event.stopPropagation()}
-                          className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-900 transition-transform hover:-translate-y-0.5 focus-visible:outline-none motion-reduce:transform-none"
+                          className="mt-5 inline-flex items-center gap-2 bg-white px-5 py-2.5 text-sm font-semibold text-brand-900 transition-transform hover:-translate-y-0.5 focus-visible:outline-none motion-reduce:transform-none"
                         >
                           Learn More
                           <ArrowRight aria-hidden className="size-4" />

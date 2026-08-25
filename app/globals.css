@@ -87,6 +87,14 @@
   --accent: var(--brand-400);
   --accent-foreground: #111412;
   --ring: var(--brand-500);
+
+  /* This theme inverts the CTA's polarity: --primary-foreground is near-black
+     on a light green fill, so the :root recipe (deepen the fill, lighten the
+     label) would drive both toward each other and shed contrast. Deepening
+     also loses the accent's glow against the ink background — here hover
+     brightens the fill instead and holds the label steady. */
+  --cta-primary-hover: color-mix(in oklab, var(--primary) 81%, var(--brand-300));
+  --cta-primary-fg-hover: var(--primary-foreground);
 }
 
 /* ---------- ACTIVE 2B — EDUCATION LIGHT ----------
@@ -232,6 +240,46 @@ h4 {
 :focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
+}
+
+/* ---------- CTA button derived tokens ----------
+   Defined here rather than as Tailwind arbitrary values because Tailwind
+   parses `color-mix(...)` inside `bg-[…]` / `shadow-[…]` as a color token and
+   normalizes it back to the bare variable — the hover fill silently compiled
+   to the same color as the rest state, i.e. no hover at all. Declared on
+   :root so every theme block ([data-theme="education"], education-light)
+   inherits them and they re-derive from whatever --primary that theme sets. */
+:root {
+  /* Hover deepens the fill toward brand-800 rather than toward black. Mixing
+     with black desaturates as it darkens, turning the green muddy; mixing with
+     a darker brand tone keeps the colour alive and only ever *raises* contrast
+     against the white label. Interpolated in oklab so the step is
+     perceptually even rather than lurching through sRGB. */
+  --cta-primary-hover: color-mix(in oklab, var(--primary) 69%, var(--brand-800));
+  --cta-primary-shadow: color-mix(in oklab, var(--primary) 45%, transparent);
+  /* Nudged toward pure white so the label lifts with the deepening fill.
+     Kept subtle — on the education theme --primary-foreground is near-black,
+     where mixing toward white would wash it out, so the step stays small. */
+  --cta-primary-fg-hover: color-mix(in oklab, var(--primary-foreground) 90%, white);
+  --cta-outline-hover-border: color-mix(in oklab, var(--primary) 45%, var(--border));
+
+  /* Secondary previously jumped straight to brand-300 — roughly a 46-point
+     brightness step against primary's ~13, so the two variants read as
+     unrelated. This lands a comparable step from --secondary. */
+  --cta-secondary-hover: color-mix(in oklab, var(--secondary) 74%, var(--brand-300));
+
+  /* White → a faintly green-tinted off-white. The previous #f2f4f1 was a
+     neutral grey and only ~12 points darker, so on the hero navbar it read as
+     no hover at all. */
+  --cta-inverse-hover: color-mix(in oklab, #ffffff 80%, var(--brand-300));
+
+  /* Fast in, slow out: the fill arrives quickly enough to feel responsive to
+     intent, then releases gently. `--cta-ease` is close to linear in its
+     middle, which suits colour better than the transform-oriented ease-out
+     that both channels used to share. */
+  --cta-duration-in: 150ms;
+  --cta-duration-out: 350ms;
+  --cta-ease: cubic-bezier(0.3, 0, 0.2, 1);
 }
 
 /* Editorial navbar indicator: the line grows from the leading edge, while the
