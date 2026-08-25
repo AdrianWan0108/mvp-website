@@ -1,0 +1,31 @@
+/* Show only the centered mentor plus one on each side.
+ *
+ * The coverflow effect pushes distant slides back in Z rather than moving
+ * them out of the container, so without this every slide stays on screen as
+ * an ever-narrower sliver. Swiper tags exactly the three slides we want
+ * (-active / -prev / -next); everything beyond fades out. */
+/* Swiper's wrapper easing defaults to linear, which is what makes a slide
+ * change read as a jump rather than a glide. This eases the whole travel
+ * out, matching the `speed` set on the component. */
+.mentor-carousel .swiper-wrapper {
+  --swiper-wrapper-transition-timing-function: cubic-bezier(0.25, 0.6, 0.3, 1);
+}
+
+/* Fade non-visible slides out. This must NOT use the `transition` shorthand:
+ * Swiper drives each slide's coverflow rotateY through an inline
+ * transition-duration on the same element, and a shorthand here resets that
+ * to 0s — the 3D rotation then snaps to its final angle instead of turning,
+ * which reads as a jump however slow the horizontal travel is. Setting only
+ * the opacity longhands leaves Swiper's transform timing intact. */
+.mentor-carousel .swiper-slide {
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: 800ms;
+  transition-timing-function: cubic-bezier(0.25, 0.6, 0.3, 1);
+}
+
+.mentor-carousel .swiper-slide-active,
+.mentor-carousel .swiper-slide-prev,
+.mentor-carousel .swiper-slide-next {
+  opacity: 1;
+}

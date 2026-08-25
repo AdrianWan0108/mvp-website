@@ -572,7 +572,7 @@ export default function EducationPage() {
               data-reveal
               className="mt-12 grid items-center gap-12 text-left lg:grid-cols-[0.82fr_1.18fr] lg:gap-16"
             >
-              <div className="space-y-4 text-lg leading-relaxed text-brand-100">
+              <div className="space-y-4 text-lg leading-relaxed text-white xl:text-xl">
                 <p>
                   Across three decades of teaching and learning, Gary credits
                   the educators and mentors who shared their knowledge,
