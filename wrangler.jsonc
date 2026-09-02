@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mvp-website",
+
+  // Pinned deliberately. This login can see more than one Cloudflare account,
+  // and with no account_id set wrangler may pick the wrong one silently. With
+  // it pinned, a deploy either goes to this exact account or fails outright.
+  // Not a secret — an account id grants nothing without credentials.
+  //
+  // TODO: replace with the account that holds motionvitalitypilates.com.
+  //   Adrianwan0108@gmail.com      bd7941fad443c61bc9009ed75da02390
+  //   Sarahfongoptometry@gmail.com 2cb1cebeabe09d012bb8f3abe5ba8813
+  "account_id": "PASTE_ACCOUNT_ID_HERE",
+
+  "compatibility_date": "2026-09-02",
+
+  // Static-only site: `next build` with output:"export" writes ./out, and the
+  // assets runtime serves it directly. No Worker script, so no "main" entry.
+  "assets": {
+    "directory": "./out",
+
+    // Serve /pricing from pricing.html and 404.html for unmatched paths.
+    // auto-trailing-slash keeps /pricing and /pricing/ resolving to one page,
+    // which avoids duplicate-content pairs in search results.
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}

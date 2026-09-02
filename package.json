@@ -6,7 +6,11 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "whoami": "wrangler whoami",
+    "deploy:check": "next build && wrangler deploy --dry-run",
+    "deploy": "next build && wrangler deploy",
+    "verify:redirects": "bash scripts/verify-redirects.sh"
   },
   "dependencies": {
     "lucide-react": "^1.21.0",
@@ -24,6 +28,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.128.0"
   }
 }
