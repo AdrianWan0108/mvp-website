@@ -3,11 +3,11 @@ import { site } from "./lib/site";
 
 export const dynamic = "force-static";
 
-// Old routes (/about, /about/our-story, /about/our-team, /polestar,
-// /polestar/teacher-training) are redirect stubs with noindex — excluded here.
+// Superseded routes (/about, /about/our-story, /about/our-team, /polestar,
+// /polestar/teacher-training) and the retired /classes page are 301s handled
+// in public/_redirects — excluded here so the sitemap lists only live pages.
 const routes = [
   "",
-  "/classes",
   "/education",
   "/education/polestar-comprehensive-training",
   "/about/studio",

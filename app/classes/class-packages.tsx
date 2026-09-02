@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { CtaButton } from "../components/cta-button";
-import { links } from "@/app/lib/links";
 import { photos, type PhotoKey } from "@/app/lib/images";
 
 const NEEDS = ["rehab", "prenatal", "strength", "alignment"] as const;
@@ -150,7 +149,7 @@ function FeaturedPackage({ pkg }: { pkg: Pkg }) {
         </p>
         <BenefitList items={pkg.includes} />
         <CtaButton
-          href={links.book}
+          href="/pricing"
           variant="outline"
           size="lg"
           className="mt-7 self-start bg-card hover:bg-muted"
@@ -193,7 +192,7 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
       </p>
       <BenefitList items={pkg.includes} />
       <CtaButton
-        href={links.book}
+        href="/pricing"
         variant="outline"
         size="lg"
         className="mt-7 self-start bg-card hover:bg-muted"

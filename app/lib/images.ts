@@ -18,7 +18,7 @@
 
 export type Photo = { src: string; alt: string };
 
-const A = "/mvp-website/assets";
+const A = "/assets";
 
 export type BrandLogoTone = "verdant" | "dark" | "white";
 

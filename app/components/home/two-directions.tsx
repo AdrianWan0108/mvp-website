@@ -15,8 +15,8 @@ const directions = [
   {
     title: "The Studio",
     body: "Group classes, private sessions, and rehab-informed movement on the full Pilates and GYROTONIC® apparatus — for every body, at every level.",
-    cta: "Explore Classes",
-    href: "/classes",
+    cta: "Explore Classes & Pricing",
+    href: "/pricing",
     photo: photos.studioReformerFloor,
     theme: undefined,
   },

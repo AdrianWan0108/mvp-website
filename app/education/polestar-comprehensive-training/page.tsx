@@ -88,13 +88,13 @@ const educators = [
     name: "Gary Fok",
     role: "Program educator · Founder of Motion Vitality Pilates",
     bio: "A Polestar Educator, Mentor, and Ambassador who brings a collaborative, movement-first approach to the cohort.",
-    image: "/mvp-website/assets/education/gary-lead-educator.webp",
+    image: "/assets/education/gary-lead-educator.webp",
   },
   {
     name: "Maureen Shea, NCPT",
     role: "Program educator · Nationally Certified Pilates Teacher",
     bio: "Maureen joins Gary in guiding students through the comprehensive program's movement and teaching curriculum.",
-    image: "/mvp-website/assets/education/maureen-headshot.webp",
+    image: "/assets/education/maureen-headshot.webp",
   },
 ];
 
@@ -314,7 +314,7 @@ export default function TeacherTrainingPage() {
                 className="pointer-events-none absolute inset-0 flex items-center justify-center"
               >
                 <Image
-                  src="/mvp-website/assets/brand/polestar-logo.png"
+                  src="/assets/brand/polestar-logo.png"
                   alt=""
                   width={720}
                   height={720}
@@ -346,7 +346,7 @@ export default function TeacherTrainingPage() {
                 <div className="mt-8 flex items-center gap-4">
                   <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full">
                     <Image
-                      src="/mvp-website/assets/education/gary-lead-educator.webp"
+                      src="/assets/education/gary-lead-educator.webp"
                       alt="Gary Fok"
                       fill
                       sizes="56px"
@@ -370,7 +370,7 @@ export default function TeacherTrainingPage() {
       <section className="grid lg:grid-cols-[2fr_1fr]">
           <div className="relative aspect-[2048/1154] lg:aspect-auto">
             <Image
-              src="/mvp-website/assets/education/students-attending.webp"
+              src="/assets/education/students-attending.webp"
               alt="Gary Fok with a Polestar teacher-training cohort"
               fill
               sizes="(min-width: 1024px) 66vw, 100vw"
@@ -640,7 +640,7 @@ export default function TeacherTrainingPage() {
         <Container className="grid items-center gap-8 lg:grid-cols-[0.4fr_1fr]">
           <div className="mx-auto w-full max-w-[16rem] sm:max-w-[19rem] lg:mx-0">
             <Image
-              src="/mvp-website/assets/education/diploma-sample.webp"
+              src="/assets/education/diploma-sample.webp"
               alt="Sample Polestar Pilates education diploma"
               width={783}
               height={598}

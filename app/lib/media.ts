@@ -3,7 +3,7 @@
  * local /public path; set NEXT_PUBLIC_MEDIA_BASE_URL to an R2/CDN origin at
  * deploy time to serve these files from there instead.
  */
-const mediaBase = process.env.NEXT_PUBLIC_MEDIA_BASE_URL ?? "/mvp-website/assets/video";
+const mediaBase = process.env.NEXT_PUBLIC_MEDIA_BASE_URL ?? "/assets/video";
 
 export const coreValuesVideo = {
   mp4: `${mediaBase}/core-values.mp4`,

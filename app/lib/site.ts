@@ -90,21 +90,21 @@ export const mainNav: NavItem[] = [
   },
   {
     label: "About",
-    href: "/about/studio",
+    href: "/about/team",
     match: "/about",
     menu: "descriptive",
     children: [
-      {
-        label: "Studio",
-        href: "/about/studio",
-        description: "Our space, equipment, and Polestar roots",
-        icon: "Building2",
-      },
       {
         label: "Team",
         href: "/about/team",
         description: "Meet the instructors and staff",
         icon: "Users",
+      },
+      {
+        label: "Studio",
+        href: "/about/studio",
+        description: "Our space, equipment, and Polestar roots",
+        icon: "Building2",
       },
     ],
   },
@@ -116,7 +116,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Explore",
     items: [
-      { label: "Studio", href: "/classes" },
+      { label: "Pricing", href: "/pricing" },
       { label: "Teacher Training", href: "/education" },
       {
         label: "Polestar Comprehensive Pilates Teacher Training",

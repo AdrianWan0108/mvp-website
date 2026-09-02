@@ -326,7 +326,7 @@ export default function StudioPage() {
 
       <section className="py-16 sm:py-20">
         <Container className="max-w-[110rem] px-5 sm:px-8 xl:px-10 2xl:px-12">
-          <div className="relative isolate flex min-h-[25rem] flex-col justify-end overflow-hidden rounded-3xl border border-border p-8 sm:p-12">
+          <div className="relative isolate flex min-h-[25rem] flex-col justify-end overflow-hidden border border-border p-8 sm:p-12">
             <div aria-hidden className="absolute inset-0 -z-10">
               <Image
                 src={photos.entranceWall.src}
@@ -344,10 +344,13 @@ export default function StudioPage() {
               {site.address.street}, {site.address.locality}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <CtaButton href="/classes" size="lg">
-                View Classes
+              <CtaButton href="/pricing" size="lg" square>
+                View Pricing
               </CtaButton>
-              <CtaButton href="/contact" variant="inverse" size="lg">
+              <CtaButton href="/schedule" variant="inverse" size="lg" square>
+                Book a Class
+              </CtaButton>
+              <CtaButton href="/contact" variant="inverse" size="lg" square>
                 Contact Us
               </CtaButton>
             </div>

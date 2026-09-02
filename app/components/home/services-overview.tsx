@@ -60,7 +60,7 @@ export function ServicesOverview() {
           {services.map((service) => (
             <Link
               key={service.name}
-              href="/classes"
+              href="/pricing"
               className="group rounded-2xl focus-visible:outline-none"
             >
               <Card className="h-full transition-shadow group-hover:shadow-md">

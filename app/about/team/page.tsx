@@ -57,7 +57,7 @@ export default function TeamPage() {
             className="flex flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 lg:px-14 lg:py-20 xl:px-20 2xl:pr-[max(5rem,calc((100vw-110rem)/2+5rem))]"
           >
             <Image
-              src="/mvp-website/assets/brand/polestar-logo.png"
+              src="/assets/brand/polestar-logo.png"
               alt="Polestar Pilates"
               width={360}
               height={126}

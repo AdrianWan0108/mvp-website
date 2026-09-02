@@ -1,0 +1,70 @@
+# Wix -> new site redirects.
+#
+# Cloudflare Workers static assets reads this file from the build output.
+# Rules match top-to-bottom, first match wins, so specific paths must come
+# before any broader ones. Every line is a 301 (permanent) so search engines
+# transfer ranking signals to the new URL.
+#
+# Apex -> www is NOT handled here: it is a hostname-level concern that has to
+# resolve before the request reaches this Worker. Set it up as a Cloudflare
+# Redirect Rule in the dashboard instead.
+
+# --- Wix Bookings service pages -------------------------------------------
+# These sold packages through Wix Bookings, which competes with Mindbody.
+# Two of them are indexed, so Google actively sends buyers to the wrong
+# checkout. All five point at /pricing, where the real Mindbody path lives.
+/service-page/first-timer-power-pack-4-classes      /pricing              301
+/service-page/private-1-1-gyrotonic-10-sessions     /pricing              301
+/service-page/private-1-1-pilates-10-sessions       /pricing              301
+/service-page/semi-private-pilates-10-sessions      /pricing              301
+/service-page/group-reformer-class-10-classes       /pricing              301
+/plans-pricing                                      /pricing              301
+/my-subscriptions                                   /pricing              301
+
+# --- Booking + scheduling --------------------------------------------------
+/book-online                                        /schedule             301
+/booking-schedule                                   /schedule             301
+
+# --- Pricing ---------------------------------------------------------------
+# /classes was retired in favour of /pricing; it still had inbound links from
+# the footer nav and the sitemap, so it keeps a 301 rather than 404ing.
+/our-services                                       /pricing              301
+/new-registration                                   /pricing              301
+/classes                                            /pricing              301
+
+# --- About / team ----------------------------------------------------------
+# /our-team (old) and /copy-of-our-team (current) were both indexed and
+# competing as duplicate content; consolidating them here resolves that.
+/about-us                                           /about/studio         301
+/the-studio                                         /about/studio         301
+/our-team                                           /about/team           301
+/copy-of-our-team                                   /about/team           301
+/gary-qualification/about                           /about/team/gary-fok  301
+
+# --- Education / teacher training ------------------------------------------
+# /general-8 was reachable from the Wix navbar and holds past teaching events.
+/polestar-pilates                                   /education            301
+/education-news                                     /education            301
+/general-8                                          /education            301
+
+# --- Policies + support ----------------------------------------------------
+/terms-conditions                                   /terms                301
+/emergency-sickness-policies                        /policies             301
+/contact-6                                          /contact              301
+
+# --- Wix template leftovers ------------------------------------------------
+# Demo content that shipped with the Wix theme (ballet, pottery, trumpet,
+# tennis) and was never real. Nothing here maps to a page, so send it home.
+# The splat must stay below the specific /courses children above it.
+/courses                                            /                     301
+/courses/*                                          /                     301
+
+# --- Superseded routes on this site ----------------------------------------
+# These paths existed in earlier builds of the new site and were previously
+# handled by client-side RedirectStub pages. Real 301s replace them.
+/about                                              /about/team           301
+/about/our-story                                    /about/studio         301
+/about/our-team                                     /about/team           301
+/about/polestar                                     /education            301
+/polestar                                           /about/team           301
+/polestar/teacher-training                          /education            301
