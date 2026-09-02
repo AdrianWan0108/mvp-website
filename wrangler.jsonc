@@ -7,10 +7,9 @@
   // it pinned, a deploy either goes to this exact account or fails outright.
   // Not a secret — an account id grants nothing without credentials.
   //
-  // TODO: replace with the account that holds motionvitalitypilates.com.
-  //   Adrianwan0108@gmail.com      bd7941fad443c61bc9009ed75da02390
-  //   Sarahfongoptometry@gmail.com 2cb1cebeabe09d012bb8f3abe5ba8813
-  "account_id": "PASTE_ACCOUNT_ID_HERE",
+  // This is the dedicated "Motion Vitality Pilates" account, kept separate
+  // from the personal ones so ownership can transfer to the studio later.
+  "account_id": "4173559dfe08c7dd17cbb2e2dcc75a32",
 
   "compatibility_date": "2026-09-02",
 
