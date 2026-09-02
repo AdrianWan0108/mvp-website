@@ -116,12 +116,9 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Explore",
     items: [
+      { label: "Schedule", href: "/schedule" },
       { label: "Pricing", href: "/pricing" },
       { label: "Teacher Training", href: "/education" },
-      {
-        label: "Polestar Comprehensive Pilates Teacher Training",
-        href: "/education/polestar-comprehensive-training",
-      },
     ],
   },
   {

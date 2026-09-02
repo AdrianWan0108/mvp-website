@@ -8,6 +8,9 @@ export const metadata: Metadata = {
     "Common questions about Pilates at Motion Vitality Pilates — what Pilates is, age suitability, grip socks, and small class sizes.",
 };
 
+const faqIntro =
+  "The essentials before your first session at Motion Vitality Pilates (MVP). If your question isn't answered below, please reach out any time.";
+
 const faqs = [
   {
     q: "What is Pilates?",
@@ -48,18 +51,33 @@ export default function FaqPage() {
         eyebrow="Good to know"
         title="Frequently asked questions"
         intro="The essentials before your first session. Don't see your question? Reach out any time."
+        tone="dark"
       />
       <Container className="py-16">
-        <dl className="mx-auto max-w-3xl divide-y divide-border">
-          {faqs.map((item) => (
-            <div key={item.q} className="py-6 first:pt-0">
-              <dt className="font-serif text-2xl font-semibold">{item.q}</dt>
-              <dd className="mt-2 text-base leading-relaxed text-muted-foreground">
-                {item.a}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <section>
+          <p className="text-lg font-medium leading-relaxed text-foreground sm:text-xl">
+            {faqIntro}
+          </p>
+
+          <dl className="mt-10 divide-y divide-border">
+            {faqs.map((item, index) => (
+              <div key={item.q} className="py-6 first:pt-0">
+                <dt
+                  className="text-2xl font-bold text-foreground sm:text-3xl"
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    letterSpacing: "normal",
+                  }}
+                >
+                  {index + 1}. {item.q}
+                </dt>
+                <dd className="mt-3 text-lg font-medium leading-relaxed text-foreground">
+                  {item.a}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
       </Container>
     </>
   );
