@@ -29,8 +29,32 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The site is a static export (`output: "export"`) served from Cloudflare
+Workers. There is no CI: **deploys only happen when you run the command**, on
+whatever branch you happen to be on. Pushing to `main` deploys nothing.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run whoami        # confirm which Cloudflare account you're logged into
+npm run deploy:check  # build + dry run, uploads nothing
+npm run deploy        # build + deploy for real
+```
+
+`wrangler.jsonc` pins `account_id` to the dedicated "Motion Vitality Pilates"
+account. If the login can't reach that account the deploy fails rather than
+falling back to another one — that check is deliberate, so don't remove it.
+
+### Redirects
+
+Old Wix URLs are mapped to their new homes in `public/_redirects`, which the
+static export copies into `out/`. After deploying, verify every rule still
+resolves:
+
+```bash
+npm run verify:redirects https://mvp-website.motion-vitality-pilates.workers.dev
+```
+
+A rule only fires if no real page occupies that path — a page always wins over
+a redirect. That's why retired routes (`/classes`, `/about/polestar`) have
+their `page.tsx` renamed to `page.tsx.disabled` rather than left in place.

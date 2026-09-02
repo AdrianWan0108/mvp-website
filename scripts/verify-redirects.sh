@@ -52,6 +52,10 @@ echo "Verifying redirects against $BASE"
 echo
 
 while read -r from to code _rest; do
+  # The file is edited on Windows, so strip the trailing CR that would
+  # otherwise make the status read as "301\r" and match nothing.
+  from="${from%$'\r'}"; to="${to%$'\r'}"; code="${code%$'\r'}"
+
   # Skip blanks and comments.
   case "${from:-}" in ''|'#'*) continue ;; esac
   [ "${code:-}" = "301" ] || continue
