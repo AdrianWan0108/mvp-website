@@ -67,6 +67,8 @@ type BuyNowWidgetProps = {
    * solid fill.
    */
   emphasis?: "solid" | "quiet";
+  /** Private training is booked; all other pricing options are bought. */
+  label?: "Buy now" | "Book now";
 };
 
 /**
@@ -78,6 +80,7 @@ export function BuyNowWidget({
   serviceName,
   priceNumber,
   emphasis = "solid",
+  label = "Buy now",
 }: BuyNowWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   // Mindbody uses the deprecated Custom Elements v0 lifecycle. Once its
@@ -85,7 +88,7 @@ export function BuyNowWidget({
   // createdCallback before React assigns data-type, which crashes on a return
   // client navigation. Parsing trusted, internal markup applies the complete
   // attribute set before that callback runs.
-  const widgetMarkup = `<healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="${SITE_ID}" data-mb-site-id="${MB_SITE_ID}" data-service-id="${serviceId}" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Buy now"></healcode-widget>`;
+  const widgetMarkup = `<healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="${SITE_ID}" data-mb-site-id="${MB_SITE_ID}" data-service-id="${serviceId}" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="${label}"></healcode-widget>`;
 
   // The anchor is injected by healcode.js and swapped out on re-scan, so the
   // listener sits on the wrapper we own and catches the click as it bubbles.

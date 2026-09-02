@@ -56,10 +56,11 @@ const pricingPathways: PricingPathway[] = [
     name: privateSection.heading,
     description: privateSection.description,
     startingPrice: Math.min(
-      ...privateOptions.flatMap((option) => [
-        option.singlePrice,
-        option.tenPrice,
-      ]),
+      ...privateOptions.flatMap((option) =>
+        option.packages.flatMap((pkg) =>
+          pkg.variants.map((variant) => variant.price),
+        ),
+      ),
     ),
     ...categoryPhotos.private,
   },

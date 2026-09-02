@@ -21,10 +21,10 @@ import {
   type PricingOption,
   type PricingScope,
   type PricingSection,
+  type PrivatePackage,
   type PrivateOption,
 } from "@/app/lib/pricing-data";
 import { BuyNowWidget, MindbodyPricingLoader } from "./buy-now-widget";
-import { AppointmentsWidget } from "./appointments-widget";
 import { focusRing } from "./pricing-ui";
 import { sectionAnchorId, sectionHeadingId } from "./section-anchors";
 
@@ -208,103 +208,153 @@ function PricingCard({
 type PrivatePriceChoice = {
   key: string;
   option: PrivateOption;
-  sessionCount: 1 | 10;
-  price: number;
+  package: PrivatePackage;
 };
 
-const privatePriceChoices: PrivatePriceChoice[] = [
-  ...privateOptions.map(
-    (option): PrivatePriceChoice => ({
-      key: `${option.key}-single`,
-      option,
-      sessionCount: 1,
-      price: option.singlePrice,
-    }),
-  ),
-  ...privateOptions.map(
-    (option): PrivatePriceChoice => ({
-      key: `${option.key}-ten`,
-      option,
-      sessionCount: 10,
-      price: option.tenPrice,
-    }),
-  ),
-];
+function privateChoice(
+  option: PrivateOption,
+  pkg: PrivatePackage,
+): PrivatePriceChoice {
+  return { key: pkg.key, option, package: pkg };
+}
 
-function PrivateCard({
-  choice,
-  bookingOpen,
-  onBook,
-}: {
-  choice: PrivatePriceChoice;
-  bookingOpen: boolean;
-  onBook: () => void;
-}) {
-  const { option } = choice;
-  const sessionLabel = `${choice.sessionCount} ${choice.sessionCount === 1 ? "session" : "sessions"}`;
+const singleSessionChoices = privateOptions.flatMap((option) =>
+  option.packages
+    .filter((pkg) => pkg.sessionCount === 1)
+    .map((pkg) => privateChoice(option, pkg)),
+);
+
+const tenSessionChoices = privateOptions.flatMap((option) =>
+  option.packages
+    .filter((pkg) => pkg.sessionCount === 10)
+    .map((pkg) => privateChoice(option, pkg)),
+);
+
+const extendedPackageChoices = privateOptions.flatMap((option) =>
+  option.packages
+    .filter((pkg) => pkg.sessionCount === 20 || pkg.sessionCount === 30)
+    .map((pkg) => privateChoice(option, pkg)),
+);
+
+function PrivateCard({ choice }: { choice: PrivatePriceChoice }) {
+  const { option, package: pkg } = choice;
+  const defaultVariant =
+    pkg.variants.find((candidate) => candidate.key === "instructor") ??
+    pkg.variants[0];
+  const [selectedKey, setSelectedKey] = useState(defaultVariant.key);
+  const [committedKey, setCommittedKey] = useState(defaultVariant.key);
+  const variant =
+    pkg.variants.find((candidate) => candidate.key === committedKey) ??
+    defaultVariant;
+  const isLoading = selectedKey !== committedKey;
+  const hasInstructorSelector = pkg.variants.some(
+    (candidate) => candidate.instructor,
+  );
+  const sessionLabel = `${pkg.sessionCount} ${pkg.sessionCount === 1 ? "session" : "sessions"}`;
+  const singlePrice =
+    option.packages.find((candidate) => candidate.sessionCount === 1)
+      ?.variants[0]?.price ?? 0;
   const totalSaving =
-    choice.sessionCount === 10
-      ? option.singlePrice * choice.sessionCount - choice.price
-      : 0;
+    pkg.sessionCount === 10 ? singlePrice * pkg.sessionCount - variant.price : 0;
   const savingLabel =
     totalSaving > 0 ? `Save ${formatPrice(totalSaving)} total` : null;
-  const details = [option.blurb, ...option.highlights].filter(Boolean).slice(0, 4);
+  const details = [
+    ...(pkg.newcomerOnly
+      ? ["New clients only — one-time use per person."]
+      : []),
+    option.blurb,
+    ...option.highlights,
+  ]
+    .filter(Boolean)
+    .slice(0, 4);
 
-  function handleBook() {
-    window.gtag?.("event", "begin_checkout", {
-      item_name: `${option.name} — ${sessionLabel}`,
-      value: choice.price,
-      currency: "CAD",
-    });
-    onBook();
-  }
+  useEffect(() => {
+    if (!isLoading) return;
+    const timer = window.setTimeout(() => setCommittedKey(selectedKey), 350);
+    return () => window.clearTimeout(timer);
+  }, [isLoading, selectedKey]);
 
   return (
     <article className="pricing-panel flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white">
       <div
-        aria-hidden={!savingLabel}
+        aria-hidden={!savingLabel && !isLoading}
         className={cn(
           "flex min-h-12 items-center justify-center px-4 text-center font-sans text-base font-bold",
-          savingLabel && "bg-brand-500 text-brand-900",
+          !isLoading && savingLabel && "bg-brand-500 text-brand-900",
         )}
       >
-        {savingLabel}
+        {isLoading ? (
+          <span className="h-4 w-32 animate-pulse rounded bg-brand-200" />
+        ) : (
+          savingLabel
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-6 sm:p-7">
-        <div className="flex flex-1 flex-col text-center lg:h-[17rem] lg:flex-none">
+        <div className="flex min-h-[21rem] flex-1 flex-col text-center lg:flex-none">
           <h3 className="font-serif text-3xl uppercase leading-none tracking-[0.025em] text-foreground sm:text-[2rem]">
             {option.name}
           </h3>
 
-          <p className="mt-4 text-foreground">
-            <span className="font-serif text-[3.4rem] leading-none tabular-nums sm:text-6xl">
-              {formatPrice(choice.price)}
-            </span>
+          <p
+            aria-live="polite"
+            aria-busy={isLoading}
+            className="mt-4 flex min-h-15 items-center justify-center text-foreground"
+          >
+            {isLoading ? (
+              <span className="h-12 w-40 animate-pulse rounded-lg bg-brand-100" />
+            ) : (
+              <span className="font-serif text-[3.4rem] leading-none tabular-nums sm:text-6xl">
+                {formatPrice(variant.price)}
+              </span>
+            )}
           </p>
 
           <dl className="mt-5 flex justify-center">
             <Stat
-              label={choice.sessionCount === 1 ? "Booking" : "Package"}
+              label={pkg.sessionCount === 1 ? "Booking" : "Package"}
               value={sessionLabel}
             />
           </dl>
 
-          <div className="mt-auto pt-6">
-            <button
-              type="button"
-              aria-expanded={bookingOpen}
-              aria-controls="private-appointments-widget"
-              onClick={handleBook}
-              className={cn(
-                "block w-full cursor-pointer rounded-lg bg-brand-500 px-5 py-3 text-center font-serif text-xl uppercase leading-none tracking-[0.08em] text-brand-900 transition-colors hover:bg-brand-600",
-                focusRing,
-              )}
-            >
-              Book now
-              <span className="sr-only"> — {option.name}, {sessionLabel}</span>
-              <span aria-hidden> →</span>
-            </button>
+          <div className="mt-auto space-y-3 pt-6 text-left">
+            {hasInstructorSelector && (
+              <label className="block">
+                <span className="mb-1.5 block font-sans text-sm font-semibold text-foreground">
+                  Instructor type
+                </span>
+                <select
+                  value={selectedKey}
+                  disabled={pkg.variants.length === 1}
+                  onChange={(event) => setSelectedKey(event.target.value)}
+                  className={cn(
+                    "min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 font-sans text-base text-foreground disabled:cursor-not-allowed disabled:bg-brand-50 disabled:text-muted-foreground",
+                    focusRing,
+                  )}
+                >
+                  {pkg.variants.map((candidate) => (
+                    <option key={candidate.key} value={candidate.key}>
+                      {candidate.instructor}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+
+            {isLoading ? (
+              <div
+                aria-label="Updating booking option"
+                className="h-12 w-full animate-pulse rounded-lg bg-brand-200"
+              />
+            ) : (
+              <BuyNowWidget
+                key={variant.serviceId}
+                serviceId={variant.serviceId}
+                serviceName={`${option.name} — ${sessionLabel}${variant.instructor ? ` — ${variant.instructor}` : ""}`}
+                priceNumber={variant.price}
+                label="Book now"
+              />
+            )}
           </div>
         </div>
 
@@ -323,7 +373,7 @@ const sharedNotes: Record<PricingScope, string> = {
   seniors:
     "Choose supportive Reformer sessions or accessible mat-based fitness.",
   private:
-    "Book directly with an instructor and choose a single visit or a ten-session package.",
+    "Choose a single visit or a 10-, 20-, or 30-session package.",
 };
 
 function CategoryHeader({
@@ -391,32 +441,24 @@ function PublicSectionPanel({ section }: { section: PricingSection }) {
           </div>
         ))}
       </div>
+      {section.id === "new-here" && (
+        <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-6 lg:gap-6">
+          {singleSessionChoices.map((choice) => (
+            <div key={choice.key} className="h-full lg:col-span-2">
+              <PrivateCard choice={choice} />
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }
 
 function PrivatePanel() {
-  const [activeBookingKey, setActiveBookingKey] = useState<string | null>(null);
-  const bookingRegionRef = useRef<HTMLDivElement>(null);
-  const activeChoice = privatePriceChoices.find(
-    (choice) => choice.key === activeBookingKey,
-  );
-
-  useEffect(() => {
-    if (!activeBookingKey) return;
-
-    const frame = window.requestAnimationFrame(() => {
-      const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
-      bookingRegionRef.current?.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "start",
-      });
-    });
-
-    return () => window.cancelAnimationFrame(frame);
-  }, [activeBookingKey]);
+  const standardChoices = [
+    ...singleSessionChoices,
+    ...tenSessionChoices,
+  ];
 
   return (
     <>
@@ -426,29 +468,25 @@ function PrivatePanel() {
         description={privateSection.description}
       />
       <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-6 lg:gap-6">
-        {privatePriceChoices.map((choice) => (
+        {standardChoices.map((choice) => (
           <div key={choice.key} className="h-full lg:col-span-2">
-            <PrivateCard
-              choice={choice}
-              bookingOpen={activeBookingKey === choice.key}
-              onBook={() => setActiveBookingKey(choice.key)}
-            />
+            <PrivateCard choice={choice} />
           </div>
         ))}
       </div>
-
-      {activeChoice && (
-        <div
-          id="private-appointments-widget"
-          ref={bookingRegionRef}
-          className="mt-10 scroll-mt-24"
-        >
-          <AppointmentsWidget
-            key={activeChoice.key}
-            selectionName={`${activeChoice.option.name} — ${activeChoice.sessionCount} ${activeChoice.sessionCount === 1 ? "session" : "sessions"}`}
-          />
-        </div>
-      )}
+      <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-6 lg:gap-6">
+        {extendedPackageChoices.map((choice, index) => (
+          <div
+            key={choice.key}
+            className={cn(
+              "h-full lg:col-span-2",
+              cardPlacement(index, extendedPackageChoices.length),
+            )}
+          >
+            <PrivateCard choice={choice} />
+          </div>
+        ))}
+      </div>
     </>
   );
 }

@@ -81,7 +81,7 @@ export const pricingSections: PricingSection[] = [
   {
     id: "new-here",
     heading: "New here",
-    description: "Two ways to try the studio, priced for a first visit.",
+    description: "Five introductory ways to try the studio.",
   },
   {
     id: "group-packs",
@@ -334,14 +334,36 @@ export const pricingOptions: PricingOption[] = [
   },
 ];
 
-/** One-on-one training prices opened through the Mindbody Appointments widget. */
+export type PrivateInstructor =
+  | "Associate Instructor"
+  | "Instructor"
+  | "Senior Instructor"
+  | "Master Instructor";
+
+export type PrivatePriceVariant = {
+  key: string;
+  /** Omitted for cards that do not need an instructor selector. */
+  instructor?: PrivateInstructor;
+  price: number;
+  /** Mindbody pricing-option id used by the Buy Now widget. */
+  serviceId: string;
+};
+
+export type PrivatePackage = {
+  key: string;
+  sessionCount: 1 | 10 | 20 | 30;
+  /** The single-session offers are introductory and limited to one use. */
+  newcomerOnly?: boolean;
+  variants: PrivatePriceVariant[];
+};
+
+/** One-on-one training prices purchased through Mindbody. */
 export type PrivateOption = {
   key: string;
   name: string;
   blurb: string;
   highlights: string[];
-  singlePrice: number;
-  tenPrice: number;
+  packages: PrivatePackage[];
 };
 
 export const privateSection = {
@@ -361,8 +383,68 @@ export const privateOptions: PrivateOption[] = [
       "Mat, Reformer, and studio equipment as appropriate",
       "Ideal for rehabilitation, focused goals, or faster progress",
     ],
-    singlePrice: 100,
-    tenPrice: 950,
+    packages: [
+      {
+        key: "private-pilates-single",
+        sessionCount: 1,
+        newcomerOnly: true,
+        variants: [{ key: "single", price: 100, serviceId: "100063" }],
+      },
+      {
+        key: "private-pilates-ten",
+        sessionCount: 10,
+        variants: [
+          {
+            key: "associate",
+            instructor: "Associate Instructor",
+            price: 850,
+            serviceId: "100055",
+          },
+          {
+            key: "instructor",
+            instructor: "Instructor",
+            price: 950,
+            serviceId: "100010",
+          },
+          {
+            key: "senior",
+            instructor: "Senior Instructor",
+            price: 1100,
+            serviceId: "100056",
+          },
+          {
+            key: "master",
+            instructor: "Master Instructor",
+            price: 1200,
+            serviceId: "100057",
+          },
+        ],
+      },
+      {
+        key: "private-pilates-twenty",
+        sessionCount: 20,
+        variants: [
+          {
+            key: "master",
+            instructor: "Master Instructor",
+            price: 2400,
+            serviceId: "100067",
+          },
+        ],
+      },
+      {
+        key: "private-pilates-thirty",
+        sessionCount: 30,
+        variants: [
+          {
+            key: "master",
+            instructor: "Master Instructor",
+            price: 3600,
+            serviceId: "100060",
+          },
+        ],
+      },
+    ],
   },
   {
     key: "private-gyrotonic",
@@ -374,8 +456,44 @@ export const privateOptions: PrivateOption[] = [
       "Build spinal mobility and joint articulation",
       "Develop functional strength, flexibility, and coordination",
     ],
-    singlePrice: 100,
-    tenPrice: 950,
+    packages: [
+      {
+        key: "private-gyrotonic-single",
+        sessionCount: 1,
+        newcomerOnly: true,
+        variants: [{ key: "single", price: 100, serviceId: "100008" }],
+      },
+      {
+        key: "private-gyrotonic-ten",
+        sessionCount: 10,
+        variants: [
+          {
+            key: "associate",
+            instructor: "Associate Instructor",
+            price: 850,
+            serviceId: "100052",
+          },
+          {
+            key: "instructor",
+            instructor: "Instructor",
+            price: 950,
+            serviceId: "100021",
+          },
+          {
+            key: "senior",
+            instructor: "Senior Instructor",
+            price: 1100,
+            serviceId: "100053",
+          },
+          {
+            key: "master",
+            instructor: "Master Instructor",
+            price: 1200,
+            serviceId: "100054",
+          },
+        ],
+      },
+    ],
   },
   {
     key: "semi-private",
@@ -387,8 +505,19 @@ export const privateOptions: PrivateOption[] = [
       "Whole-body work for control, balance, and coordination",
       "A motivating format for partners with compatible goals",
     ],
-    singlePrice: 130,
-    tenPrice: 1300,
+    packages: [
+      {
+        key: "semi-private-single",
+        sessionCount: 1,
+        newcomerOnly: true,
+        variants: [{ key: "single", price: 130, serviceId: "100062" }],
+      },
+      {
+        key: "semi-private-ten",
+        sessionCount: 10,
+        variants: [{ key: "ten", price: 1300, serviceId: "100009" }],
+      },
+    ],
   },
 ];
 
