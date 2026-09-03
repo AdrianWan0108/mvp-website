@@ -93,7 +93,10 @@ export function MentorCarousel() {
           centeredSlides
           loop
           speed={800}
-          slidesPerView={3}
+          slidesPerView={1.2}
+          breakpoints={{
+            640: { slidesPerView: 3 },
+          }}
           coverflowEffect={{
             rotate: 45,
             stretch: 0,
@@ -112,12 +115,24 @@ export function MentorCarousel() {
           {mentors.map((mentor) => (
             <SwiperSlide key={mentor.name} className="!h-80 sm:!h-96">
               <div className="relative h-full w-full overflow-hidden border border-white/15 bg-brand-800">
+                {/* Preserve the complete photo on mobile without leaving flat
+                    green gutters: a soft full-bleed copy fills the frame while
+                    the sharp foreground remains uncropped. Desktop keeps its
+                    original edge-to-edge crop. */}
+                <Image
+                  src={mentor.photo.src}
+                  alt=""
+                  fill
+                  aria-hidden
+                  sizes="90vw"
+                  className="scale-110 object-cover opacity-55 blur-lg sm:hidden"
+                />
                 <Image
                   src={mentor.photo.src}
                   alt={mentor.photo.alt}
                   fill
                   sizes="(min-width: 640px) 22rem, 60vw"
-                  className="object-cover"
+                  className="z-10 object-contain sm:object-cover"
                 />
               </div>
             </SwiperSlide>

@@ -97,7 +97,13 @@ export default function ContactPage() {
               <ul className="mt-2 space-y-1 text-background/90 text-lg">
                 {site.hours.map((h) => (
                   <li key={h.days}>
-                    <span className="text-background/60">{h.days}:</span> {h.time}
+                    <span className="block text-background/60 sm:hidden">
+                      {h.days.replaceAll("–", "-")}:
+                    </span>
+                    <span className="hidden text-background/60 sm:inline">
+                      {h.days}:
+                    </span>{" "}
+                    <span className="block sm:inline">{h.time}</span>
                   </li>
                 ))}
               </ul>

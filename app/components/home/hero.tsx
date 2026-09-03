@@ -124,8 +124,8 @@ export function Hero() {
 
       {/* ---- Mobile (below lg): full-bleed image, Gary centered, no dots ---- */}
       <div className="relative flex min-h-[680px] items-center lg:hidden">
-        {/* Full-bleed background. object-[78%_center] shifts the wide image's
-            crop so the instructor sits centered on a narrow screen. */}
+        {/* Full-bleed background. On narrow screens the crop is biased toward
+            the right side of the source so more of Gary remains in frame. */}
         <div aria-hidden className="absolute inset-0 -z-10">
           <Image
             src={photos.heroBg.src}
@@ -133,7 +133,7 @@ export function Hero() {
             fill
             priority
             sizes="100vw"
-            className="hero-image-enter object-cover object-[78%_center]"
+            className="hero-image-enter object-cover object-[84%_center] sm:object-[80%_center]"
           />
           {/* Overlay for text legibility over the photo. */}
           <div className="absolute inset-0 bg-brand-900/55" />

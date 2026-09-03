@@ -197,7 +197,7 @@ export function SiteHeader() {
       <header
         data-theme={isEducation ? "education" : undefined}
         className={cn(
-          "sticky top-0 z-50 w-full border-b transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out motion-reduce:transition-none",
+          "fixed top-0 z-50 w-full border-b transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out motion-reduce:transition-none lg:sticky",
           overHero
             ? "border-transparent bg-transparent text-white shadow-none"
             : isEducation
@@ -512,6 +512,11 @@ export function SiteHeader() {
           </div>
         </div>
       </header>
+
+      {/* Keep mobile pages in normal document flow while the fixed header and
+          its menu remain reachable at every scroll position. The home hero's
+          matching negative margin still lets its image run behind the bar. */}
+      <div aria-hidden className="h-20 shrink-0 lg:hidden" />
 
       <button
         type="button"

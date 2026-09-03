@@ -159,7 +159,7 @@ export function EquipmentShowcase() {
               key={item.name}
               data-equip-panel
               onClick={() => setActive(isOpen ? null : i)}
-              className="group relative h-56 cursor-pointer overflow-hidden lg:h-auto lg:flex-1 lg:cursor-default"
+              className="group relative h-72 cursor-pointer overflow-hidden sm:h-80 lg:h-auto lg:flex-1 lg:cursor-default"
             >
               <Image
                 src={item.photo.src}

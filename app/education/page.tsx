@@ -610,9 +610,14 @@ export default function EducationPage() {
 
             <p
               data-reveal
-              className="mx-auto mt-16 max-w-3xl text-balance font-serif text-6xl font-semibold leading-tight text-brand-300 sm:text-7xl"
+              className="mx-auto mt-16 max-w-3xl font-serif text-[clamp(2.25rem,12vw,3.75rem)] font-semibold leading-[1.05] text-brand-300 sm:text-7xl"
             >
-              &ldquo;Learn to Move. Move to Learn.&rdquo;
+              <span className="block whitespace-nowrap sm:inline">
+                &ldquo;Learn to Move.
+              </span>{" "}
+              <span className="block whitespace-nowrap sm:inline">
+                Move to Learn.&rdquo;
+              </span>
             </p>
 
             <div data-reveal>

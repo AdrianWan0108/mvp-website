@@ -596,16 +596,23 @@ export function PricingTabs() {
       <MindbodyPricingLoader />
 
       <div>
-        <div
-          role="tablist"
-          aria-label="Pricing categories"
-          aria-orientation="horizontal"
-          className="flex w-full snap-x snap-mandatory items-end gap-1 overflow-x-auto border-b border-border lg:overflow-visible"
-        >
-          {tabs.map((tab, index) => {
-            const active = tab.scope === activeScope;
-            return (
-              <button
+        <div className="mb-2 flex items-center justify-between gap-4 px-1 text-xs font-semibold uppercase tracking-[0.12em] text-brand-700 lg:hidden">
+          <span>Swipe to explore all 5 categories</span>
+          <span aria-hidden className="shrink-0 text-base tracking-normal">
+            &larr;&nbsp;&rarr;
+          </span>
+        </div>
+        <div className="relative">
+          <div
+            role="tablist"
+            aria-label="Pricing categories"
+            aria-orientation="horizontal"
+            className="flex w-full snap-x snap-mandatory items-end gap-1 overflow-x-auto border-b border-border pr-12 lg:overflow-visible lg:pr-0"
+          >
+            {tabs.map((tab, index) => {
+              const active = tab.scope === activeScope;
+              return (
+                <button
                 key={tab.scope}
                 id={tabId(tab.scope)}
                 type="button"
@@ -641,9 +648,14 @@ export function PricingTabs() {
                 >
                   {tab.label}
                 </span>
-              </button>
-            );
-          })}
+                </button>
+              );
+            })}
+          </div>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background via-background/85 to-transparent lg:hidden"
+          />
         </div>
       </div>
 
