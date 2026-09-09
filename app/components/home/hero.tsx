@@ -1,4 +1,5 @@
 import Image from "next/image";
+import styles from "./hero.module.css";
 import { CtaButton } from "../cta-button";
 import { photos } from "@/app/lib/images";
 
@@ -54,7 +55,7 @@ function HeroCopy() {
 
       {/* Primary CTAs — the two decisions a first-time visitor makes:
           when to come in, and what it costs. */}
-      <div className="hero-enter mt-9 flex flex-col gap-3 [animation-delay:380ms] sm:flex-row sm:items-center">
+      <div className={`${styles.actions} hero-enter mt-9 flex flex-col gap-3 [animation-delay:380ms] sm:flex-row sm:items-center`}>
         <CtaButton href="/schedule" size="lg" square className="shrink-0">
           View Schedule
         </CtaButton>
@@ -80,41 +81,18 @@ export function Hero() {
     // less leaves a strip of page background showing above the hero.
     <section className="relative isolate -mt-20 overflow-hidden bg-brand-900 text-white lg:-mt-24">
       {/* ---- Desktop (lg+): original full-bleed image with copy overlaid ---- */}
-      <div className="relative hidden min-h-screen items-center lg:flex">
-        {/* Full-bleed hero image. The retouched shot is framed 16:9 with the
-            whole figure in frame, so it's centred rather than pulled upward
-            the way the original crop needed. */}
-        <div aria-hidden className="absolute inset-0 -z-10">
-          <Image
-            src={photos.heroBg.src}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="hero-image-enter object-cover object-center"
-          />
-          {/* Left-weighted scrim for text legibility */}
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-900/95 via-brand-900/55 to-brand-900/5" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-900/45 via-transparent to-transparent" />
+      <div className={`${styles.desktop} relative min-h-screen items-center`}>
+        {/* Photo and points share a cover-sized plane to preserve alignment. */}
+        <div aria-hidden className={`${styles.imageViewport} pointer-events-none absolute inset-0 -z-10`}>
+          <div className={`${styles.imagePlane} hero-image-enter`}>
+            <Image src={photos.heroBg.src} alt="" fill preload sizes="100vw" className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-brand-900/95 via-brand-900/55 to-brand-900/5" />
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-900/45 via-transparent to-transparent" />
+            <GlowPoint label="Control" className="left-[77.5%] top-[44.5%] [animation-delay:700ms]" />
+            <GlowPoint label="Mobility" className="left-[64.5%] top-[61%] [animation-delay:850ms]" />
+            <GlowPoint label="Balance" flip className="right-[17%] top-[82%] [animation-delay:1000ms]" />
+          </div>
         </div>
-
-        {/* Glowing points on the instructor (hips · feet · head). Percentages
-            are tuned against the centred crop of the 1672×941 shot on a
-            widescreen viewport, so keep them in sync if that crop changes.
-            They light up in sequence, after the copy has landed. */}
-        <GlowPoint
-          label="Control"
-          className="left-[77.5%] top-[44.5%] [animation-delay:700ms]"
-        />
-        <GlowPoint
-          label="Mobility"
-          className="left-[64.5%] top-[61%] [animation-delay:850ms]"
-        />
-        <GlowPoint
-          label="Balance"
-          flip
-          className="right-[17%] top-[82%] [animation-delay:1000ms]"
-        />
 
         {/* Copy sits hard against the left edge so it clears the instructor. */}
         <div className="relative mx-auto w-full max-w-[110rem] px-5 pt-24 pb-16 sm:px-8">
@@ -122,16 +100,16 @@ export function Hero() {
         </div>
       </div>
 
-      {/* ---- Mobile (below lg): full-bleed image, Gary centered, no dots ---- */}
-      <div className="relative flex min-h-[680px] items-center lg:hidden">
+      {/* Mobile and portrait tablets: copy above, CTAs near the bottom. */}
+      <div className={`${styles.compact} relative`}>
         {/* Full-bleed background. On narrow screens the crop is biased toward
             the right side of the source so more of Gary remains in frame. */}
-        <div aria-hidden className="absolute inset-0 -z-10">
+        <div aria-hidden className={`${styles.compactPhoto} absolute inset-0 -z-10`}>
           <Image
             src={photos.heroBg.src}
             alt=""
             fill
-            priority
+            preload
             sizes="100vw"
             className="hero-image-enter object-cover object-[84%_center] sm:object-[80%_center]"
           />
@@ -140,7 +118,7 @@ export function Hero() {
           <div className="absolute inset-0 bg-gradient-to-t from-brand-900/85 via-brand-900/35 to-brand-900/45" />
         </div>
 
-        <div className="relative mx-auto w-full max-w-[110rem] px-5 pt-24 pb-16 sm:px-8">
+        <div className={`${styles.compactContent} relative mx-auto w-full max-w-[110rem] px-5 pt-24 sm:px-8`}>
           <HeroCopy />
         </div>
       </div>

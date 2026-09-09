@@ -1,0 +1,96 @@
+.desktop {
+  display: none;
+}
+
+.compact {
+  display: flex;
+  min-height: max(940px, 100svh);
+}
+
+.compactContent {
+  display: flex;
+  padding-bottom: 96px;
+}
+
+.compactContent > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.compactContent .actions {
+  margin-top: auto;
+  padding-top: 36px;
+}
+
+/* Keep the photo crop independent of the buttons' bottom breathing room,
+   so lifting the CTAs leaves Gary's head visible. */
+.compactPhoto {
+  bottom: 148px;
+}
+
+.compactPhoto::after {
+  position: absolute;
+  inset: 75% 0 -1px;
+  content: "";
+  background: linear-gradient(transparent, var(--brand-900));
+}
+
+/* Image and markers share the same cover-sized coordinate system. */
+.imageViewport {
+  container-type: size;
+}
+
+.imagePlane {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100cqw, calc(100cqh * 1672 / 941));
+  height: max(100cqh, calc(100cqw * 941 / 1672));
+  translate: -50% -50%;
+}
+
+@media (min-width: 640px) {
+  .compact {
+    min-height: 760px;
+  }
+
+  .compactContent {
+    padding-top: 128px;
+    padding-bottom: 112px;
+  }
+
+  .compactPhoto {
+    bottom: 0;
+  }
+
+  .compactPhoto::after {
+    display: none;
+  }
+
+  .compactContent h1 {
+    font-size: 3.75rem;
+  }
+}
+
+@media (min-width: 1024px) and (orientation: portrait) {
+  .compact {
+    min-height: 960px;
+  }
+
+  .compactContent {
+    padding-top: 160px;
+    padding-bottom: 144px;
+  }
+}
+
+/* Include the 1024px-wide iPad Pro in the portrait composition. */
+@media (min-width: 1024px) and (orientation: landscape), (min-width: 1280px) {
+  .desktop {
+    display: flex;
+  }
+
+  .compact {
+    display: none;
+  }
+}
