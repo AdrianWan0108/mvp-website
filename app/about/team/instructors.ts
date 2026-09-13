@@ -98,7 +98,7 @@ export const instructors: Instructor[] = [
   },
   {
     slug: "florence",
-    name: "Florence",
+    name: "Florence Chan",
     role: "Pilates Instructor",
     quote:
       "Graceful movement begins with control, confidence, and care.",

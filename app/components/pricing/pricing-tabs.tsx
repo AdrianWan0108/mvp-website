@@ -236,7 +236,13 @@ const extendedPackageChoices = privateOptions.flatMap((option) =>
     .map((pkg) => privateChoice(option, pkg)),
 );
 
-function PrivateCard({ choice }: { choice: PrivatePriceChoice }) {
+function PrivateCard({
+  choice,
+  reserveSelector = true,
+}: {
+  choice: PrivatePriceChoice;
+  reserveSelector?: boolean;
+}) {
   const { option, package: pkg } = choice;
   const defaultVariant =
     pkg.variants.find((candidate) => candidate.key === "instructor") ??
@@ -291,7 +297,12 @@ function PrivateCard({ choice }: { choice: PrivatePriceChoice }) {
       </div>
 
       <div className="flex flex-1 flex-col p-6 sm:p-7">
-        <div className="flex min-h-[21rem] flex-1 flex-col text-center lg:flex-none">
+        <div
+          className={cn(
+            "flex flex-1 flex-col text-center lg:flex-none",
+            reserveSelector ? "min-h-[21rem]" : "lg:h-[17rem]",
+          )}
+        >
           <h3 className="font-serif text-3xl uppercase leading-none tracking-[0.025em] text-foreground sm:text-[2rem]">
             {option.name}
           </h3>
@@ -318,14 +329,14 @@ function PrivateCard({ choice }: { choice: PrivatePriceChoice }) {
           </dl>
 
           <div className="mt-auto space-y-3 pt-6 text-left">
-            {hasInstructorSelector && (
+            {reserveSelector && (
               <label className="block">
                 <span className="mb-1.5 block font-sans text-sm font-semibold text-foreground">
                   Instructor type
                 </span>
                 <select
                   value={selectedKey}
-                  disabled={pkg.variants.length === 1}
+                  disabled={!hasInstructorSelector || pkg.variants.length === 1}
                   onChange={(event) => setSelectedKey(event.target.value)}
                   className={cn(
                     "min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 font-sans text-base text-foreground disabled:cursor-not-allowed disabled:bg-brand-50 disabled:text-muted-foreground",
@@ -334,7 +345,11 @@ function PrivateCard({ choice }: { choice: PrivatePriceChoice }) {
                 >
                   {pkg.variants.map((candidate) => (
                     <option key={candidate.key} value={candidate.key}>
-                      {candidate.instructor}
+                      {!candidate.instructor
+                        ? "Not applicable"
+                        : pkg.variants.length === 1
+                          ? `${candidate.instructor} (only option)`
+                          : candidate.instructor}
                     </option>
                   ))}
                 </select>
@@ -401,9 +416,6 @@ function CategoryHeader({
 }
 
 function cardPlacement(index: number, count: number) {
-  if (count === 2) {
-    return index === 0 ? "lg:col-start-2" : "lg:col-start-4";
-  }
   if (count === 5 && index >= 3) {
     return index === 3 ? "lg:col-start-2" : "lg:col-start-4";
   }
@@ -416,6 +428,57 @@ function PublicSectionPanel({ section }: { section: PricingSection }) {
     section.id === "memberships"
       ? Math.max(...options.map((option) => option.price))
       : undefined;
+
+  if (section.id === "new-here") {
+    return (
+      <>
+        <CategoryHeader
+          scope={section.id}
+          heading={section.heading}
+          description={section.description}
+        />
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:gap-6">
+          {options.map((option) => (
+            <div key={option.key} className="h-full">
+              <PricingCard
+                option={option}
+                section={section}
+                membershipBaseline={membershipBaseline}
+              />
+            </div>
+          ))}
+          {singleSessionChoices.map((choice) => (
+            <div key={choice.key} className="h-full">
+              <PrivateCard choice={choice} reserveSelector={false} />
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
+
+  if (options.length === 2) {
+    return (
+      <>
+        <CategoryHeader
+          scope={section.id}
+          heading={section.heading}
+          description={section.description}
+        />
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:gap-6">
+          {options.map((option) => (
+            <div key={option.key} className="h-full">
+              <PricingCard
+                option={option}
+                section={section}
+                membershipBaseline={membershipBaseline}
+              />
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -441,15 +504,6 @@ function PublicSectionPanel({ section }: { section: PricingSection }) {
           </div>
         ))}
       </div>
-      {section.id === "new-here" && (
-        <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-6 lg:gap-6">
-          {singleSessionChoices.map((choice) => (
-            <div key={choice.key} className="h-full lg:col-span-2">
-              <PrivateCard choice={choice} />
-            </div>
-          ))}
-        </div>
-      )}
     </>
   );
 }
@@ -474,19 +528,29 @@ function PrivatePanel() {
           </div>
         ))}
       </div>
-      <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-6 lg:gap-6">
-        {extendedPackageChoices.map((choice, index) => (
-          <div
-            key={choice.key}
-            className={cn(
-              "h-full lg:col-span-2",
-              cardPlacement(index, extendedPackageChoices.length),
-            )}
-          >
-            <PrivateCard choice={choice} />
-          </div>
-        ))}
-      </div>
+      {extendedPackageChoices.length === 2 ? (
+        <div className="mt-5 grid gap-5 md:grid-cols-2 lg:gap-6">
+          {extendedPackageChoices.map((choice) => (
+            <div key={choice.key} className="h-full">
+              <PrivateCard choice={choice} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-6 lg:gap-6">
+          {extendedPackageChoices.map((choice, index) => (
+            <div
+              key={choice.key}
+              className={cn(
+                "h-full lg:col-span-2",
+                cardPlacement(index, extendedPackageChoices.length),
+              )}
+            >
+              <PrivateCard choice={choice} />
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }
@@ -596,23 +660,38 @@ export function PricingTabs() {
       <MindbodyPricingLoader />
 
       <div>
-        <div className="mb-2 flex items-center justify-between gap-4 px-1 text-xs font-semibold uppercase tracking-[0.12em] text-brand-700 lg:hidden">
-          <span>Swipe to explore all 5 categories</span>
-          <span aria-hidden className="shrink-0 text-base tracking-normal">
-            &larr;&nbsp;&rarr;
+        <label className="block md:hidden">
+          <span className="mb-1.5 block font-sans text-sm font-semibold text-foreground">
+            Show me
           </span>
-        </div>
-        <div className="relative">
-          <div
-            role="tablist"
-            aria-label="Pricing categories"
-            aria-orientation="horizontal"
-            className="flex w-full snap-x snap-mandatory items-end gap-1 overflow-x-auto border-b border-border pr-12 lg:overflow-visible lg:pr-0"
+          <select
+            value={activeScope}
+            onChange={(event) =>
+              activate(event.target.value as PricingScope)
+            }
+            className={cn(
+              "min-h-12 w-full rounded-lg border border-border bg-white px-3 py-2 font-sans text-base font-semibold text-foreground",
+              focusRing,
+            )}
           >
-            {tabs.map((tab, index) => {
-              const active = tab.scope === activeScope;
-              return (
-                <button
+            {tabs.map((tab) => (
+              <option key={tab.scope} value={tab.scope}>
+                {tab.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <div
+          role="tablist"
+          aria-label="Pricing categories"
+          aria-orientation="horizontal"
+          className="hidden w-full items-end gap-1 border-b border-border md:flex"
+        >
+          {tabs.map((tab, index) => {
+            const active = tab.scope === activeScope;
+            return (
+              <button
                 key={tab.scope}
                 id={tabId(tab.scope)}
                 type="button"
@@ -623,7 +702,7 @@ export function PricingTabs() {
                 onClick={() => activate(tab.scope)}
                 onKeyDown={(event) => handleTabKeyDown(index, event)}
                 className={cn(
-                  "group relative -mb-px min-h-16 w-40 shrink-0 cursor-pointer snap-start px-4 py-3 text-left font-sans transition-[color,transform] duration-200 after:absolute after:inset-x-4 after:bottom-0 after:h-1 after:origin-center after:rounded-t-full after:bg-brand-500 after:transition-transform after:duration-200 sm:w-44 lg:w-auto lg:flex-1",
+                  "group relative -mb-px min-h-14 flex-1 cursor-pointer px-3 py-3 text-left font-sans transition-[color,transform] duration-200 after:absolute after:inset-x-3 after:bottom-0 after:h-1 after:origin-center after:rounded-t-full after:bg-brand-500 after:transition-transform after:duration-200",
                   active
                     ? "text-foreground after:scale-x-100"
                     : "text-muted-foreground after:scale-x-0 hover:-translate-y-0.5 hover:text-foreground hover:after:scale-x-50",
@@ -632,30 +711,15 @@ export function PricingTabs() {
               >
                 <span
                   className={cn(
-                    "inline-flex min-w-6 items-center justify-center rounded-full text-[0.65rem] font-semibold tabular-nums tracking-[0.1em] transition-colors duration-200",
-                    active
-                      ? "bg-brand-500 px-1.5 py-0.5 text-brand-900"
-                      : "text-brand-700",
-                  )}
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span
-                  className={cn(
-                    "mt-1 block text-base leading-tight sm:text-lg",
+                    "block text-base leading-tight lg:text-lg",
                     active ? "font-bold" : "font-normal",
                   )}
                 >
                   {tab.label}
                 </span>
-                </button>
-              );
-            })}
-          </div>
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background via-background/85 to-transparent lg:hidden"
-          />
+              </button>
+            );
+          })}
         </div>
       </div>
 

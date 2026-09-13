@@ -81,7 +81,7 @@ export const pricingSections: PricingSection[] = [
   {
     id: "new-here",
     heading: "New here",
-    description: "Five introductory ways to try the studio.",
+    description: "Four introductory ways to try the studio.",
   },
   {
     id: "group-packs",
@@ -105,40 +105,21 @@ export const pricingSections: PricingSection[] = [
 export const pricingOptions: PricingOption[] = [
   // ---------- New here ----------
   {
-    key: "intro-group-class",
-    serviceId: "100033",
-    name: "Intro group class",
-    price: 20,
+    key: "mvp-welcome-package",
+    serviceId: "100068",
+    name: "MVP Welcome Package",
+    price: 85,
     interval: "once",
     unit: "class",
-    count: 1,
-    validity: "2 weeks",
+    count: 3,
+    validity: "1 month",
     section: "new-here",
     blurb:
-      "A low-commitment first visit to meet the studio, try the equipment, and experience our teaching style.",
+      "Three visits give you time to meet the studio, try our signature group formats, and begin building confidence.",
     highlights: [
-      "One guided group session on professional equipment",
+      "Three group classes on professional equipment",
       "Polestar-certified instruction with form-focused cueing",
       "A simple way to find the class format that fits you",
-    ],
-    eligibility: "New clients only, once per person",
-  },
-  {
-    key: "power-starter-pack",
-    serviceId: "100003",
-    name: "Power Starter Pack",
-    price: 110,
-    interval: "once",
-    unit: "class",
-    count: 4,
-    validity: "4 weeks",
-    section: "new-here",
-    blurb:
-      "Four visits give you time to learn the reformer, try our signature group formats, and begin building confidence.",
-    highlights: [
-      "Four Reformer, Fit-lates, Cardio Pilates, Circuit, or TRX classes",
-      "Build strength, balance, endurance, and flexibility",
-      "Suitable for new clients at every fitness level",
     ],
     eligibility: "New clients only, once per person",
   },
