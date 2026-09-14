@@ -108,7 +108,7 @@ export const pricingOptions: PricingOption[] = [
     key: "mvp-welcome-package",
     serviceId: "100068",
     name: "MVP Welcome Package",
-    price: 85,
+    price: 89,
     interval: "once",
     unit: "class",
     count: 3,
