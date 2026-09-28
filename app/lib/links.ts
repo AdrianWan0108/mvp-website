@@ -1,8 +1,8 @@
 /**
- * Outbound CTA destinations.
+ * Shared CTA destinations.
  *
  * MVP books through Mindbody. Until the client supplies the real Mindbody
- * URLs, every booking/registration CTA points to a clearly-marked
+ * URLs, the remaining external booking CTAs point to a clearly-marked
  * placeholder so the whole funnel can be re-pointed from this one file.
  *
  * `isPlaceholder()` lets components surface a small "demo link" hint in the
@@ -14,10 +14,10 @@ const MINDBODY_PLACEHOLDER =
   "https://www.mindbodyonline.com/explore/locations/motion-vitality-pilates";
 
 export const links = {
-  // --- Mindbody funnel (placeholders) ---
+  // --- Mindbody funnel (registration is live; external links are placeholders) ---
   book: MINDBODY_PLACEHOLDER,
   schedule: MINDBODY_PLACEHOLDER,
-  register: MINDBODY_PLACEHOLDER,
+  register: "/register",
   firstTimer: MINDBODY_PLACEHOLDER,
   buyClasses: MINDBODY_PLACEHOLDER,
 

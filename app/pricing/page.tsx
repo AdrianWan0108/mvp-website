@@ -4,6 +4,7 @@ import { ScrollReveal } from "../components/scroll-reveal";
 import { BeforeYouPurchase } from "../components/pricing/before-you-purchase";
 import { PricingMasthead } from "../components/pricing/pricing-masthead";
 import { PricingTabs } from "../components/pricing/pricing-tabs";
+import { RegistrationCallout } from "../components/registration/registration-callout";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -30,6 +31,7 @@ export default function PricingPage() {
         />
 
         <Container>
+          <RegistrationCallout />
           <ScrollReveal>
             <div data-reveal>
               <PricingTabs />

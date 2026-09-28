@@ -100,9 +100,24 @@ export default async function InstructorPage({
               About {instructor.name}
             </h2>
             <div className="mt-7 space-y-5 text-lg leading-relaxed text-muted-foreground">
-              {instructor.biography.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              {instructor.biography.map((paragraph) => {
+                const link = instructor.biographyLink;
+                const linkIndex = link ? paragraph.indexOf(link.text) : -1;
+
+                return (
+                  <p key={paragraph}>
+                    {link && linkIndex >= 0 ? (
+                      <>
+                        {paragraph.slice(0, linkIndex)}
+                        <a href={link.href} className="text-primary underline underline-offset-4 hover:text-brand-900">
+                          {link.text}
+                        </a>
+                        {paragraph.slice(linkIndex + link.text.length)}
+                      </>
+                    ) : paragraph}
+                  </p>
+                );
+              })}
             </div>
 
             {instructor.qualifications.length > 0 && (

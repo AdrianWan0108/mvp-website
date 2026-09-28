@@ -11,6 +11,7 @@ const routes = [
   "",
   "/pricing",
   "/schedule",
+  "/register",
   "/education",
   "/education/polestar-comprehensive-training",
   "/about/studio",

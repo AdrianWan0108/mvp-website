@@ -1,0 +1,15 @@
+/* Keep these site-specific overrides local to the registration widget. */
+.form :is(input:not([type="radio"]), select, textarea, button) {
+  border-radius: 0 !important;
+}
+
+.form healcode-widget,
+.form :global(.healcode.registration),
+.form form {
+  background: transparent !important;
+}
+
+.form :global(.healcode.registration) {
+  width: 100% !important;
+  max-width: none !important;
+}

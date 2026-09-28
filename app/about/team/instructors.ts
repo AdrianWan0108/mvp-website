@@ -13,6 +13,7 @@ export type Instructor = {
   role: string;
   quote: string;
   biography: string[];
+  biographyLink?: { text: string; href: string };
   qualifications: string[];
   gallery: InstructorGalleryImage[];
   scheduleHref: string;
@@ -24,7 +25,9 @@ export type Instructor = {
  * page. Booking details were intentionally omitted because the live schedule is
  * the source of truth: https://www.motionvitalitypilates.com/copy-of-our-team
  *
- * All three quotes and Florence's biography are draft copy for client review.
+ * All three quotes are draft copy for client review. Florence's biography and
+ * qualifications were supplied by the client, with qualifications updated
+ * September 20, 2026.
  */
 export const instructors: Instructor[] = [
   {
@@ -103,11 +106,22 @@ export const instructors: Instructor[] = [
     quote:
       "Graceful movement begins with control, confidence, and care.",
     biography: [
-      "Florence brings a calm, encouraging presence to every session. Her teaching emphasizes graceful, controlled movement that helps clients build strength, mobility, and confidence without losing connection to how their body feels.",
-      "She believes meaningful progress comes from balancing challenge with care. Each session is adapted to the person in front of her, creating space to explore movement, refine control, and develop lasting confidence.",
-      "At MVP, Florence supports clients in building a movement practice that feels both purposeful and sustainable, meeting each session with patience, attention, and genuine curiosity.",
+      "For more than three decades, Florence has dedicated her life to helping people discover the joy of effortless, efficient movement. As a passionate educator, she weaves together neuroscience and Gyrotonic® principles to create highly individualized training sessions. Florence blends an extensive background in dance, education, and somatic practice to help her clients move with greater ease and strength. Highly adept at tailoring instruction for both private and group settings, she provides a supportive environment for Gyrotonic® and Pilates enthusiasts of all ages and fitness levels.",
+      "With a professional dance background, Florence has cultivated a highly trained eye for alignment, symmetry, cadence, and balance. This allows her to detect subtle physical deviations and compensatory patterns before they lead to potential injury. Rather than simply managing pain, she targets underlying technical inefficiencies with precise corrective stretching and strengthening strategies to optimize overall biomechanics. Universally fluent in Cantonese, English, and Mandarin, Florence brings a sophisticated understanding of both Chinese and Canadian cultural paradigms. This unique cross-cultural perspective allows her to facilitate deep, intuitive learning and connect meaningfully with a diverse community of bodies.",
     ],
-    qualifications: [],
+    biographyLink: { text: "Gyrotonic®", href: "https://www.gyrotonic.com/" },
+    qualifications: [
+      "Gyrotonic® Trainer",
+      "Active Neuromuscular Rehabilitation Medicine Certificates, SFNG Institute",
+      "Gyrokinesis® Apprentice",
+      "Bachelor of Education, York University",
+      "Dance Specialist Title, University of Toronto",
+      "Bachelor of Fine Arts (Honours Specialist), York University",
+      "Ontario Teaching Certificate, Ontario College of Teachers",
+      "RAD Teaching Diploma, Royal Academy of Dancing",
+      "Registered Dance Teacher, Chinese Dancers Association",
+      "Pilates Reformer Certificate, Pilates Process Toronto",
+    ],
     gallery: [
       {
         photo: photos.florenceTeamHeadshot,

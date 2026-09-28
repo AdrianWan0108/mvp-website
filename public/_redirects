@@ -29,7 +29,7 @@
 # /classes was retired in favour of /pricing; it still had inbound links from
 # the footer nav and the sitemap, so it keeps a 301 rather than 404ing.
 /our-services                                       /pricing              301
-/new-registration                                   /pricing              301
+/new-registration                                   /register             301
 /classes                                            /pricing              301
 
 # --- About / team ----------------------------------------------------------

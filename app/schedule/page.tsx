@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Container } from "../components/container";
 import { ScrollReveal } from "../components/scroll-reveal";
 import { ScheduleWidget } from "../components/schedule/schedule-widget";
+import { RegistrationCallout } from "../components/registration/registration-callout";
 import { photos } from "@/app/lib/images";
 
 export const metadata: Metadata = {
@@ -58,6 +59,7 @@ export default function SchedulePage() {
 
       <section id="private" className="bg-brand-50 pb-16 pt-6 sm:pb-20 sm:pt-8">
         <Container>
+          <RegistrationCallout />
           <ScheduleWidget />
         </Container>
       </section>

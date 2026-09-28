@@ -2,37 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "@/app/lib/cn";
-
-/** Mindbody's widget loader. Constant across every pricing option. */
-const HEALCODE_SRC =
-  "https://widgets.mindbodyonline.com/javascripts/healcode.js";
-const HEALCODE_SCRIPT_ID = "mindbody-healcode-loader";
+import { loadHealcodeOnce } from "@/app/lib/mindbody-healcode";
 
 /** Studio identifiers — constant; only data-service-id varies per option. */
 const SITE_ID = "126134";
 const MB_SITE_ID = "5744643";
-
-function loadHealcodeOnce() {
-  // Mindbody installs global helpers and injects a dependency chain. Reloading
-  // healcode.js during a later client navigation initializes those globals a
-  // second time and can crash the React tree. Keep the first loader for the
-  // lifetime of the document; its element observer handles widgets inserted
-  // by later visits to this route.
-  if (
-    document.getElementById(HEALCODE_SCRIPT_ID) ||
-    document.querySelector(`script[src="${HEALCODE_SRC}"]`) ||
-    "HealcodeWidget" in window
-  ) {
-    return;
-  }
-
-  const script = document.createElement("script");
-  script.id = HEALCODE_SCRIPT_ID;
-  script.src = HEALCODE_SRC;
-  script.type = "text/javascript";
-  script.async = true;
-  document.body.appendChild(script);
-}
 
 /**
  * Loads Mindbody once, after the complete pricing tree has committed.
@@ -46,7 +20,11 @@ export function MindbodyPricingLoader() {
   useEffect(() => {
     // Deferring to the next task lets React finish the route transition and
     // lets Strict Mode cancel its first development-only effect pass.
-    const timer = window.setTimeout(loadHealcodeOnce, 0);
+    const timer = window.setTimeout(() => {
+      void loadHealcodeOnce().catch(() => {
+        // Keep a blocked third-party request from becoming an unhandled error.
+      });
+    }, 0);
 
     return () => {
       window.clearTimeout(timer);
