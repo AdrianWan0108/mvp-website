@@ -81,14 +81,16 @@ export default function RootLayout({
       data-theme="verdant"
       className={`${fontVariables} h-full antialiased`}
     >
-      <Script id="google-tag-manager" strategy="beforeInteractive">
-        {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      <body className="flex min-h-full flex-col">
+        {/* beforeInteractive scripts are hoisted into <head> by Next.js, but
+            must not be rendered as a direct child of <html>. */}
+        <Script id="google-tag-manager" strategy="beforeInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-5CQJJDVM');`}
-      </Script>
-      <body className="flex min-h-full flex-col">
+        </Script>
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-5CQJJDVM"

@@ -1,4 +1,5 @@
 import { Hero } from "./components/home/hero";
+import { AnniversaryFeature } from "./components/home/anniversary-feature";
 import { PricingGateway } from "./components/home/pricing-gateway";
 import { CoreValues } from "./components/home/core-values";
 import { EquipmentShowcase } from "./components/home/equipment-showcase";
@@ -10,6 +11,8 @@ export default function Home() {
   return (
     <>
       <Hero />
+
+      <AnniversaryFeature />
 
       <PricingGateway />
 

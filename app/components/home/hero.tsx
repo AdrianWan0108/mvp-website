@@ -75,11 +75,8 @@ function HeroCopy() {
 
 export function Hero() {
   return (
-    // The negative margin pulls the section up under the transparent site
-    // header so the background image runs behind it. It has to match the
-    // header's un-scrolled height exactly (h-20 / lg:h-24) — pulling up any
-    // less leaves a strip of page background showing above the hero.
-    <section className="relative isolate -mt-20 overflow-hidden bg-brand-900 text-white lg:-mt-24">
+    // Overlap the navigation row only; the announcement stays above the hero.
+    <section className="relative isolate -mt-[var(--site-nav-height)] overflow-hidden bg-brand-900 text-white">
       {/* ---- Desktop (lg+): original full-bleed image with copy overlaid ---- */}
       <div className={`${styles.desktop} relative min-h-screen items-center`}>
         {/* Photo and points share a cover-sized plane to preserve alignment. */}

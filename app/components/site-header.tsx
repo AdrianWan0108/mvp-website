@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Award, Building2, Compass, Users } from "lucide-react";
 import { CtaButton } from "./cta-button";
+import { AnniversaryAnnouncement } from "./anniversary-announcement";
+import { anniversary, anniversaryIsActive } from "@/app/lib/anniversary";
 import { mainNav, site, type NavItem } from "@/app/lib/site";
 import { brandLogos } from "@/app/lib/images";
 import { cn } from "@/app/lib/cn";
@@ -30,7 +32,12 @@ function isActive(pathname: string | null, item: NavItem): boolean {
   return targets.some((target) => matchesPath(pathname, target));
 }
 
+const navigation: NavItem[] = anniversaryIsActive
+  ? [...mainNav, { label: "Anniversary Week", href: anniversary.href }]
+  : mainNav;
+
 export function SiteHeader() {
+  const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const [menu, setMenu] = useState<{ open: boolean; path: string | null }>({
     open: false,
@@ -132,10 +139,10 @@ export function SiteHeader() {
     onDarkSurface
       ? active
         ? "font-semibold text-white"
-        : "text-white/82 hover:text-white"
+        : "text-white hover:text-white"
       : active
         ? "font-semibold text-brand-700"
-        : "text-brand-950/78 hover:text-brand-700";
+        : "text-brand-950 hover:text-brand-700";
 
   // The dropdown panel follows the bar it hangs from. Previously it was
   // hardcoded cream, so over the home hero and on the dark /education header
@@ -181,7 +188,20 @@ export function SiteHeader() {
   }, [open]);
 
   useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 1024px)");
+    const header = headerRef.current;
+    if (!header) return;
+    const measure = () => document.documentElement.style.setProperty("--site-header-height", `${header.getBoundingClientRect().height}px`);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(header);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty("--site-header-height");
+    };
+  }, []);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1280px)");
     const onBreakpointChange = (event: MediaQueryListEvent) => {
       if (event.matches) {
         setMenu((current) => ({ ...current, open: false }));
@@ -195,9 +215,10 @@ export function SiteHeader() {
   return (
     <>
       <header
+        ref={headerRef}
         data-theme={isEducation ? "education" : undefined}
         className={cn(
-          "fixed top-0 z-50 w-full border-b transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out motion-reduce:transition-none lg:sticky",
+          "fixed top-0 z-50 w-full border-b transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out motion-reduce:transition-none",
           overHero
             ? "border-transparent bg-transparent text-white shadow-none"
             : isEducation
@@ -205,15 +226,17 @@ export function SiteHeader() {
               : "border-brand-200/75 bg-[#fbfaf6]/94 text-brand-950 shadow-[0_14px_38px_-28px_rgba(21,36,31,0.5)] backdrop-blur-xl",
         )}
       >
+        <AnniversaryAnnouncement onDismiss={() => headerRef.current?.querySelector<HTMLAnchorElement>("[data-site-logo]")?.focus()} />
         <div
           className={cn(
-            "mx-auto flex h-16 w-full items-center justify-between gap-5 px-5 sm:px-8 lg:h-[4.5rem]",
+            "mx-auto flex h-16 w-full items-center justify-between gap-5 px-5 sm:px-8 xl:h-[4.5rem]",
             barMaxWidth,
             barExtraPadding,
           )}
         >
           <Link
             href="/"
+            data-site-logo
             className="group/logo relative z-10 flex shrink-0 items-center rounded-sm focus-visible:outline-offset-8"
             aria-label={`${site.name} — home`}
             onClick={closeMenu}
@@ -224,12 +247,12 @@ export function SiteHeader() {
               width={176}
               height={80}
               priority
-              className="h-10 w-auto object-contain transition-transform duration-300 ease-out group-hover/logo:-translate-y-0.5 group-hover/logo:scale-[1.025] group-focus-visible/logo:-translate-y-0.5 group-focus-visible/logo:scale-[1.025] motion-reduce:transition-none lg:h-11"
+              className="h-10 w-auto object-contain transition-transform duration-300 ease-out group-hover/logo:-translate-y-0.5 group-hover/logo:scale-[1.025] group-focus-visible/logo:-translate-y-0.5 group-focus-visible/logo:scale-[1.025] motion-reduce:transition-none xl:h-11"
             />
           </Link>
 
-          <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
-            {mainNav.map((item) =>
+          <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Primary">
+            {navigation.map((item) =>
               item.children ? (
                 <div
                   key={item.href}
@@ -363,6 +386,8 @@ export function SiteHeader() {
                   className={cn(
                     "site-nav-link relative px-3 py-3 text-[0.98rem] font-medium tracking-[0.01em] transition-colors duration-300 motion-reduce:transition-none xl:px-3.5",
                     navLink(isActive(pathname, item)),
+                    item.href === anniversary.href &&
+                      (onDarkSurface ? "rounded-sm bg-brand-300/15" : "rounded-sm bg-brand-100"),
                   )}
                 >
                   {item.label}
@@ -390,7 +415,7 @@ export function SiteHeader() {
             aria-controls="mobile-menu"
             aria-label={open ? "Close navigation menu" : "Open navigation menu"}
             className={cn(
-              "group/menu relative z-10 grid h-11 w-11 place-items-center rounded-full border transition-[transform,background-color,border-color] duration-300 hover:scale-105 active:scale-95 motion-reduce:transition-none lg:hidden",
+              "group/menu relative z-10 grid h-11 w-11 place-items-center rounded-full border transition-[transform,background-color,border-color] duration-300 hover:scale-105 active:scale-95 motion-reduce:transition-none xl:hidden",
               onDarkSurface
                 ? "border-white/35 text-white hover:bg-white/10"
                 : "border-brand-300/80 text-brand-900 hover:bg-brand-100/80",
@@ -425,7 +450,7 @@ export function SiteHeader() {
           aria-hidden={!open}
           inert={!open}
           className={cn(
-            "absolute inset-x-0 top-full z-50 grid overflow-hidden border-t transition-[grid-template-rows,opacity,transform,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none lg:hidden",
+            "absolute inset-x-0 top-full z-50 grid overflow-hidden border-t transition-[grid-template-rows,opacity,transform,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none xl:hidden",
             isEducation
               ? "border-white/10 bg-[#111412]/98 text-white"
               : "border-brand-200/80 bg-[#fbfaf6]/98 text-brand-950",
@@ -437,9 +462,9 @@ export function SiteHeader() {
           <div className="min-h-0 overflow-hidden">
             <nav
               aria-label="Mobile primary"
-              className="mx-auto flex max-h-[calc(100dvh-4rem)] w-full max-w-3xl flex-col overflow-y-auto px-5 py-5 sm:px-8 sm:py-7"
+              className="mx-auto flex max-h-[calc(100dvh-var(--site-header-height))] w-full max-w-3xl flex-col overflow-y-auto px-5 py-5 sm:px-8 sm:py-7"
             >
-              {mainNav.map((item, index) => (
+              {navigation.map((item, index) => (
                 <div
                   key={item.href}
                   className={cn(
@@ -452,8 +477,10 @@ export function SiteHeader() {
                   <Link
                     href={item.href}
                     onClick={closeMenu}
+                    aria-current={pathname === item.href ? "page" : undefined}
+                    data-anniversary={item.href === anniversary.href || undefined}
                     className={cn(
-                      "flex items-center justify-between rounded-sm py-3.5 text-xl font-medium transition-[color,padding] duration-200 hover:pl-1",
+                      "flex items-center justify-between rounded-sm py-3.5 data-[anniversary]:px-3 data-[anniversary]:bg-brand-500/10 text-xl font-medium transition-[color,padding] duration-200 hover:pl-1",
                       isEducation
                         ? isActive(pathname, item)
                           ? "text-brand-300"
@@ -513,10 +540,9 @@ export function SiteHeader() {
         </div>
       </header>
 
-      {/* Keep mobile pages in normal document flow while the fixed header and
-          its menu remain reachable at every scroll position. The home hero's
-          matching negative margin still lets its image run behind the bar. */}
-      <div aria-hidden className="h-20 shrink-0 lg:hidden" />
+      {/* Reserve the measured header height on every screen. The home hero
+          overlaps only the navigation row, leaving the announcement above it. */}
+      <div aria-hidden className="h-[var(--site-header-height)] shrink-0" />
 
       <button
         type="button"
@@ -525,7 +551,7 @@ export function SiteHeader() {
         tabIndex={open ? 0 : -1}
         onClick={closeMenu}
         className={cn(
-          "fixed inset-0 z-40 bg-brand-950/35 backdrop-blur-[2px] transition-opacity duration-300 motion-reduce:transition-none lg:hidden",
+          "fixed inset-0 z-40 bg-brand-950/35 backdrop-blur-[2px] transition-opacity duration-300 motion-reduce:transition-none xl:hidden",
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         )}
       />

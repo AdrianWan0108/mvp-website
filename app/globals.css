@@ -242,6 +242,28 @@ h4 {
   outline-offset: 2px;
 }
 
+/* Header spacing includes the dismissible campaign bar. CSS reserves its
+   initial height; ResizeObserver keeps this exact when text wraps or zooms. */
+:root {
+  --site-nav-height: 4rem;
+  --site-header-height: calc(var(--site-nav-height) + 1px);
+  scroll-padding-top: calc(var(--site-header-height) + 20px);
+}
+
+:root:has(.anniversary-announcement) {
+  --site-header-height: calc(var(--site-nav-height) + 65px);
+}
+
+@media (min-width: 640px) {
+  :root:has(.anniversary-announcement) {
+    --site-header-height: calc(var(--site-nav-height) + 45px);
+  }
+}
+
+@media (min-width: 1280px) {
+  :root { --site-nav-height: 4.5rem; }
+}
+
 /* ---------- CTA button derived tokens ----------
    Defined here rather than as Tailwind arbitrary values because Tailwind
    parses `color-mix(...)` inside `bg-[…]` / `shadow-[…]` as a color token and
