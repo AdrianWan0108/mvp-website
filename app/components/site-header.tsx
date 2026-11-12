@@ -33,7 +33,7 @@ function isActive(pathname: string | null, item: NavItem): boolean {
 }
 
 const navigation: NavItem[] = anniversaryIsActive
-  ? [...mainNav, { label: "Anniversary Week", href: anniversary.href }]
+  ? [{ label: "Anniversary Week", href: anniversary.href }, ...mainNav]
   : mainNav;
 
 export function SiteHeader() {
@@ -384,10 +384,15 @@ export function SiteHeader() {
                   aria-current={pathname === item.href ? "page" : undefined}
                   data-active={isActive(pathname, item)}
                   className={cn(
-                    "site-nav-link relative px-3 py-3 text-[0.98rem] font-medium tracking-[0.01em] transition-colors duration-300 motion-reduce:transition-none xl:px-3.5",
-                    navLink(isActive(pathname, item)),
-                    item.href === anniversary.href &&
-                      (onDarkSurface ? "rounded-sm bg-brand-300/15" : "rounded-sm bg-brand-100"),
+                    "site-nav-link relative px-3 py-3 text-[0.98rem] tracking-[0.01em] transition-colors duration-300 motion-reduce:transition-none xl:px-3.5",
+                    item.href === anniversary.href
+                      ? cn(
+                          "font-semibold",
+                          onDarkSurface
+                            ? "text-brand-200 hover:text-brand-100"
+                            : "text-brand-700 hover:text-brand-800",
+                        )
+                      : cn("font-medium", navLink(isActive(pathname, item))),
                   )}
                 >
                   {item.label}

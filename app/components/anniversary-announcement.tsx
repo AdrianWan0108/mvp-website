@@ -50,7 +50,7 @@ export function AnniversaryAnnouncement({ onDismiss }: { onDismiss: () => void }
         <Link href={anniversary.href} className="py-2 text-center text-xs leading-relaxed font-medium underline-offset-4 hover:underline focus-visible:outline-white sm:text-sm">
           <span className="block sm:inline">Anniversary Rehab Week · {anniversary.shortDates}</span>
           <span className="hidden sm:inline"> — </span>
-          <span className="block text-brand-200 sm:inline">Explore the week <span aria-hidden>→</span></span>
+          <span className="block text-brand-200 sm:inline">See the schedule <span aria-hidden>→</span></span>
         </Link>
         <button type="button" onClick={dismiss} aria-label="Dismiss anniversary announcement" className="absolute right-1 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full hover:bg-white/10 focus-visible:outline-white sm:right-4">
           <X className="size-4" aria-hidden />

@@ -263,6 +263,83 @@ export const photos = {
     alt: "Dorothy guiding clients through a group reformer class at Motion Vitality Pilates.",
   },
 
+  // --- Anniversary Rehab Week (/anniversary) ---
+  // Everything in mvp-anniversary/ is built by
+  // scripts/build-anniversary-photos.mjs from assets-src/photos/mvp-anniversary.
+  // The five hero-* frames are portrait slices of the page's diagonal strip.
+  anniversaryHeroBarrelSession: {
+    src: `${A}/mvp-anniversary/hero-barrel-session.webp`,
+    alt: "An instructor watches a client stretch forward over a Pilates barrel.",
+  },
+  anniversaryHeroCommunityTalk: {
+    src: `${A}/mvp-anniversary/hero-community-talk.webp`,
+    alt: "An instructor guides a seated visitor's shoulders during a community session.",
+  },
+  anniversaryHeroMatClass: {
+    src: `${A}/mvp-anniversary/hero-mat-class.webp`,
+    alt: "A row of people on mats reaching their arms up during a group movement class.",
+  },
+  anniversaryHeroBarrelHandsOn: {
+    src: `${A}/mvp-anniversary/hero-barrel-hands-on.webp`,
+    alt: "An instructor gives hands-on guidance to a client draped over a Pilates barrel.",
+  },
+  anniversaryHeroSpineModel: {
+    src: `${A}/mvp-anniversary/hero-spine-model.webp`,
+    alt: "Colour-coded anatomical spine and pelvis model in the studio.",
+  },
+  anniversaryOffersStudio: {
+    src: `${A}/mvp-anniversary/offers-reformer-studio.webp`,
+    alt: "The mirrored reformer studio at Motion Vitality Pilates, with rows of reformers and suspension straps.",
+  },
+  // JPEG on purpose: this is the link-preview card, and some apps reject webp.
+  anniversarySocial: {
+    src: `${A}/mvp-anniversary/social-share.jpg`,
+    alt: "A group movement class at Motion Vitality Pilates, arms raised on the mats.",
+  },
+  anniversaryCoachGary: {
+    src: `${A}/mvp-anniversary/coach-gary-fok.webp`,
+    alt: "Gary Fok, head coach at Motion Vitality Pilates.",
+  },
+  // Guest speakers, cropped square for round avatars.
+  anniversaryHostTonyFu: {
+    src: `${A}/mvp-anniversary/host-tony-fu.webp`,
+    alt: "Tony Fu of Cornerstone Physiotherapy.",
+  },
+  anniversaryHostMatthewJohnston: {
+    src: `${A}/mvp-anniversary/host-matthew-johnston.webp`,
+    alt: "Matthew Johnston of Cornerstone Physiotherapy.",
+  },
+  anniversaryHostJessicaTsang: {
+    src: `${A}/mvp-anniversary/host-jessica-tsang.webp`,
+    alt: "Dr. Jessica Tsang of First Markham Physiotherapy & Rehabilitation.",
+  },
+  anniversaryHostJuliannaChan: {
+    src: `${A}/mvp-anniversary/host-julianna-chan.webp`,
+    alt: "Julianna Chan of Family Physiotherapy.",
+  },
+  anniversaryHostLianneChan: {
+    src: `${A}/mvp-anniversary/host-lianne-chan.webp`,
+    alt: "Lianne Chan of Striowski & Associates Physiotherapy.",
+  },
+  // Guest speakers' clinics. Cleaned-up screenshots on a white ground — swap in
+  // official files if the clinics supply them.
+  anniversaryLogoCornerstone: {
+    src: `${A}/mvp-anniversary/logo-cornerstone-physiotherapy.webp`,
+    alt: "Cornerstone Physiotherapy",
+  },
+  anniversaryLogoFamilyPhysio: {
+    src: `${A}/mvp-anniversary/logo-family-physiotherapy.webp`,
+    alt: "Family Physiotherapy",
+  },
+  anniversaryLogoFirstMarkham: {
+    src: `${A}/mvp-anniversary/logo-first-markham-physiotherapy.webp`,
+    alt: "First Markham Physiotherapy & Rehabilitation",
+  },
+  anniversaryLogoStriowski: {
+    src: `${A}/mvp-anniversary/logo-striowski-associates-physiotherapy.webp`,
+    alt: "Striowski & Associates Physiotherapy",
+  },
+
   // --- Education / past training ---
   janeGotch: {
     src: `${A}/education/jane-gotch.webp`,

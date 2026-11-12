@@ -1,0 +1,72 @@
+/* Screen-wide strip of portrait photos divided by leaning "/" gaps, after the
+   photo band on the anniversary poster.
+
+   Each slice is a flex item clipped to a parallelogram. A slice's top edge
+   starts --slant further right than its bottom edge, and every slice after the
+   first is pulled left by that same amount (less the gap), so neighbouring
+   edges stay parallel with a constant --gap of page background between them.
+   The outermost edges are straight so the strip still meets both screen
+   edges squarely. */
+.strip {
+  --slant: clamp(26px, 5vw, 84px);
+  --gap: clamp(4px, 0.6vw, 8px);
+
+  display: flex;
+  height: clamp(230px, 36vw, 520px);
+  overflow: hidden;
+  background: var(--background);
+}
+
+.slice {
+  --lean-start: var(--slant);
+  --lean-end: var(--slant);
+
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  margin-left: calc(var(--gap) - var(--slant));
+  clip-path: polygon(
+    var(--lean-start) 0,
+    100% 0,
+    calc(100% - var(--lean-end)) 100%,
+    0 100%
+  );
+}
+
+.slice:first-child {
+  --lean-start: 0px;
+  margin-left: 0;
+}
+
+/* How many slices show is decided here, not in the markup: three on phones,
+   four on tablets, all five on desktop. The last one showing gets the straight
+   right-hand edge, so that rule moves with each breakpoint. */
+.slice:nth-child(n + 4) {
+  display: none;
+}
+
+.slice:nth-child(3) {
+  --lean-end: 0px;
+}
+
+@media (min-width: 640px) {
+  .slice:nth-child(4) {
+    display: block;
+    --lean-end: 0px;
+  }
+
+  .slice:nth-child(3) {
+    --lean-end: var(--slant);
+  }
+}
+
+@media (min-width: 1024px) {
+  .slice:nth-child(5) {
+    display: block;
+    --lean-end: 0px;
+  }
+
+  .slice:nth-child(4) {
+    --lean-end: var(--slant);
+  }
+}
