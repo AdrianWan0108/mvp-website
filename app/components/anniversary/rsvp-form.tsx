@@ -1,7 +1,7 @@
 "use client";
 
 import { type FormEvent, useEffect, useId, useState } from "react";
-import { Minus, Plus } from "lucide-react";
+import { Gift, Minus, Plus } from "lucide-react";
 import { cn } from "@/app/lib/cn";
 import { RSVP_SELECT_EVENT } from "./rsvp-link";
 
@@ -68,7 +68,16 @@ function Field({
   );
 }
 
-export function RsvpForm({ talks, maxPerTalk }: { talks: RsvpTalk[]; maxPerTalk: number }) {
+export function RsvpForm({
+  talks,
+  maxPerTalk,
+  thanks,
+}: {
+  talks: RsvpTalk[];
+  maxPerTalk: number;
+  /** Note about what attendees receive, shown above the submit button. */
+  thanks: { title: string; description: string };
+}) {
   const [seats, setSeats] = useState<Seats>({});
   const [missingTalk, setMissingTalk] = useState(false);
   const errorId = useId();
@@ -229,6 +238,14 @@ export function RsvpForm({ talks, maxPerTalk }: { talks: RsvpTalk[]; maxPerTalk:
           </p>
         )}
       </fieldset>
+
+      <div className="flex items-start gap-4 rounded-md bg-brand-50 p-4 sm:p-5">
+        <Gift className="mt-0.5 size-6 shrink-0 text-brand-700" aria-hidden />
+        <div>
+          <p className="font-semibold text-brand-950">{thanks.title}</p>
+          <p className="mt-1 leading-relaxed text-brand-900">{thanks.description}</p>
+        </div>
+      </div>
 
       <div className="flex flex-col gap-4 border-t border-brand-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p aria-live="polite" className="font-medium text-brand-900">

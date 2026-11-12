@@ -7,7 +7,7 @@ import styles from "./hero-strip.module.css";
  * the slice changes shape between phone and desktop. Indexed like
  * `anniversary.images.hero`; a missing entry falls back to centre.
  */
-const focus = ["50% 52%", "50% 42%", "50% 48%", "50% 32%", "42% 40%"];
+const focus = ["50% 42%", "50% 48%", "50% 32%", "42% 40%", "50% 52%"];
 
 /** The first three slices show at every width; the rest appear from tablet up
  *  (see hero-strip.module.css). */

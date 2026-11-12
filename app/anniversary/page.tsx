@@ -56,18 +56,26 @@ function Avatar({ photo, className }: { photo: Photo; className?: string }) {
   );
 }
 
-/** Clinic logo linking to the clinic's site. `className` caps its box; the
- *  logo keeps its own proportions inside it. */
-function ClinicLogo({ clinic, className }: { clinic: (typeof clinics)[keyof typeof clinics]; className: string }) {
+type Clinic = (typeof clinics)[keyof typeof clinics];
+
+/** The logo alone. `className` caps its box; the logo keeps its own proportions inside it. */
+function LogoImage({ clinic, className }: { clinic: Clinic; className: string }) {
+  return (
+    <Image
+      src={clinic.logo.src}
+      alt={clinic.logo.alt}
+      width={clinic.logo.width}
+      height={clinic.logo.height}
+      className={cn("h-auto w-auto object-contain", className)}
+    />
+  );
+}
+
+/** Clinic logo linking to the clinic's home page. */
+function ClinicLogo({ clinic, className }: { clinic: Clinic; className: string }) {
   return (
     <a href={clinic.url} target="_blank" rel="noopener noreferrer" className="inline-block transition-opacity hover:opacity-75">
-      <Image
-        src={clinic.logo.src}
-        alt={clinic.logo.alt}
-        width={clinic.logo.width}
-        height={clinic.logo.height}
-        className={cn("h-auto w-auto object-contain", className)}
-      />
+      <LogoImage clinic={clinic} className={className} />
       <span className="sr-only"> (opens in a new tab)</span>
     </a>
   );
@@ -81,7 +89,7 @@ export default function AnniversaryPage() {
       <Container className="pt-10 sm:pt-14">
         <header className="grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
           <div>
-            <h1 className="text-5xl leading-none sm:text-6xl lg:text-7xl">Anniversary Rehab Week</h1>
+            <h1 className="text-5xl leading-none sm:text-6xl lg:text-7xl">Anniversary <span className="inline-block">Rehab Week</span></h1>
             <p className="mt-3 font-serif text-2xl tracking-[0.04em] text-brand-600 sm:text-3xl">{anniversary.dates}</p>
           </div>
           <div>
@@ -125,11 +133,13 @@ export default function AnniversaryPage() {
                 </h3>
                 <ol className="divide-y divide-brand-200">
                   {week.days.map((day) => (
-                    <li key={day.date} className="grid gap-x-8 gap-y-5 py-8 sm:grid-cols-[6.5rem_minmax(0,1fr)] lg:grid-cols-[6.5rem_minmax(0,1fr)_17rem] lg:gap-x-12">
+                    <li key={day.date} className="grid gap-x-8 gap-y-5 py-8 sm:grid-cols-[7.5rem_minmax(0,1fr)] lg:grid-cols-[7.5rem_minmax(0,1fr)_17rem] lg:gap-x-12">
                       <time dateTime={day.date} className="flex items-baseline gap-3 sm:block">
-                        <span className="block font-serif text-5xl leading-none tracking-[0.04em] sm:text-6xl">{day.number}</span>
-                        <span className="block text-sm font-semibold tracking-[0.12em] whitespace-nowrap uppercase text-brand-700 sm:mt-1.5">
-                          {day.day.slice(0, 3)} · {day.month}
+                        <span className="block font-serif text-4xl leading-none tracking-[0.04em] whitespace-nowrap uppercase sm:text-5xl">
+                          {day.month} {day.number}
+                        </span>
+                        <span className="block text-sm font-semibold tracking-[0.12em] uppercase text-brand-700 sm:mt-1.5">
+                          {day.day.slice(0, 3)}
                         </span>
                       </time>
 
@@ -140,6 +150,7 @@ export default function AnniversaryPage() {
                           {day.summary}
                         </p>
                         <p className={`mt-3 ${body}`}>{day.description}</p>
+                        {day.speaker && <p className={`mt-3 ${body}`}>{day.speaker.bio}</p>}
                         {!day.speaker && anniversaryIsActive && (
                           <p className="mt-3 font-medium">Drop in, no RSVP needed.</p>
                         )}
@@ -147,18 +158,24 @@ export default function AnniversaryPage() {
 
                       {day.speaker && (
                         <div className="sm:col-start-2 lg:col-start-3">
-                          <div className="flex items-center gap-4">
+                          <a
+                            href={day.speaker.bioUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-4 transition-opacity hover:opacity-75"
+                          >
                             <Avatar photo={day.speaker.photo} />
-                            <div>
-                              <p className="font-semibold">{day.speaker.name}</p>
-                              <div className="mt-2 flex">
-                                <ClinicLogo clinic={clinics[day.speaker.clinic]} className="max-h-9 max-w-[9.5rem]" />
-                              </div>
-                            </div>
-                          </div>
+                            <span className="block">
+                              <span className="block font-semibold">{day.speaker.name}</span>
+                              <span className="mt-2 flex">
+                                <LogoImage clinic={clinics[day.speaker.clinic]} className="max-h-9 max-w-[9.5rem]" />
+                              </span>
+                            </span>
+                            <span className="sr-only">, profile on {clinics[day.speaker.clinic].name} site (opens in a new tab)</span>
+                          </a>
                           {anniversaryIsActive && (
-                            <RsvpLink talk={day.date} className={cn(link, "mt-3 inline-flex min-h-11 items-center gap-1.5")}>
-                              RSVP for this talk <span aria-hidden>→</span>
+                            <RsvpLink talk={day.date} className={cn(link, "mt-1 inline-block py-2.5")}>
+                              Reserve a FREE spot <span aria-hidden>→</span>
                             </RsvpLink>
                           )}
                         </div>
@@ -182,13 +199,19 @@ export default function AnniversaryPage() {
                   {anniversary.admission} Choose the talks you’d like to attend and how many people are coming.
                 </p>
                 <p className={`mt-4 ${body}`}>
+                  We’re at {site.address.street}, {site.address.locality}.{" "}
+                  <a href={directions} target="_blank" rel="noopener noreferrer" className={link}>
+                    Get directions<span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </p>
+                <p className={`mt-4 ${body}`}>
                   You can also RSVP by calling{" "}
                   <a href={`tel:${site.phone}`} className={link}>{site.phoneDisplay}</a> or emailing{" "}
                   <a href={`mailto:${site.email}`} className={`${link} break-words`}>{site.email}</a>.
                 </p>
               </div>
               <div className="rounded-lg border border-brand-200 bg-white p-5 sm:p-8">
-                <RsvpForm talks={talks} maxPerTalk={anniversary.rsvp.maxPerTalk} />
+                <RsvpForm talks={talks} maxPerTalk={anniversary.rsvp.maxPerTalk} thanks={anniversary.celebration} />
               </div>
             </div>
           </Container>
@@ -227,22 +250,13 @@ export default function AnniversaryPage() {
         </Container>
       </section>
 
-      <section id="visit" aria-labelledby="join-title" className={cn(section, "border-t border-brand-200")}>
-        <Container>
-          <h2 id="join-title" className={sectionTitle}>{anniversaryIsActive ? "Join us" : anniversary.recap.title}</h2>
-          <div className="mt-8 space-y-4">
-            {anniversaryIsActive && (
-              <p className={body}>{anniversary.celebration.title}. {anniversary.celebration.description}</p>
-            )}
-            <p className={body}>
-              We’re at {site.address.street}, {site.address.locality}.{" "}
-              <a href={directions} target="_blank" rel="noopener noreferrer" className={link}>
-                Get directions<span className="sr-only"> (opens in a new tab)</span>
-              </a>
-            </p>
-          </div>
-        </Container>
-      </section>
+      {!anniversaryIsActive && (
+        <section aria-labelledby="recap-title" className={cn(section, "border-t border-brand-200")}>
+          <Container>
+            <h2 id="recap-title" className={sectionTitle}>{anniversary.recap.title}</h2>
+          </Container>
+        </section>
+      )}
 
       {anniversaryIsActive && <RsvpStickyBar label={`Free talks · ${anniversary.shortDates}`} />}
     </div>

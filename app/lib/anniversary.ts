@@ -48,7 +48,15 @@ type ProgrammeDay = {
   time?: string;
   /** Guest speaker giving the talk; omitted for open houses. A day with a
    *  speaker is a talk, and talks are what the RSVP form lists. */
-  speaker?: { name: string; clinic: ClinicKey; photo: Photo };
+  speaker?: {
+    name: string;
+    clinic: ClinicKey;
+    photo: Photo;
+    /** Their own page on the clinic site. */
+    bioUrl: string;
+    /** Who they are and why they suit this topic. Facts from their clinic bio only. */
+    bio: string;
+  };
 };
 
 type ProgrammeWeek = { label: string; dates: string; days: ProgrammeDay[] };
@@ -112,9 +120,11 @@ export const anniversary: AnniversaryCampaign = {
           date: "2026-11-23", day: "Monday", month: "Nov", number: "23",
           title: "Low back pain", time: "6–7pm",
           summary: "Free physio talk, then movement with Gary",
-          speaker: { name: "Tony Fu", clinic: "cornerstone", photo: photos.anniversaryHostTonyFu },
+          speaker: { name: "Tony Fu", clinic: "cornerstone", photo: photos.anniversaryHostTonyFu, bioUrl: "https://cornerstonephysio.com/our-team/tony-fu/",
+            bio: "Tony Fu is a physiotherapist at Cornerstone Physiotherapy.",
+          },
           description:
-            "A free physio talk on low back pain. Gary leads a short movement session afterwards, so you can try the ideas in your own body.",
+            "A free physio talk on low back pain. Afterwards, Gary leads a short movement session of gentle exercises for the trunk and hips, so you can try the ideas in your own body.",
         },
         {
           date: "2026-11-25", day: "Wednesday", month: "Nov", number: "25",
@@ -127,9 +137,11 @@ export const anniversary: AnniversaryCampaign = {
           date: "2026-11-27", day: "Friday", month: "Nov", number: "27",
           title: "Osteoporosis", time: "6–7pm",
           summary: "Free physio talk, then movement with Gary",
-          speaker: { name: "Lianne Chan", clinic: "striowski", photo: photos.anniversaryHostLianneChan },
+          speaker: { name: "Lianne Chan", clinic: "striowski", photo: photos.anniversaryHostLianneChan, bioUrl: "https://striowskiphysio.com/users/lianne-chan",
+            bio: "Lianne Chan is a physiotherapist at Striowski & Associates Physiotherapy who has worked in orthopaedics since graduating from the University of Toronto in 1993. She is Bone Fit™ trained in prescribing safe exercise for people with osteoporosis and low bone mass, and is an adjunct lecturer for physiotherapy students at the University of Toronto.",
+          },
           description:
-            "A free physio talk on osteoporosis. Gary follows with a short movement session to close out the first week.",
+            "A free physio talk on osteoporosis. Gary follows with a short movement session on posture, balance and controlled strength work to close out the first week.",
         },
       ],
     },
@@ -141,25 +153,31 @@ export const anniversary: AnniversaryCampaign = {
           date: "2026-11-30", day: "Monday", month: "Nov", number: "30",
           title: "Pelvic floor health", time: "6–7pm",
           summary: "Free physio talk, then movement with Gary",
-          speaker: { name: "Julianna Chan", clinic: "familyPhysio", photo: photos.anniversaryHostJuliannaChan },
+          speaker: { name: "Julianna Chan", clinic: "familyPhysio", photo: photos.anniversaryHostJuliannaChan, bioUrl: "https://www.familyphysiotherapy.com/about-us/our-team/julianna-chan-physiotherapist/",
+            bio: "Julianna Chan is a physiotherapist at Family Physiotherapy with a keen interest in pelvic floor rehabilitation. She has completed additional training to treat both female and male pelvic floor conditions, and pairs exercise-based rehab with hands-on manual therapy.",
+          },
           description:
-            "A free physio talk on pelvic floor health. A short movement session with Gary follows the talk.",
+            "A free physio talk on pelvic floor health. Afterwards, Gary leads a short movement session on breathing and deep core control.",
         },
         {
           date: "2026-12-01", day: "Tuesday", month: "Dec", number: "1",
           title: "Persistent pain & hip/knee arthritis", time: "6–7pm",
           summary: "Free physio talk, then movement with Gary",
-          speaker: { name: "Matthew Johnston", clinic: "cornerstone", photo: photos.anniversaryHostMatthewJohnston },
+          speaker: { name: "Matthew Johnston", clinic: "cornerstone", photo: photos.anniversaryHostMatthewJohnston, bioUrl: "https://cornerstonephysio.com/our-team/matthew-johnston/",
+            bio: "Matthew Johnston is a physiotherapist at Cornerstone Physiotherapy.",
+          },
           description:
-            "A free physio talk on persistent pain and arthritis of the hip and knee. A short movement session with Gary follows the talk.",
+            "A free physio talk on persistent pain and arthritis of the hip and knee. Afterwards, Gary leads a short movement session of low-impact exercises for hip and knee mobility and strength.",
         },
         {
           date: "2026-12-02", day: "Wednesday", month: "Dec", number: "2",
           title: "Scoliosis & posture", time: "6–7pm",
-          summary: "Free physio talk, then movement with Gary",
-          speaker: { name: "Dr. Jessica Tsang", clinic: "firstMarkham", photo: photos.anniversaryHostJessicaTsang },
+          summary: "Free talk, then movement with Gary",
+          speaker: { name: "Dr. Jessica Tsang", clinic: "firstMarkham", photo: photos.anniversaryHostJessicaTsang, bioUrl: "https://www.firstmarkhamrehab.com/dr-jessica-tsang",
+            bio: "Dr. Jessica Tsang is a chiropractor at First Markham Physiotherapy & Rehabilitation and a certified Schroth practitioner, a method for the conservative management of scoliosis. She studied kinesiology at McMaster University and chiropractic at the Canadian Memorial Chiropractic College.",
+          },
           description:
-            "A free physio talk on scoliosis and posture. A short movement session with Gary follows the talk.",
+            "A free talk on scoliosis and posture. Afterwards, Gary leads a short movement session on posture, breathing and spinal mobility.",
         },
         {
           date: "2026-12-04", day: "Friday", month: "Dec", number: "4",
@@ -189,8 +207,8 @@ export const anniversary: AnniversaryCampaign = {
   ],
   offersNote: "Packages available at the studio.",
   celebration: {
-    title: "Goodie bags + anniversary raffle",
-    description: "Attend an Open House or any talk to enter the raffle for 10 reformer classes. The draw takes place at the Open House on December 4.",
+    title: "A little thank-you for joining us",
+    description: "Every attendee receives a goodie bag and an entry into our raffle to win 10 Reformer classes. The winner will be drawn at our December 4 Open House.",
   },
   admission: "All events are free.",
   rsvp: { maxPerTalk: 10 },
@@ -201,11 +219,11 @@ export const anniversary: AnniversaryCampaign = {
   images: {
     homepage: photos.groupClass,
     hero: [
-      photos.anniversaryHeroBarrelSession,
       photos.anniversaryHeroCommunityTalk,
       photos.anniversaryHeroMatClass,
       photos.anniversaryHeroBarrelHandsOn,
       photos.anniversaryHeroSpineModel,
+      photos.anniversaryHeroBarrelSession,
     ],
     offers: photos.anniversaryOffersStudio,
     social: photos.anniversarySocial,
