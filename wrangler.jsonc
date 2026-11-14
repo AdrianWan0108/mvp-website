@@ -13,10 +13,15 @@
 
   "compatibility_date": "2026-09-02",
 
-  // Static-only site: `next build` with output:"export" writes ./out, and the
-  // assets runtime serves it directly. No Worker script, so no "main" entry.
+  // `next build` with output:"export" writes ./out, and the assets runtime
+  // serves it directly. The Worker in worker/index.ts only sees /api/*
+  // (run_worker_first); every other request goes straight to the static files.
+  // It needs the BREVO_API_KEY secret: `npx wrangler secret put BREVO_API_KEY`.
+  "main": "worker/index.ts",
+
   "assets": {
     "directory": "./out",
+    "run_worker_first": ["/api/*"],
 
     // Serve /pricing from pricing.html and 404.html for unmatched paths.
     // auto-trailing-slash keeps /pricing and /pricing/ resolving to one page,

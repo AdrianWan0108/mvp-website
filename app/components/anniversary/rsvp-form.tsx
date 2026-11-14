@@ -1,8 +1,9 @@
 "use client";
 
 import { type FormEvent, useEffect, useId, useState } from "react";
-import { Gift, Minus, Plus } from "lucide-react";
+import { CircleCheck, Gift, Minus, Plus } from "lucide-react";
 import { cn } from "@/app/lib/cn";
+import { site } from "@/app/lib/site";
 import { RSVP_SELECT_EVENT } from "./rsvp-link";
 
 /** One talk as the form needs it. `id` is the talk's ISO date. */
@@ -24,13 +25,19 @@ export type RsvpPayload = {
   email: string;
   phone: string;
   talks: { id: string; topic: string; date: string; time?: string; people: number }[];
+  /** Honeypot; always empty for people. */
+  website: string;
 };
 
-/**
- * Everything a submission contains, in one object. This is the single place
- * to hook up a backend: the site is a static export, so that will be a POST of
- * this payload to an external endpoint rather than a server action.
- */
+/** Handled by the Worker in worker/index.ts, which saves to Brevo and sends the confirmation email. */
+const RSVP_ENDPOINT = "/api/rsvp";
+
+type Status =
+  | { state: "idle" | "sending" }
+  | { state: "done"; email: string; emailSent: boolean }
+  | { state: "error"; message: string };
+
+/** Everything a submission contains, in one object. */
 function buildRsvpPayload(form: FormData, talks: RsvpTalk[], seats: Seats): RsvpPayload {
   const field = (name: string) => String(form.get(name) ?? "").trim();
   return {
@@ -38,6 +45,7 @@ function buildRsvpPayload(form: FormData, talks: RsvpTalk[], seats: Seats): Rsvp
     lastName: field("lastName"),
     email: field("email"),
     phone: field("phone"),
+    website: field("website"),
     talks: talks
       .filter((talk) => seats[talk.id])
       .map(({ id, topic, date, time }) => ({ id, topic, date, time, people: seats[id] })),
@@ -80,6 +88,7 @@ export function RsvpForm({
 }) {
   const [seats, setSeats] = useState<Seats>({});
   const [missingTalk, setMissingTalk] = useState(false);
+  const [status, setStatus] = useState<Status>({ state: "idle" });
   const errorId = useId();
 
   // An RSVP link beside a talk in the schedule ticks that talk here.
@@ -115,37 +124,97 @@ export function RsvpForm({
   const totalSeats = chosen.reduce((sum, talk) => sum + seats[talk.id], 0);
 
   // The browser has already checked the required fields by the time this runs.
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (status.state === "sending") return;
     if (chosen.length === 0) {
       setMissingTalk(true);
       return;
     }
 
     const payload = buildRsvpPayload(new FormData(event.currentTarget), talks, seats);
-
-    // TEMPORARY: no backend yet. Replace this alert with a request that sends
-    // `payload`, then show a real confirmation.
-    window.alert(
-      [
-        "RSVP preview — this form isn't connected yet, so nothing has been sent.",
-        "",
-        `${payload.firstName} ${payload.lastName}`,
-        payload.email,
-        payload.phone,
-        "",
-        ...payload.talks.map(
-          (talk) =>
-            `${talk.date}${talk.time ? `, ${talk.time}` : ""} · ${talk.topic}: ${plural(talk.people, "person", "people")}`,
-        ),
-      ].join("\n"),
-    );
+    setStatus({ state: "sending" });
+    try {
+      const response = await fetch(RSVP_ENDPOINT, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json().catch(() => ({}))) as { error?: string; emailSent?: boolean };
+      if (!response.ok) {
+        // 400s carry a message for the visitor; anything else is our problem, not theirs.
+        const message =
+          response.status === 400 && result.error
+            ? result.error
+            : "Sorry, we couldn’t save your RSVP just now. Please try again in a moment.";
+        setStatus({ state: "error", message });
+        return;
+      }
+      setStatus({ state: "done", email: payload.email, emailSent: result.emailSent !== false });
+    } catch {
+      setStatus({
+        state: "error",
+        message: "We couldn’t reach the studio’s server. Check your connection and try again.",
+      });
+    }
   }
 
+  // The form stays mounted (just hidden) behind the confirmation, so "Change my
+  // RSVP" brings it back with everything still filled in.
+  const done = status.state === "done";
+  const confirmation = done && (
+    <div role="status" className="flex items-start gap-4">
+      <CircleCheck className="mt-1 size-7 shrink-0 text-brand-700" aria-hidden />
+      <div>
+        <p className={legend}>You’re on the list, thank you!</p>
+        <ul className="mt-4 space-y-1.5 text-brand-900">
+          {chosen.map((talk) => (
+            <li key={talk.id}>
+              <span className="font-semibold text-brand-950">{talk.topic}</span> · {talk.date}
+              {talk.time && <>, {talk.time}</>} · {plural(seats[talk.id], "person", "people")}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 leading-relaxed text-brand-900">
+          {status.emailSent ? (
+            <>
+              We’ve sent a confirmation to <span className="font-semibold break-words">{status.email}</span>. If
+              it isn’t in your inbox in a few minutes, check your spam folder.
+            </>
+          ) : (
+            <>
+              Your RSVP is saved, but we couldn’t send the confirmation email to{" "}
+              <span className="font-semibold break-words">{status.email}</span>. No need to do anything else, we’ll
+              see you there.
+            </>
+          )}
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus({ state: "idle" })}
+          className="mt-5 inline-flex min-h-11 items-center font-medium text-brand-950 underline decoration-brand-400 underline-offset-4 hover:decoration-brand-700"
+        >
+          Change my RSVP
+        </button>
+      </div>
+    </div>
+  );
+
+  const sending = status.state === "sending";
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-9">
+    <>
+    {confirmation}
+    <form onSubmit={handleSubmit} className="space-y-9" aria-busy={sending} hidden={done}>
       <fieldset>
         <legend className={legend}>Your details</legend>
+        {/* Honeypot: off-screen and hidden from screen readers; bots fill it in. */}
+        <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+          <label>
+            Website
+            <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+          </label>
+        </div>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <Field label="First name" name="firstName" autoComplete="given-name" />
           <Field label="Last name" name="lastName" autoComplete="family-name" />
@@ -165,7 +234,8 @@ export function RsvpForm({
       <fieldset aria-describedby={missingTalk ? errorId : undefined}>
         <legend className={legend}>Which talks would you like to attend?</legend>
         <p className="mt-2 text-brand-900">
-          Tick each talk you’re coming to, then set how many people are coming, including you.
+          Tick each talk you’re coming to, then set how many people are coming, including you. Changing an
+          RSVP? Send it again with the same email and every talk you’re coming to.
         </p>
         <ul className="mt-4 space-y-3">
           {talks.map((talk) => {
@@ -255,11 +325,21 @@ export function RsvpForm({
         </p>
         <button
           type="submit"
-          className="inline-flex min-h-12 items-center justify-center bg-primary px-7 py-3.5 text-base font-medium text-primary-foreground shadow-[0_8px_20px_-14px_var(--cta-primary-shadow)] transition-[transform,background-color,box-shadow] duration-[var(--cta-duration-out)] ease-[var(--cta-ease)] hover:-translate-y-0.5 hover:bg-[var(--cta-primary-hover)] hover:duration-[var(--cta-duration-in)] active:translate-y-0 motion-reduce:transform-none motion-reduce:transition-none"
+          disabled={sending}
+          className="inline-flex min-h-12 items-center justify-center bg-primary px-7 py-3.5 text-base font-medium text-primary-foreground shadow-[0_8px_20px_-14px_var(--cta-primary-shadow)] transition-[transform,background-color,box-shadow] duration-[var(--cta-duration-out)] ease-[var(--cta-ease)] hover:-translate-y-0.5 hover:bg-[var(--cta-primary-hover)] hover:duration-[var(--cta-duration-in)] active:translate-y-0 disabled:cursor-wait disabled:opacity-70 disabled:hover:translate-y-0 motion-reduce:transform-none motion-reduce:transition-none"
         >
-          Send RSVP
+          {sending ? "Sending…" : "Send RSVP"}
         </button>
       </div>
+
+      {status.state === "error" && (
+        <p role="alert" className="-mt-4 font-medium text-red-700">
+          {status.message} You can also RSVP by calling{" "}
+          <a href={`tel:${site.phone}`} className="underline underline-offset-4">{site.phoneDisplay}</a> or emailing{" "}
+          <a href={`mailto:${site.email}`} className="break-words underline underline-offset-4">{site.email}</a>.
+        </p>
+      )}
     </form>
+    </>
   );
 }
