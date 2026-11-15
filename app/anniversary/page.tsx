@@ -234,17 +234,23 @@ export default function AnniversaryPage() {
               <h2 id="offers-title" className={sectionTitle}>
                 {anniversaryIsActive ? "Anniversary offers" : "Past anniversary offers"}
               </h2>
-              <ul className="mt-8 space-y-8">
-                {anniversary.offers.map((offer) => (
-                  <li key={offer.title}>
-                    <h3 className={itemTitle}>{offer.title}</h3>
-                    <p className={`mt-2 ${body}`}>{offer.description}</p>
-                  </li>
-                ))}
-              </ul>
-              <p className={`mt-8 ${body}`}>
-                {anniversaryIsActive ? anniversary.offersNote : "These offers were part of Anniversary Rehab Week and are no longer available."}
-              </p>
+              {anniversary.offersComingSoon ? (
+                <p className={`mt-8 ${body}`}>{anniversary.offersComingSoon}</p>
+              ) : (
+                <>
+                  <ul className="mt-8 space-y-8">
+                    {anniversary.offers.map((offer) => (
+                      <li key={offer.title}>
+                        <h3 className={itemTitle}>{offer.title}</h3>
+                        <p className={`mt-2 ${body}`}>{offer.description}</p>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className={`mt-8 ${body}`}>
+                    {anniversaryIsActive ? anniversary.offersNote : "These offers were part of Anniversary Rehab Week and are no longer available."}
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </Container>

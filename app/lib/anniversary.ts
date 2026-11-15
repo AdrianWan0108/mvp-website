@@ -79,6 +79,8 @@ type AnniversaryCampaign = {
   programme: ProgrammeWeek[];
   offers: { title: string; description: string }[];
   offersNote: string;
+  /** When set, the offers list is hidden and this message shows instead. */
+  offersComingSoon?: string;
   celebration: { title: string; description: string };
   admission: string;
   /** Most people one RSVP can bring to a single talk, the person included. */
@@ -191,21 +193,24 @@ export const anniversary: AnniversaryCampaign = {
   ],
   offers: [
     {
-      title: "5 group classes for $89",
+      title: "3 group classes for $89",
       description:
-        "Our MVP Welcome Package is $89 for 3 classes. This anniversary offer is the same $89 for 5 group classes, so you get 2 extra classes.",
+        "Our MVP Welcome Package: 3 group classes for $89, a great way to try the studio.",
     },
     {
-      title: "Bring a friend: 6 classes each for $89",
+      title: "Bring a friend: 4 classes each for $89",
       description:
-        "Sign up together with a friend and you each get six group classes for $89, one more class than the regular anniversary package.",
+        "Sign up together with a friend and you each get four group classes for $89, one more class than the Welcome Package.",
     },
     {
-      title: "Private sessions: buy 10, get 2 free",
-      description: "Buy a package of ten private sessions and we add two more at no charge.",
+      title: "10 group classes for $350, plus a free class and a private session",
+      description:
+        "Buy our regular 10-class group package for $350 and we add one free group class and one 30-minute private session.",
     },
   ],
   offersNote: "Packages available at the studio.",
+  // Offers are being finalized. Delete this line to show the offers above.
+  offersComingSoon: "Details are coming soon. Check back shortly for our anniversary offers.",
   celebration: {
     title: "A little thank-you for joining us",
     description: "Every attendee receives a goodie bag and an entry into our raffle to win 10 Reformer classes. The winner will be drawn at our December 4 Open House.",
