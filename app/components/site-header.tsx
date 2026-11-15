@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Award, Building2, Compass, Users } from "lucide-react";
+import { Award, Building2, Compass, Newspaper, Users } from "lucide-react";
 import { CtaButton } from "./cta-button";
 import { AnniversaryAnnouncement } from "./anniversary-announcement";
 import { anniversary, anniversaryIsActive } from "@/app/lib/anniversary";
@@ -14,7 +14,7 @@ import { cn } from "@/app/lib/cn";
 
 // Maps the icon *name* stored in site.ts to the actual lucide component —
 // site.ts stays a plain data file rather than importing React components.
-const dropdownIcons = { Compass, Award, Building2, Users } satisfies Record<
+const dropdownIcons = { Compass, Award, Building2, Users, Newspaper } satisfies Record<
   NonNullable<NavItem["icon"]>,
   React.ComponentType<{ className?: string }>
 >;

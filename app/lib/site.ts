@@ -54,7 +54,7 @@ export type NavItem = {
   /** Name of a lucide-react icon shown beside a `menu: "descriptive"` child
    *  row. A name, not a component, so this stays a plain data file — the
    *  header maps it to the actual icon. */
-  icon?: "Compass" | "Award" | "Building2" | "Users";
+  icon?: "Compass" | "Award" | "Building2" | "Users" | "Newspaper";
   /** Optional dropdown sub-links (desktop) / nested links (mobile). */
   children?: NavItem[];
 };
@@ -106,6 +106,15 @@ export const mainNav: NavItem[] = [
         description: "Our space, equipment, and Polestar roots",
         icon: "Building2",
       },
+      // Under About rather than top-level: the bar is already full at xl
+      // (plus the seasonal Anniversary item), and stories from the studio
+      // are part of who MVP is. Promote it if posting becomes regular.
+      {
+        label: "Blog",
+        href: "/blog",
+        description: "Stories, workshops, and news",
+        icon: "Newspaper",
+      },
     ],
   },
   { label: "Contact", href: "/contact" },
@@ -126,6 +135,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     items: [
       { label: "Our Studio", href: "/about/studio" },
       { label: "Our Team", href: "/about/team" },
+      { label: "Blog", href: "/blog" },
       { label: "FAQ", href: "/faq" },
       { label: "Contact", href: "/contact" },
     ],

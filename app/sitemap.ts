@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site } from "./lib/site";
 import { instructors } from "./about/team/instructors";
+import { posts } from "./blog/posts";
 
 export const dynamic = "force-static";
 
@@ -17,6 +18,7 @@ const routes = [
   "/education/polestar-comprehensive-training",
   "/about/studio",
   "/about/team",
+  "/blog",
   "/contact",
   "/faq",
   "/terms",
@@ -33,10 +35,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...instructors.map((instructor) => `/about/team/${instructor.slug}`),
   ];
 
-  return all.map((route) => ({
-    url: `${site.url}${route}`,
-    lastModified,
-    changeFrequency: "monthly" as const,
-    priority: route === "" ? 1 : 0.7,
+  // Posts carry their own dates, so search engines see a real lastModified
+  // rather than the build time.
+  const postEntries = posts.map((post) => ({
+    url: `${site.url}/blog/${post.slug}`,
+    lastModified: new Date(post.updatedAt ?? post.publishedAt),
+    changeFrequency: "yearly" as const,
+    priority: 0.6,
   }));
+
+  return [
+    ...all.map((route) => ({
+      url: `${site.url}${route}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: route === "" ? 1 : 0.7,
+    })),
+    ...postEntries,
+  ];
 }
