@@ -165,14 +165,14 @@ function Body() {
       {/* Closing invitation: the one place the post sells, kept to the end. */}
       <aside
         aria-labelledby="move-with-us"
-        className="mx-auto mt-16 grid w-full max-w-5xl overflow-hidden border border-brand-200 bg-brand-50 sm:mt-20 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]"
+        className="mx-auto mt-16 grid w-full overflow-hidden border border-brand-200 bg-brand-50 sm:mt-20 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]"
       >
         <div className="relative aspect-[4/3] md:aspect-auto md:min-h-full">
           <Image
             src={photo.gary.src}
             alt={photo.gary.alt}
             fill
-            sizes="(min-width: 1088px) 26rem, (min-width: 768px) 40vw, 100vw"
+            sizes="(min-width: 1280px) 30.4rem, (min-width: 768px) 40vw, (min-width: 640px) calc(100vw - 4rem), calc(100vw - 2.5rem)"
             className="object-cover"
             style={{ objectPosition: "40% 0%" }}
           />

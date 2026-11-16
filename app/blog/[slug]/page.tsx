@@ -82,7 +82,7 @@ export default async function BlogPostPage({
           its bottom edge, the same seam treatment as the About pages. */}
       <header className="bg-brand-800 text-white">
         <Container className="pb-24 pt-8 sm:pb-36 sm:pt-12 lg:pb-48">
-          <div className="mx-auto max-w-5xl">
+          <div>
             <Link
               href="/blog"
               className="group inline-flex min-h-11 items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-white/80 hover:text-white"
@@ -100,7 +100,7 @@ export default async function BlogPostPage({
             <h1 className="mt-3 text-balance text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">
               {post.title}
             </h1>
-            <p className="mt-5 max-w-3xl text-lg leading-relaxed text-white/85 sm:text-xl">
+            <p className="mt-5 max-w-[52rem] text-lg leading-relaxed text-white/85 sm:text-xl">
               {post.description}
             </p>
             <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/75">
@@ -124,13 +124,13 @@ export default async function BlogPostPage({
       </header>
 
       <Container>
-        <div className="relative mx-auto -mt-16 aspect-[4/3] max-w-5xl overflow-hidden bg-brand-50 sm:-mt-28 sm:aspect-[3/2] lg:-mt-40">
+        <div className="relative -mt-16 aspect-[4/3] overflow-hidden bg-brand-50 sm:-mt-28 sm:aspect-[3/2] lg:-mt-40">
           <Image
             src={post.hero.src}
             alt={post.hero.alt}
             fill
             priority
-            sizes="(min-width: 1088px) 64rem, 100vw"
+            sizes="(min-width: 1280px) 76rem, (min-width: 640px) calc(100vw - 4rem), calc(100vw - 2.5rem)"
             className="object-cover"
             style={post.hero.position ? { objectPosition: post.hero.position } : undefined}
           />
@@ -140,7 +140,7 @@ export default async function BlogPostPage({
       <Container className="pb-16 pt-10 sm:pb-24 sm:pt-14">
         <Body />
 
-        <div className="mx-auto mt-16 max-w-5xl border-t border-brand-200 pt-8">
+        <div className="mt-16 border-t border-brand-200 pt-8">
           <Link
             href="/blog"
             className="group inline-flex min-h-11 items-center gap-3 font-semibold uppercase tracking-[0.14em] text-brand-900 hover:text-brand-700"

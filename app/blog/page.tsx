@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "../components/container";
+import { CtaButton } from "../components/cta-button";
 import { PageHeader } from "../components/page-header";
 import { cn } from "../lib/cn";
 import { site } from "../lib/site";
@@ -26,7 +27,8 @@ export const metadata: Metadata = {
 
 // The global `body *` colour transition (globals.css) overrides Tailwind's
 // layered transition utilities, so the image zoom declares its own inline.
-const zoom = { transition: "transform 600ms cubic-bezier(0.22, 1, 0.36, 1)" };
+// Tailwind v4's scale utility changes `scale`, independently of `transform`.
+const zoom = { transition: "scale 850ms cubic-bezier(0.4, 0, 0.2, 1)" };
 
 function PostMeta({ post, className }: { post: BlogPost; className?: string }) {
   return (
@@ -48,7 +50,7 @@ function PostMeta({ post, className }: { post: BlogPost; className?: string }) {
 /** Newest post: image and text side by side from `lg`, stacked below. */
 function FeaturedPost({ post }: { post: BlogPost }) {
   return (
-    <article className="group relative grid border border-brand-200 bg-white lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+    <article className="group relative grid bg-white lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
       <div className="relative aspect-[4/3] overflow-hidden bg-brand-50 sm:aspect-[3/2] lg:aspect-auto lg:min-h-[28rem]">
         <Image
           src={post.hero.src}
@@ -56,7 +58,7 @@ function FeaturedPost({ post }: { post: BlogPost }) {
           fill
           priority
           sizes="(min-width: 1280px) 44rem, (min-width: 1024px) 58vw, 100vw"
-          className="object-cover group-hover:scale-[1.03] motion-reduce:transform-none"
+          className="object-cover motion-safe:group-hover:scale-[1.03]"
           style={{ ...zoom, objectPosition: post.hero.position }}
         />
       </div>
@@ -69,9 +71,11 @@ function FeaturedPost({ post }: { post: BlogPost }) {
           </Link>
         </h2>
         <p className="mt-4 text-lg leading-relaxed text-brand-950/80">{post.description}</p>
-        <span aria-hidden className="mt-auto pt-8 text-sm font-semibold uppercase tracking-[0.14em] text-brand-700">
-          Read the story <span className="inline-block group-hover:translate-x-1" style={{ transition: "transform 300ms ease" }}>→</span>
-        </span>
+        <div className="mt-auto pt-8">
+          <CtaButton href={`/blog/${post.slug}`} square arrow className="z-10">
+            Read the story
+          </CtaButton>
+        </div>
       </div>
     </article>
   );
@@ -79,14 +83,14 @@ function FeaturedPost({ post }: { post: BlogPost }) {
 
 function PostCard({ post }: { post: BlogPost }) {
   return (
-    <article className="group relative flex flex-col border border-brand-200 bg-white">
+    <article className="group relative flex flex-col bg-white">
       <div className="relative aspect-[3/2] overflow-hidden bg-brand-50">
         <Image
           src={post.hero.src}
           alt={post.hero.alt}
           fill
           sizes="(min-width: 1280px) 26rem, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover group-hover:scale-[1.03] motion-reduce:transform-none"
+          className="object-cover motion-safe:group-hover:scale-[1.03]"
           style={{ ...zoom, objectPosition: post.hero.position }}
         />
       </div>
@@ -108,12 +112,7 @@ export default function BlogPage() {
 
   return (
     <>
-      <PageHeader
-        eyebrow="Blog"
-        title="Stories from the studio"
-        intro="Workshops, community days and what we’re learning along the way."
-        compact
-      />
+      <PageHeader title="BLOG" tone="dark" compact />
 
       <Container className="py-12 sm:py-16 lg:py-20">
         {featured ? (

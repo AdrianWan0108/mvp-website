@@ -7,11 +7,11 @@ import type { Photo } from "@/app/lib/images";
  * Building blocks for post bodies. Posts compose these instead of styling
  * their own markup, so every article shares one type scale and rhythm.
  *
- * The article column is `max-w-3xl` (text) and figures may break out wider
- * with `wide`, which reads better for landscape photos on large screens.
+ * Text and standard figures share a 52rem column. Wide figures use the
+ * full parent Container, aligning with the navbar's content edges.
  */
 
-const column = "mx-auto w-full max-w-3xl";
+const column = "mx-auto w-full max-w-[52rem]";
 
 /** Inline link inside body copy. External links open in a new tab. */
 export function A({ href, children }: { href: string; children: ReactNode }) {
@@ -81,13 +81,15 @@ export function Figure({
   wide?: boolean;
 }) {
   return (
-    <figure className={cn("mx-auto mt-8 w-full sm:mt-10", wide ? "max-w-5xl" : "max-w-3xl")}>
+    <figure className={cn("mx-auto mt-8 w-full sm:mt-10", !wide && "max-w-[52rem]")}>
       <div className={cn("relative overflow-hidden bg-brand-50", ratio)}>
         <Image
           src={photo.src}
           alt={photo.alt}
           fill
-          sizes={wide ? "(min-width: 1088px) 64rem, 100vw" : "(min-width: 832px) 48rem, 100vw"}
+          sizes={wide
+            ? "(min-width: 1280px) 76rem, (min-width: 640px) calc(100vw - 4rem), calc(100vw - 2.5rem)"
+            : "(min-width: 896px) 52rem, (min-width: 640px) calc(100vw - 4rem), calc(100vw - 2.5rem)"}
           className="object-cover"
           style={position ? { objectPosition: position } : undefined}
         />
@@ -108,7 +110,7 @@ export function FigurePair({
   caption?: ReactNode;
 }) {
   return (
-    <figure className="mx-auto mt-8 w-full max-w-5xl sm:mt-10">
+    <figure className="mx-auto mt-8 w-full sm:mt-10">
       <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
         {photos.map((photo) => (
           <div key={photo.src} className={cn("relative overflow-hidden bg-brand-50", ratio)}>
@@ -116,7 +118,7 @@ export function FigurePair({
               src={photo.src}
               alt={photo.alt}
               fill
-              sizes="(min-width: 1088px) 32rem, (min-width: 640px) 50vw, 100vw"
+              sizes="(min-width: 1280px) 37.5rem, (min-width: 640px) calc((100vw - 5rem) / 2), calc(100vw - 2.5rem)"
               className="object-cover"
               style={photo.position ? { objectPosition: photo.position } : undefined}
             />
@@ -130,7 +132,7 @@ export function FigurePair({
 
 function Caption({ children }: { children: ReactNode }) {
   return (
-    <figcaption className="mx-auto mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+    <figcaption className={cn(column, "mt-3 text-sm leading-relaxed text-muted-foreground")}>
       {children}
     </figcaption>
   );
