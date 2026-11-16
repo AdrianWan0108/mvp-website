@@ -135,6 +135,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     items: [
       { label: "Terms & Conditions", href: "/terms" },
       { label: "Emergency & Sickness", href: "/policies" },
+      { label: "Privacy Policy", href: "/privacy" },
     ],
   },
 ];
