@@ -298,7 +298,7 @@ export const photos = {
   },
   anniversaryCoachGary: {
     src: `${A}/mvp-anniversary/coach-gary-fok.webp`,
-    alt: "Gary Fok, head coach at Motion Vitality Pilates.",
+    alt: "Gary Fok, founder and head coach of Motion Vitality Pilates.",
   },
   // Guest speakers, cropped square for round avatars.
   anniversaryHostTonyFu: {

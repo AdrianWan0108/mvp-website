@@ -77,10 +77,19 @@ type AnniversaryCampaign = {
   movementNote: string;
   highlights: string[];
   programme: ProgrammeWeek[];
-  offers: { title: string; description: string }[];
+  /** `details` is an optional bullet list under the description, e.g. tiers or prizes. */
+  offers: { title: string; description: string; details?: string[] }[];
   offersNote: string;
   /** When set, the offers list is hidden and this message shows instead. */
   offersComingSoon?: string;
+  /** The draw section above the RSVP form. `description` says how to enter and
+   *  when the draw is; `prizes` are in rank order, first prize first. `from`
+   *  is the business a prize comes from; its name follows the prize as a link. */
+  prizeDraw: {
+    title: string;
+    description: string;
+    prizes: { rank: string; prize: string; winners: string; from?: { name: string; url: string } }[];
+  };
   celebration: { title: string; description: string };
   admission: string;
   /** Most people one RSVP can bring to a single talk, the person included. */
@@ -108,15 +117,15 @@ export const anniversary: AnniversaryCampaign = {
   timezone: "America/Toronto",
   tagline: "Free physio talks. Movement with Gary. Two weeks together.",
   introduction:
-    "We’re celebrating our anniversary with two weeks of free talks from local physiotherapists, each followed by a short movement session with our head coach Gary, plus two open houses at our Markham studio. Come for one day or all seven. There are goodie bags, an anniversary raffle, and special package offers too.",
+    "We’re celebrating our anniversary with two weeks of free talks from local physiotherapists, each followed by a short movement session with MVP founder Gary, plus two open houses at our Markham studio. Come for one day or all seven. There are free goodie bags while supplies last (one per guest), an Anniversary Prize Draw, and special package offers too.",
   homepageIntroduction:
-    "It’s our anniversary and we want to celebrate with you! Join us for two weeks of free talks from local physiotherapists on low back pain, osteoporosis, pelvic floor health, persistent pain and arthritis, and scoliosis and posture, each followed by a short movement session with our head coach Gary. Drop in to an Open House for a posture and strength check, and join us on December 4 for the anniversary raffle draw. There are special anniversary offers and goodie bags too. Come for one day or all seven. We can’t wait to see you!",
-  movementNote: "Every talk is followed by a short movement session with our head coach Gary.",
+    "It’s our anniversary and we want to celebrate with you! Join us for two weeks of free talks from local physiotherapists on low back pain, osteoporosis, pelvic floor health, persistent pain and arthritis, and scoliosis and posture, each followed by a short movement session with MVP founder Gary. Drop in to an Open House for a posture and strength check, and join us on December 4 for the Anniversary Prize Draw. There are special anniversary offers too, and free goodie bags while supplies last. Come for one day or all seven. We can’t wait to see you!",
+  movementNote: "Every talk is followed by a short movement session with MVP founder Gary.",
   highlights: ["Physio Talks", "Open Houses", "Special Offers"],
   programme: [
     {
       label: "Week one",
-      dates: "Nov 23–27",
+      dates: "Nov 23–28",
       days: [
         {
           date: "2026-11-23", day: "Monday", month: "Nov", number: "23",
@@ -129,13 +138,6 @@ export const anniversary: AnniversaryCampaign = {
             "A free physio talk on low back pain. Afterwards, Gary leads a short movement session of gentle exercises for the trunk and hips, so you can try the ideas in your own body.",
         },
         {
-          date: "2026-11-25", day: "Wednesday", month: "Nov", number: "25",
-          title: "Open House",
-          summary: "Open House and posture & strength check",
-          description:
-            "Drop in to see the studio and meet the team, and get a posture and strength check while you’re here. A good day to visit if you’re new to Pilates or to the studio.",
-        },
-        {
           date: "2026-11-27", day: "Friday", month: "Nov", number: "27",
           title: "Osteoporosis", time: "6–7pm",
           summary: "Free physio talk, then movement with Gary",
@@ -143,7 +145,14 @@ export const anniversary: AnniversaryCampaign = {
             bio: "Lianne Chan is a physiotherapist at Striowski & Associates Physiotherapy who has worked in orthopaedics since graduating from the University of Toronto in 1993. She is Bone Fit™ trained in prescribing safe exercise for people with osteoporosis and low bone mass, and is an adjunct lecturer for physiotherapy students at the University of Toronto.",
           },
           description:
-            "A free physio talk on osteoporosis. Gary follows with a short movement session on posture, balance and controlled strength work to close out the first week.",
+            "A free physio talk on osteoporosis. Gary follows with a short movement session on posture, balance and controlled strength work to close out the week’s talks.",
+        },
+        {
+          date: "2026-11-28", day: "Saturday", month: "Nov", number: "28",
+          title: "Open House", time: "1–4pm",
+          summary: "Open House, trial classes and posture & strength checks",
+          description:
+            "Drop in to see the studio and meet the team. Try a class, and get a posture and strength check while you’re here. A good day to visit if you’re new to Pilates or to the studio.",
         },
       ],
     },
@@ -153,7 +162,7 @@ export const anniversary: AnniversaryCampaign = {
       days: [
         {
           date: "2026-11-30", day: "Monday", month: "Nov", number: "30",
-          title: "Pelvic floor health", time: "6–7pm",
+          title: "Pelvic floor health", time: "6:30–7:30pm",
           summary: "Free physio talk, then movement with Gary",
           speaker: { name: "Julianna Chan", clinic: "familyPhysio", photo: photos.anniversaryHostJuliannaChan, bioUrl: "https://www.familyphysiotherapy.com/about-us/our-team/julianna-chan-physiotherapist/",
             bio: "Julianna Chan is a physiotherapist at Family Physiotherapy with a keen interest in pelvic floor rehabilitation. She has completed additional training to treat both female and male pelvic floor conditions, and pairs exercise-based rehab with hands-on manual therapy.",
@@ -183,37 +192,52 @@ export const anniversary: AnniversaryCampaign = {
         },
         {
           date: "2026-12-04", day: "Friday", month: "Dec", number: "4",
-          title: "Open House",
-          summary: "Open House and anniversary raffle draw",
+          title: "Open House", time: "5–8pm",
+          summary: "Open House and Anniversary Prize Draw",
           description:
-            "Our anniversary celebration. See the studio, meet the team, and be there for the anniversary raffle draw.",
+            "Our anniversary celebration. See the studio, meet the team, and be there for the Anniversary Prize Draw.",
         },
       ],
     },
   ],
   offers: [
     {
-      title: "3 group classes for $89",
-      description:
-        "Our MVP Welcome Package: 3 group classes for $89, a great way to try the studio.",
+      title: "Reformer Pack Discovery: 3 Reformer group classes for $89",
+      description: "New to the studio? Try three Reformer group classes for $89. Valid for first-time clients only.",
     },
     {
-      title: "Bring a friend: 4 classes each for $89",
-      description:
-        "Sign up together with a friend and you each get four group classes for $89, one more class than the Welcome Package.",
+      title: "Buy more, save more",
+      description: "For new and existing clients. The more classes you buy, the more free classes we add:",
+      details: [
+        "Buy 10 classes, get 1 free",
+        "Buy 20 classes, get 2 free",
+        "Buy 30 classes, get 3 free",
+        "Buy 40 classes, get 4 free",
+      ],
     },
     {
-      title: "10 group classes for $350, plus a free class and a private session",
+      title: "Bring a friend, get a free private session",
       description:
-        "Buy our regular 10-class group package for $350 and we add one free group class and one 30-minute private session.",
+        "Bring a friend who buys a package of 10 classes or more, and you receive one free private session.",
     },
   ],
-  offersNote: "Packages available at the studio.",
-  // Offers are being finalized. Delete this line to show the offers above.
-  offersComingSoon: "Details are coming soon. Check back shortly for our anniversary offers.",
+  offersNote: "Offers are valid during Anniversary Rehab Week only, November 23 – December 4, 2026. Packages available at the studio.",
+  prizeDraw: {
+    title: "Anniversary Prize Draw",
+    description:
+      "Come to any talk or open house and you’re in the draw. Everyone gets one entry, however many events you attend. We’ll draw the winners at our December 4 Open House.",
+    prizes: [
+      { rank: "1st prize", prize: "5 free Reformer classes", winners: "1 winner" },
+      { rank: "2nd prize", prize: "1 free private session", winners: "2 winners" },
+      {
+        rank: "3rd prize", prize: "$10 gift card", winners: "5 winners",
+        from: { name: "Terminal 3 Coffee Roasters", url: "https://t3roasters.com/" },
+      },
+    ],
+  },
   celebration: {
     title: "A little thank-you for joining us",
-    description: "Every attendee receives a goodie bag and an entry into our raffle to win 10 Reformer classes. The winner will be drawn at our December 4 Open House.",
+    description: "Coming to a talk enters you into our Anniversary Prize Draw, with winners drawn at our December 4 Open House. Free goodie bags are available while supplies last, one per guest.",
   },
   admission: "All events are free.",
   rsvp: { maxPerTalk: 10 },
