@@ -98,6 +98,10 @@ export function RsvpForm({
       if (!talks.some((talk) => talk.id === id)) return;
       setSeats((current) => (current[id] ? current : { ...current, [id]: 1 }));
       setMissingTalk(false);
+      // After a sent RSVP the form is hidden behind the confirmation, which lists
+      // the ticked talks. Reopen the form so a newly picked talk isn't shown as
+      // already booked.
+      setStatus((current) => (current.state === "done" ? { state: "idle" } : current));
     }
     window.addEventListener(RSVP_SELECT_EVENT, onSelect);
     return () => window.removeEventListener(RSVP_SELECT_EVENT, onSelect);
@@ -150,6 +154,9 @@ export function RsvpForm({
         setStatus({ state: "error", message });
         return;
       }
+      // Tell Meta a registration happened (no-op if the Pixel isn't loaded).
+      const fbq = (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq;
+      if (typeof fbq === "function") fbq("track", "CompleteRegistration");
       setStatus({ state: "done", email: payload.email, emailSent: result.emailSent !== false });
     } catch {
       setStatus({

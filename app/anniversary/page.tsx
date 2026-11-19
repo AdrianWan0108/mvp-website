@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { HeroStrip } from "../components/anniversary/hero-strip";
+import { MetaPixel } from "../components/anniversary/meta-pixel";
 import { RsvpForm, type RsvpTalk } from "../components/anniversary/rsvp-form";
 import { RsvpLink, RSVP_SECTION_ID } from "../components/anniversary/rsvp-link";
 import { RsvpStickyBar } from "../components/anniversary/rsvp-sticky-bar";
@@ -84,6 +85,7 @@ function ClinicLogo({ clinic, className }: { clinic: Clinic; className: string }
 export default function AnniversaryPage() {
   return (
     <div className="text-brand-950">
+      <MetaPixel />
       <HeroStrip photos={anniversary.images.hero} />
 
       <Container className="pt-10 sm:pt-14">
@@ -134,21 +136,22 @@ export default function AnniversaryPage() {
                 <ol className="divide-y divide-brand-200">
                   {week.days.map((day) => (
                     <li key={day.date} className="grid gap-x-8 gap-y-5 py-8 sm:grid-cols-[7.5rem_minmax(0,1fr)] lg:grid-cols-[7.5rem_minmax(0,1fr)_17rem] lg:gap-x-12">
-                      <time dateTime={day.date} className="flex items-baseline gap-3 sm:block">
-                        <span className="block font-serif text-4xl leading-none tracking-[0.04em] whitespace-nowrap uppercase sm:text-5xl">
-                          {day.month} {day.number}
-                        </span>
-                        <span className="block text-sm font-semibold tracking-[0.12em] uppercase text-brand-700 sm:mt-1.5">
-                          {day.day.slice(0, 3)}
-                        </span>
-                      </time>
+                      {/* One row on phones; from sm up a column, with the time pinned to the bottom of the item. */}
+                      <div className="flex items-baseline gap-3 whitespace-nowrap sm:flex-col sm:items-start sm:justify-between">
+                        <time dateTime={day.date} className="flex items-baseline gap-3 sm:block">
+                          <span className="block font-serif text-4xl leading-none tracking-[0.04em] uppercase sm:text-5xl">
+                            {day.month} {day.number}
+                          </span>
+                          <span className="block font-semibold tracking-[0.12em] uppercase text-brand-700 sm:mt-1.5">
+                            {day.day.slice(0, 3)}
+                          </span>
+                        </time>
+                        {day.time && <p className="font-semibold text-brand-950">{day.time}</p>}
+                      </div>
 
                       <div>
                         <h4 className={itemTitle}>{day.title}</h4>
-                        <p className={`mt-1 ${eyebrow}`}>
-                          {day.time && <>{day.time} · </>}
-                          {day.summary}
-                        </p>
+                        <p className={`mt-1 ${eyebrow}`}>{day.summary}</p>
                         <p className={`mt-3 ${body}`}>{day.description}</p>
                         {day.speaker && <p className={`mt-3 ${body}`}>{day.speaker.bio}</p>}
                         {!day.speaker && anniversaryIsActive && (
@@ -190,6 +193,57 @@ export default function AnniversaryPage() {
       </section>
 
       {anniversaryIsActive && (
+        // Shares the RSVP section's tint, so the two read as one block.
+        <section id="prize-draw" aria-labelledby="prize-draw-title" className="bg-brand-50 pt-14 pb-8 sm:pt-20 sm:pb-12">
+          <Container>
+            <h2 id="prize-draw-title" className={sectionTitle}>{anniversary.prizeDraw.title}</h2>
+            <p className={`mt-4 ${body}`}>{anniversary.prizeDraw.description}</p>
+
+            {/* Two rows: first prize across the top, second and third below it. The badge
+                colours are the medals: gold, silver, bronze. */}
+            <ol className="mt-8 grid gap-4 lg:grid-cols-2">
+              {anniversary.prizeDraw.prizes.map((prize, i) => {
+                const medal = ["bg-[#f0d27a] text-[#56400a]", "bg-[#dfe3e6] text-[#3b4348]", "bg-[#e5b98f] text-[#5a3212]"][i];
+                return (
+                  <li
+                    key={prize.rank}
+                    className={cn("rounded-lg bg-white p-6 sm:p-8", i === 0 && "lg:col-span-2")}
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                      <p className="font-serif text-2xl tracking-[0.08em] uppercase text-brand-600">
+                        {prize.rank}
+                      </p>
+                      <p className={cn("rounded-full px-4 py-1.5 font-semibold", medal)}>
+                        {prize.winners}
+                      </p>
+                    </div>
+                    {/* Sized so the longest prize fits on one line in a half-width card. */}
+                    <p className="mt-4 font-serif text-2xl leading-tight tracking-[0.04em] lg:text-[1.375rem] xl:text-[1.75rem]">
+                      {prize.prize}
+                      {prize.from && (
+                        <>
+                          {" – "}
+                          <a
+                            href={prize.from.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline decoration-brand-400 decoration-2 underline-offset-4 hover:decoration-brand-700"
+                          >
+                            {prize.from.name}
+                            <span className="sr-only"> (opens in a new tab)</span>
+                          </a>
+                        </>
+                      )}
+                    </p>
+                  </li>
+                );
+              })}
+            </ol>
+          </Container>
+        </section>
+      )}
+
+      {anniversaryIsActive && (
         <section id={RSVP_SECTION_ID} data-rsvp-anchor aria-labelledby="rsvp-title" className={cn(section, "bg-brand-50")}>
           <Container>
             <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16">
@@ -220,14 +274,16 @@ export default function AnniversaryPage() {
 
       <section id="offers" aria-labelledby="offers-title" className={section}>
         <Container>
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-            <div className="relative aspect-[3/2]">
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+            {/* 3:2 when stacked; on desktop it stretches to the height of the offers beside it. */}
+            <div className="relative aspect-[3/2] lg:aspect-auto lg:min-h-[26rem]">
               <Image
                 src={anniversary.images.offers.src}
                 alt={anniversary.images.offers.alt}
                 fill
                 sizes="(min-width: 1280px) 38rem, (min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
+                // Anchored right: the desktop crop then trims the left wall, where the old logo hangs.
+                className="object-cover object-right"
               />
             </div>
             <div>
@@ -243,6 +299,11 @@ export default function AnniversaryPage() {
                       <li key={offer.title}>
                         <h3 className={itemTitle}>{offer.title}</h3>
                         <p className={`mt-2 ${body}`}>{offer.description}</p>
+                        {offer.details && (
+                          <ul className={`mt-2 list-disc space-y-1 pl-5 marker:text-brand-400 ${body}`}>
+                            {offer.details.map((detail) => <li key={detail}>{detail}</li>)}
+                          </ul>
+                        )}
                       </li>
                     ))}
                   </ul>
