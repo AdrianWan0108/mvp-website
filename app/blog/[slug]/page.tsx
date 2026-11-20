@@ -31,7 +31,10 @@ export async function generateMetadata({
     title: { absolute: title },
     description: post.description,
     alternates: { canonical: url },
-    authors: [{ name: post.author.name }],
+    authors: [{
+      name: post.author.name,
+      url: post.author.href ? new URL(post.author.href, site.url).href : undefined,
+    }],
     openGraph: {
       type: "article",
       locale: "en_CA",
@@ -71,7 +74,11 @@ export default async function BlogPostPage({
     image: [`${site.url}${post.socialImage}`, `${site.url}${post.hero.src}`],
     datePublished: post.publishedAt,
     dateModified: post.updatedAt ?? post.publishedAt,
-    author: { "@type": "Organization", name: post.author.name, url: site.url },
+    author: {
+      "@type": post.author.type,
+      name: post.author.name,
+      url: post.author.href ? new URL(post.author.href, site.url).href : site.url,
+    },
     publisher: { "@type": "Organization", name: site.name, url: site.url },
     mainEntityOfPage: `${site.url}/blog/${post.slug}`,
   };
@@ -124,15 +131,15 @@ export default async function BlogPostPage({
       </header>
 
       <Container>
-        <div className="relative -mt-16 aspect-[4/3] overflow-hidden bg-brand-50 sm:-mt-28 sm:aspect-[3/2] lg:-mt-40">
+        <div className="relative -mt-16 bg-brand-50 sm:-mt-28 lg:-mt-40">
           <Image
             src={post.hero.src}
             alt={post.hero.alt}
-            fill
+            width={post.hero.width}
+            height={post.hero.height}
             priority
             sizes="(min-width: 1280px) 76rem, (min-width: 640px) calc(100vw - 4rem), calc(100vw - 2.5rem)"
-            className="object-cover"
-            style={post.hero.position ? { objectPosition: post.hero.position } : undefined}
+            className="h-auto w-full"
           />
         </div>
       </Container>

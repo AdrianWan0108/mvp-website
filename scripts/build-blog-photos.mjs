@@ -5,9 +5,8 @@
 // file ships at its authored size. Each photo is cut to its largest rendered
 // size instead:
 //
-//   *.webp      long edge 1600  in-article photos. The article column is at
-//                               most ~48rem (768px) wide, the hero ~640px, so
-//                               1600 covers 2x DPR.
+//   *.webp      long edge 1600  in-article photos, preserving source ratios.
+//                               Text spans up to 832px; wide images 1216px.
 //   social.jpg  1200x630        link-preview card. JPEG, not webp: some chat
 //                               apps still refuse webp for Open Graph images.
 //
@@ -28,6 +27,10 @@ const POSTS = [
   {
     slug: "mon-sheong-55-plus-workshop",
     photos: [
+      { from: "IMG_5222", to: "mon-sheong-55-workshop-participants.webp" },
+      { from: "5-IMG_5194.jpg", to: "mon-sheong-members-standing-practice.webp" },
+      { from: "19-IMG_5199.jpg", to: "gary-fok-guiding-seated-participant.webp" },
+      { from: "20-IMG_5194-tight.jpg", to: "mon-sheong-members-standing-practice-tight.webp" },
       { from: "IMG_5040", to: "gary-fok-spine-model-mon-sheong-workshop.webp" },
       { from: "IMG_5164", to: "mon-sheong-55-workshop-room-markham.webp" },
       { from: "IMG_5248", to: "seniors-pilates-breathing-posture.webp" },
@@ -37,10 +40,11 @@ const POSTS = [
       { from: "IMG_4984", to: "gary-fok-adjusting-alignment.webp" },
       { from: "IMG_4914", to: "gary-fok-answering-questions.webp" },
       { from: "IMG_5108", to: "gary-fok-polestar-pilates-instructor.webp" },
+      { from: "IMG_5011", to: "gary-fok-sharing-a-laugh.webp" },
       { from: "IMG_5276", to: "mon-sheong-55-members-certificates.webp" },
     ],
-    // Hero frame, cropped to the social-card ratio. Gary sits left of centre.
-    social: { from: "IMG_5040", position: "left" },
+    // Keep the full participant-focused composition in the social preview.
+    social: { from: "IMG_5222", background: "#315344" },
   },
 ];
 
@@ -79,14 +83,15 @@ for (const post of POSTS) {
   const socialOut = path.join(outDir, "social.jpg");
   const info = await sharp(source(post.social.from))
     .rotate()
-    .resize(1200, 630, { fit: "cover", position: post.social.position })
+    .resize(1200, 630, { fit: "contain", background: post.social.background })
     .jpeg({ quality: 82, mozjpeg: true })
     .toFile(socialOut);
   written.add("social.jpg");
   console.log(`${socialOut}  ${info.width}x${info.height}  ${Math.round(info.size / 1024)}KB`);
 
   for (const name of fs.readdirSync(outDir)) {
-    if (!written.has(name)) {
+    // Preserve newly supplied originals; only prune generated WebP derivatives.
+    if (!written.has(name) && name.endsWith(".webp")) {
       fs.rmSync(path.join(outDir, name));
       console.log(`pruned ${name}`);
     }

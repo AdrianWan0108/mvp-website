@@ -1,6 +1,9 @@
 import type { ComponentType } from "react";
 import type { Photo } from "@/app/lib/images";
 
+/** Intrinsic dimensions preserve the photographer's supplied composition. */
+export type BlogPhoto = Photo & { width: number; height: number };
+
 /** Everything the blog index, post page, metadata, sitemap and JSON-LD need
  *  to know about a post. The body itself is a component, so a post can use
  *  links and layout freely without a markdown pipeline. */
@@ -19,14 +22,11 @@ export type BlogPost = {
   publishedAt: string;
   /** ISO date of the last meaningful edit, if any. */
   updatedAt?: string;
-  author: { name: string; href?: string };
+  author: { type: "Person" | "Organization"; name: string; href?: string };
   /** Whole minutes; shown next to the date. */
   readingMinutes: number;
   /** Hero photo, also used on the index card. */
-  hero: Photo & {
-    /** CSS object-position for the hero/card crop, e.g. "30% 20%". */
-    position?: string;
-  };
+  hero: BlogPhoto;
   /** 1200x630 JPEG for link previews. */
   socialImage: string;
   Body: ComponentType;

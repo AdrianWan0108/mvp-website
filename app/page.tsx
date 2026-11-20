@@ -6,6 +6,7 @@ import { EquipmentShowcase } from "./components/home/equipment-showcase";
 import { GalleryWall } from "./components/home/gallery-wall";
 import { GetStarted } from "./components/home/get-started";
 import { Testimonials } from "./components/home/testimonials";
+import { BlogSection } from "./components/home/blog-section";
 
 export default function Home() {
   return (
@@ -21,8 +22,7 @@ export default function Home() {
       <EquipmentShowcase />
       <GalleryWall />
       <Testimonials />
-      {/* <BlogSection /> — hidden until the studio has posts to show.
-          Component kept in app/components/home/blog-section.tsx. */}
+      <BlogSection />
       <GetStarted />
     </>
   );

@@ -51,15 +51,15 @@ function PostMeta({ post, className }: { post: BlogPost; className?: string }) {
 function FeaturedPost({ post }: { post: BlogPost }) {
   return (
     <article className="group relative grid bg-white lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
-      <div className="relative aspect-[4/3] overflow-hidden bg-brand-50 sm:aspect-[3/2] lg:aspect-auto lg:min-h-[28rem]">
+      <div className="self-center bg-brand-50 motion-safe:group-hover:scale-[1.03]" style={zoom}>
         <Image
           src={post.hero.src}
           alt={post.hero.alt}
-          fill
+          width={post.hero.width}
+          height={post.hero.height}
           priority
           sizes="(min-width: 1280px) 44rem, (min-width: 1024px) 58vw, 100vw"
-          className="object-cover motion-safe:group-hover:scale-[1.03]"
-          style={{ ...zoom, objectPosition: post.hero.position }}
+          className="h-auto w-full"
         />
       </div>
       <div className="flex flex-col p-6 sm:p-10">
@@ -84,14 +84,14 @@ function FeaturedPost({ post }: { post: BlogPost }) {
 function PostCard({ post }: { post: BlogPost }) {
   return (
     <article className="group relative flex flex-col bg-white">
-      <div className="relative aspect-[3/2] overflow-hidden bg-brand-50">
+      <div className="bg-brand-50 motion-safe:group-hover:scale-[1.03]" style={zoom}>
         <Image
           src={post.hero.src}
           alt={post.hero.alt}
-          fill
+          width={post.hero.width}
+          height={post.hero.height}
           sizes="(min-width: 1280px) 26rem, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover motion-safe:group-hover:scale-[1.03]"
-          style={{ ...zoom, objectPosition: post.hero.position }}
+          className="h-auto w-full"
         />
       </div>
       <div className="flex flex-1 flex-col p-6">

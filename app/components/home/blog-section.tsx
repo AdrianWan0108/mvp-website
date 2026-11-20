@@ -1,124 +1,59 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
+import { posts, formatPostDate } from "@/app/blog/posts";
 import { Container } from "../container";
+import { CtaButton } from "../cta-button";
 import { SectionHeading } from "../section-heading";
-import { photos } from "@/app/lib/images";
-
-type Post = {
-  category: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  photo: { src: string; alt: string };
-  href: string;
-};
-
-const featured: Post = {
-  category: "Wellness",
-  title: "3 Reasons Why Kids Need to Start Pilates",
-  excerpt:
-    "Posture, focus, and confidence — here's how a mindful movement practice sets young bodies up for a lifetime of healthy habits.",
-  date: "Coming soon",
-  photo: photos.florencePose,
-  href: "#",
-};
-
-const posts: Post[] = [
-  {
-    category: "Community",
-    title: "Mon Sheong Event",
-    excerpt:
-      "A recap of our community wellness day with Mon Sheong — movement, connection, and giving back.",
-    date: "Coming soon",
-    photo: photos.team,
-    href: "#",
-  },
-  {
-    category: "Training",
-    title: "Polestar Training Program Announcements",
-    excerpt:
-      "New 2026 cohort dates, faculty updates, and what to expect from our Polestar teacher-training pathway.",
-    date: "Coming soon",
-    photo: photos.polestarCohort,
-    href: "#",
-  },
-];
 
 export function BlogSection() {
+  const featured = posts[0];
+  if (!featured) return null;
+
+  const href = `/blog/${featured.slug}`;
+
   return (
     <section className="py-20 sm:py-24">
       <Container>
         <SectionHeading
-          eyebrow="Blog & news"
-          title="Latest from the studio"
-          intro="Tips, stories, and announcements from the MVP community."
+          eyebrow="Blog"
+          title="Stories from the studio"
+          intro="Teaching, movement, and the people we share them with."
         />
-
-        <div className="mt-12 grid gap-6 lg:grid-cols-4">
-          {/* Featured (largest) card */}
-          <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-lg lg:col-span-2">
-            <Link href={featured.href} className="flex h-full flex-col">
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src={featured.photo.src}
-                  alt={featured.photo.alt}
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="flex flex-1 flex-col p-7">
-                <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-                  <span>{featured.category}</span>
-                  <span className="text-muted-foreground">{featured.date}</span>
-                </div>
-                <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight sm:text-3xl">
-                  {featured.title}
-                </h3>
-                <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-                  {featured.excerpt}
-                </p>
-                <span className="mt-auto pt-5 text-sm font-semibold text-primary">
-                  Read more →
-                </span>
-              </div>
-            </Link>
-          </article>
-
-          {/* Two equal smaller cards */}
-          {posts.map((post) => (
-            <article
-              key={post.title}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-lg lg:col-span-1"
-            >
-              <Link href={post.href} className="flex h-full flex-col">
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  <Image
-                    src={post.photo.src}
-                    alt={post.photo.alt}
-                    fill
-                    sizes="(min-width: 1024px) 25vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-                    <span>{post.category}</span>
-                    <span className="text-muted-foreground">{post.date}</span>
-                  </div>
-                  <h3 className="mt-3 font-serif text-2xl font-semibold leading-snug">
-                    {post.title}
-                  </h3>
-                  <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-                    {post.excerpt}
-                  </p>
-                  <span className="mt-auto pt-4 text-sm font-semibold text-primary">
-                    Read more →
-                  </span>
-                </div>
+        <article className="group relative mt-12 grid items-center gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-12">
+          <div
+            className="motion-safe:group-hover:scale-[1.03]"
+            style={{ transition: "scale 850ms cubic-bezier(0.4, 0, 0.2, 1)" }}
+          >
+            <Image
+              src={featured.hero.src}
+              alt={featured.hero.alt}
+              width={featured.hero.width}
+              height={featured.hero.height}
+              sizes="(min-width: 1280px) 43rem, (min-width: 1024px) 58vw, 100vw"
+              className="h-auto w-full"
+            />
+          </div>
+          <div>
+            <p className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-[0.16em] text-brand-700">
+              <span>{featured.category}</span>
+              <time dateTime={featured.publishedAt}>{formatPostDate(featured.publishedAt)}</time>
+            </p>
+            <h3 className="mt-4 text-balance text-4xl leading-none sm:text-5xl">
+              <Link href={href} className="after:absolute after:inset-0 group-hover:text-brand-700">
+                {featured.title}
               </Link>
-            </article>
-          ))}
+            </h3>
+            <p className="mt-4 text-sm text-brand-700">By {featured.author.name}</p>
+            <p className="mt-4 text-lg leading-relaxed text-brand-950">{featured.description}</p>
+            <CtaButton href={href} square arrow className="z-10 mt-6">
+              Read the story
+            </CtaButton>
+          </div>
+        </article>
+        <div className="mt-10">
+          <Link href="/blog" className="text-sm font-medium text-brand-800 underline underline-offset-4 hover:text-brand-950">
+            Visit the blog
+          </Link>
         </div>
       </Container>
     </section>

@@ -1,7 +1,7 @@
 import Image from "next/image";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/app/lib/cn";
-import type { Photo } from "@/app/lib/images";
+import type { BlogPhoto } from "./posts/types";
 
 /**
  * Building blocks for post bodies. Posts compose these instead of styling
@@ -33,7 +33,7 @@ export function P({ children, lead = false }: { children: ReactNode; lead?: bool
     <p
       className={cn(
         column,
-        "mt-6 leading-relaxed text-brand-950/85",
+        "mt-6 leading-relaxed text-brand-950",
         lead ? "text-xl sm:text-[1.375rem] sm:leading-relaxed" : "text-lg",
       )}
     >
@@ -68,61 +68,52 @@ export function Section({
 /** One photo. `wide` breaks out of the text column on large screens. */
 export function Figure({
   photo,
-  ratio = "aspect-[3/2]",
-  position,
   caption,
   wide = false,
 }: {
-  photo: Photo;
-  /** Tailwind aspect class. The box crops the photo with object-cover. */
-  ratio?: string;
-  position?: string;
+  photo: BlogPhoto;
   caption?: ReactNode;
   wide?: boolean;
 }) {
   return (
     <figure className={cn("mx-auto mt-8 w-full sm:mt-10", !wide && "max-w-[52rem]")}>
-      <div className={cn("relative overflow-hidden bg-brand-50", ratio)}>
-        <Image
+      <Image
           src={photo.src}
           alt={photo.alt}
-          fill
+          width={photo.width}
+          height={photo.height}
           sizes={wide
             ? "(min-width: 1280px) 76rem, (min-width: 640px) calc(100vw - 4rem), calc(100vw - 2.5rem)"
             : "(min-width: 896px) 52rem, (min-width: 640px) calc(100vw - 4rem), calc(100vw - 2.5rem)"}
-          className="object-cover"
-          style={position ? { objectPosition: position } : undefined}
-        />
-      </div>
+          className="h-auto w-full"
+      />
       {caption && <Caption>{caption}</Caption>}
     </figure>
   );
 }
 
-/** Two photos side by side; stacks on phones. */
+/** Keep supporting photos together, with a shared height and no cropping. */
 export function FigurePair({
   photos,
-  ratio = "aspect-square",
   caption,
 }: {
-  photos: [Photo & { position?: string }, Photo & { position?: string }];
-  ratio?: string;
+  photos: [BlogPhoto, BlogPhoto];
   caption?: ReactNode;
 }) {
   return (
-    <figure className="mx-auto mt-8 w-full sm:mt-10">
-      <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
+    <figure className={cn(column, "my-10 sm:my-14")}>
+      <div className="grid items-start gap-2 sm:gap-3" style={{
+        gridTemplateColumns: photos.map((photo) => `minmax(0, ${photo.width / photo.height}fr)`).join(" "),
+      }}>
         {photos.map((photo) => (
-          <div key={photo.src} className={cn("relative overflow-hidden bg-brand-50", ratio)}>
-            <Image
+            <Image key={photo.src}
               src={photo.src}
               alt={photo.alt}
-              fill
-              sizes="(min-width: 1280px) 37.5rem, (min-width: 640px) calc((100vw - 5rem) / 2), calc(100vw - 2.5rem)"
-              className="object-cover"
-              style={photo.position ? { objectPosition: photo.position } : undefined}
+              width={photo.width}
+              height={photo.height}
+              sizes="(min-width: 896px) 34rem, 66vw"
+              className="h-auto w-full"
             />
-          </div>
         ))}
       </div>
       {caption && <Caption>{caption}</Caption>}
@@ -135,6 +126,49 @@ function Caption({ children }: { children: ReactNode }) {
     <figcaption className={cn(column, "mt-3 text-sm leading-relaxed text-muted-foreground")}>
       {children}
     </figcaption>
+  );
+}
+
+/** Related photos stay grouped without recropping; four squares form two mobile rows. */
+export function FigureCollage({
+  photos,
+  caption,
+  layout = "flow",
+}: {
+  photos: [BlogPhoto, BlogPhoto, BlogPhoto, ...BlogPhoto[]];
+  caption: ReactNode;
+  layout?: "flow" | "grid";
+}) {
+  return (
+    <figure className="mx-auto my-10 w-full sm:my-14">
+      <div
+        className={cn(
+          "grid grid-cols-2 items-start gap-2 sm:gap-3",
+          layout === "grid"
+            ? photos.length === 4 ? "lg:grid-cols-4" : "md:grid-cols-3"
+            : "md:grid-cols-[var(--photo-columns)]",
+        )}
+        style={layout === "grid" ? undefined : {
+          "--photo-columns": photos.map((photo) => `minmax(0, ${photo.width / photo.height}fr)`).join(" "),
+        } as CSSProperties}
+      >
+        {photos.map((photo, index) => (
+            <Image key={photo.src}
+              src={photo.src}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
+              sizes={layout === "grid" ? photos.length === 4
+                ? "(min-width: 1280px) 19rem, (min-width: 1024px) 25vw, 50vw"
+                : "(min-width: 1280px) 25rem, (min-width: 768px) 33vw, 50vw" : index === 0
+                ? "(min-width: 1280px) 36rem, (min-width: 768px) 48vw, (min-width: 640px) calc(100vw - 4rem), calc(100vw - 2.5rem)"
+                : "(min-width: 1280px) 25rem, (min-width: 768px) 33vw, 50vw"}
+              className={cn("h-auto w-full", layout === "flow" && index === 0 && "col-span-2 md:col-span-1")}
+            />
+        ))}
+      </div>
+      <Caption>{caption}</Caption>
+    </figure>
   );
 }
 
