@@ -10,6 +10,7 @@
     "whoami": "wrangler whoami",
     "deploy:check": "next build && wrangler deploy --dry-run",
     "deploy": "next build && wrangler deploy",
+    "deploy:dev": "node scripts/with-dev-env.mjs next build && wrangler deploy --env dev",
     "verify:redirects": "bash scripts/verify-redirects.sh"
   },
   "dependencies": {

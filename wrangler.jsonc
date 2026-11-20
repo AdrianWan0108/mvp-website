@@ -32,5 +32,16 @@
 
   "observability": {
     "enabled": true
+  },
+
+  "env": {
+    // Dev worker on *.workers.dev — no custom domain or routes. Deploy with
+    // `npm run deploy:dev`. account_id/main/compatibility_date/assets/
+    // observability are inheritable and flow down from the top level.
+    // Secrets are per-worker: `npx wrangler secret put BREVO_API_KEY --env dev`.
+    "dev": {
+      "name": "mvp-website-dev",
+      "workers_dev": true
+    }
   }
 }
