@@ -78,7 +78,7 @@ type AnniversaryCampaign = {
   highlights: string[];
   programme: ProgrammeWeek[];
   /** `details` is an optional bullet list under the description, e.g. tiers or prizes. */
-  offers: { title: string; description: string; details?: string[] }[];
+  offers: { title: string; description: string; details?: string[]; action?: { label: string; href: string } }[];
   offersNote: string;
   /** When set, the offers list is hidden and this message shows instead. */
   offersComingSoon?: string;
@@ -204,10 +204,12 @@ export const anniversary: AnniversaryCampaign = {
     {
       title: "Reformer Pack Discovery: 3 Reformer group classes for $89",
       description: "New to the studio? Try three Reformer group classes for $89. Valid for first-time clients only.",
+      action: { label: "View Reformer Pack Discovery", href: "/pricing#pricing-anniversary" },
     },
     {
       title: "Buy more, save more",
       description: "For new and existing clients. The more classes you buy, the more free classes we add:",
+      action: { label: "View anniversary class packs", href: "/pricing#pricing-anniversary" },
       details: [
         "Buy 10 classes, get 1 free",
         "Buy 20 classes, get 2 free",
@@ -218,10 +220,10 @@ export const anniversary: AnniversaryCampaign = {
     {
       title: "Bring a friend, get a free private session",
       description:
-        "Bring a friend who buys a package of 10 classes or more, and you receive one free private session.",
+        "Bring a friend who buys a package of 10 classes or more, and you receive one free private session. Speak with our front desk to arrange this offer in person.",
     },
   ],
-  offersNote: "Offers are valid during Anniversary Rehab Week only, November 23 – December 4, 2026. Packages available at the studio.",
+  offersNote: "Anniversary offers are available November 23 – December 4, 2026. Buy class packs online or at the studio. The bring-a-friend offer is handled in person at our front desk.",
   prizeDraw: {
     title: "Anniversary Prize Draw",
     description:

@@ -32,11 +32,7 @@ export default function PricingPage() {
 
         <Container>
           <RegistrationCallout />
-          <ScrollReveal>
-            <div data-reveal>
-              <PricingTabs />
-            </div>
-          </ScrollReveal>
+          <PricingTabs />
 
           <ScrollReveal className="mt-24 sm:mt-32">
             <div data-reveal aria-labelledby="before-you-purchase-heading">

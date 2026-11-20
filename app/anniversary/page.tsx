@@ -304,6 +304,11 @@ export default function AnniversaryPage() {
                             {offer.details.map((detail) => <li key={detail}>{detail}</li>)}
                           </ul>
                         )}
+                        {anniversaryIsActive && offer.action && (
+                          <CtaButton href={offer.action.href} square size="lg" className="mt-4">
+                            {offer.action.label}
+                          </CtaButton>
+                        )}
                       </li>
                     ))}
                   </ul>

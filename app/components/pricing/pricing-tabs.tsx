@@ -10,6 +10,7 @@ import {
   type KeyboardEvent,
 } from "react";
 import { cn } from "@/app/lib/cn";
+import { anniversary, anniversaryIsActive } from "@/app/lib/anniversary";
 import {
   dropInPrice,
   formatPrice,
@@ -90,8 +91,9 @@ function optionDetails(option: PricingOption): string[] {
   ]);
 
   return [
+    ...(option.eligibility ? [option.eligibility] : []),
     ...(option.validity
-      ? [`Valid for ${option.validity} from the date of purchase`]
+      ? [`Valid for ${option.validity} from ${option.validityStarts === "first-visit" ? "your first visit" : "the date of purchase"}`]
       : []),
     option.blurb,
     ...(option.highlights ?? []).filter(
@@ -150,22 +152,23 @@ function PricingCard({
     : membershipTotalSaving > 0
       ? `Save ${formatPrice(membershipTotalSaving)} total`
       : null;
+  const ribbonLabel = section.id === "anniversary" ? option.badge : savingLabel;
 
   return (
     <article className="pricing-panel flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white">
       <div
-        aria-hidden={!savingLabel}
+        aria-hidden={!ribbonLabel}
         className={cn(
           "relative flex min-h-12 items-center justify-center px-4 text-center font-sans text-base font-bold",
-          savingLabel && "bg-brand-500 text-brand-900",
+          ribbonLabel && "bg-brand-500 text-brand-900",
         )}
       >
-        {savingLabel}
+        {ribbonLabel}
       </div>
 
       <div className="flex flex-1 flex-col p-6 sm:p-7">
         <div className="flex flex-1 flex-col text-center lg:h-[17rem] lg:flex-none">
-          <h3 className="font-serif text-3xl uppercase leading-none tracking-[0.025em] text-foreground sm:text-[2rem]">
+          <h3 className="whitespace-pre-line font-serif text-3xl uppercase leading-none tracking-[0.025em] text-foreground sm:text-[2rem]">
             {option.shortName ?? option.name}
           </h3>
 
@@ -380,6 +383,7 @@ function PrivateCard({
 }
 
 const sharedNotes: Record<PricingScope, string> = {
+  anniversary: anniversaryIsActive ? `Available ${anniversary.dates}.` : "",
   "new-here":
     "Introductory offers are for new clients and may be purchased once per person.",
   "group-packs": `Savings are calculated against the current ${formatPrice(dropInPrice)} Group Reformer drop-in rate.`,
@@ -428,6 +432,21 @@ function PublicSectionPanel({ section }: { section: PricingSection }) {
     section.id === "memberships"
       ? Math.max(...options.map((option) => option.price))
       : undefined;
+
+  if (section.id === "anniversary" && !anniversaryIsActive) {
+    return (
+      <>
+        <CategoryHeader
+          scope={section.id}
+          heading={section.heading}
+          description="These anniversary offers have ended. Explore our current group class packs."
+        />
+        <a href="#pricing-group-packs" className={cn("mt-6 inline-block font-semibold text-brand-900 underline underline-offset-4", focusRing)}>
+          View current class packs
+        </a>
+      </>
+    );
+  }
 
   if (section.id === "new-here") {
     return (
@@ -487,6 +506,14 @@ function PublicSectionPanel({ section }: { section: PricingSection }) {
         heading={section.heading}
         description={section.description}
       />
+      {section.id === "group-packs" && anniversaryIsActive && (
+        <p className="mt-5 font-sans text-base text-brand-900">
+          Anniversary bonus classes are available.{" "}
+          <a href="#pricing-anniversary" className={cn("font-semibold underline underline-offset-4", focusRing)}>
+            View anniversary offers
+          </a>
+        </p>
+      )}
       <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-6 lg:gap-6">
         {options.map((option, index) => (
           <div
@@ -504,6 +531,17 @@ function PublicSectionPanel({ section }: { section: PricingSection }) {
           </div>
         ))}
       </div>
+      {section.id === "anniversary" && (
+        <aside className="mt-10 rounded-2xl border border-border bg-white p-6 sm:p-7">
+          <h3 className="font-serif text-2xl text-foreground sm:text-3xl">
+            Bring a friend, get a free private session
+          </h3>
+          <p className="mt-3 max-w-3xl font-sans text-base leading-relaxed text-muted-foreground">
+            Bring a friend who buys a package of 10 classes or more, and you receive one free private session.
+            Speak with our front desk to arrange this offer in person.
+          </p>
+        </aside>
+      )}
     </>
   );
 }
@@ -560,6 +598,7 @@ export function PricingTabs() {
     useState<PricingScope>("new-here");
   const [direction, setDirection] = useState<MotionDirection>(null);
   const activeScopeRef = useRef<PricingScope>("new-here");
+  const navigationRef = useRef<HTMLDivElement>(null);
   const transitionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
     null,
   );
@@ -608,8 +647,18 @@ export function PricingTabs() {
   );
 
   useEffect(() => {
+    let scrollFrame: number | undefined;
     const syncFromLocation = (animate: boolean) => {
-      activate(scopeFromHash(window.location.hash), false, animate);
+      const scope = scopeFromHash(window.location.hash);
+      activate(scope, false, animate);
+      if (scrollFrame !== undefined) window.cancelAnimationFrame(scrollFrame);
+      if (window.location.hash === `#${sectionAnchorId(scope)}`) {
+        // Keep the category controls visible below the fixed site header after
+        // opening a panel that was hidden when the browser followed the hash.
+        scrollFrame = window.requestAnimationFrame(() => {
+          navigationRef.current?.scrollIntoView({ block: "start" });
+        });
+      }
     };
 
     syncFromLocation(false);
@@ -617,6 +666,7 @@ export function PricingTabs() {
     window.addEventListener("popstate", handleHistoryChange);
     window.addEventListener("hashchange", handleHistoryChange);
     return () => {
+      if (scrollFrame !== undefined) window.cancelAnimationFrame(scrollFrame);
       window.removeEventListener("popstate", handleHistoryChange);
       window.removeEventListener("hashchange", handleHistoryChange);
       if (transitionTimerRef.current) {
@@ -659,7 +709,7 @@ export function PricingTabs() {
     <div>
       <MindbodyPricingLoader />
 
-      <div>
+      <div ref={navigationRef}>
         <label className="block md:hidden">
           <span className="mb-1.5 block font-sans text-sm font-semibold text-foreground">
             Show me

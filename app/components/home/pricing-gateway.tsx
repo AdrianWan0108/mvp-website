@@ -28,6 +28,7 @@ const categoryPhotos: Record<
   PricingScope,
   Pick<PricingPathway, "photo" | "imagePosition">
 > = {
+  anniversary: { photo: photos.groupClass },
   "new-here": { photo: photos.entranceWall },
   "group-packs": {
     photo: photos.groupClass,
@@ -42,7 +43,7 @@ const categoryPhotos: Record<
 };
 
 const pricingPathways: PricingPathway[] = [
-  ...pricingSections.map((section) => ({
+  ...pricingSections.filter((section) => section.id !== "anniversary").map((section) => ({
     id: section.id,
     name: section.heading,
     description: section.description,

@@ -22,15 +22,15 @@
 export type PricingInterval = "once" | "month";
 
 export type PricingSectionId =
+  | "anniversary"
   | "new-here"
   | "group-packs"
   | "memberships"
   | "seniors";
 
 /**
- * Everything the pricing page can select within or scroll to: the four
- * Mindbody sections plus one-on-one training, which is booked rather than
- * bought and so is not a PricingSectionId.
+ * Everything the pricing page can select within or scroll to: the Mindbody
+ * sections, anniversary offers, and one-on-one training.
  */
 export type PricingScope = PricingSectionId | "private";
 
@@ -47,6 +47,8 @@ export type PricingOption = {
   count?: number;
   /** Bare duration, e.g. "4 weeks" — rendered as "Valid 4 weeks". */
   validity?: string;
+  /** Defaults to the purchase date; campaign packs activate on the first visit. */
+  validityStarts?: "purchase" | "first-visit";
   section: PricingSectionId;
   badge?: string;
   /** One-sentence "best for". Provisional copy — rewrite freely. */
@@ -79,6 +81,11 @@ export type PricingSection = {
 
 export const pricingSections: PricingSection[] = [
   {
+    id: "anniversary",
+    heading: "Anniversary offers",
+    description: "Celebrate with special Group Reformer offers for new and existing clients.",
+  },
+  {
     id: "new-here",
     heading: "New here",
     description: "Four introductory ways to try the studio.",
@@ -102,26 +109,103 @@ export const pricingSections: PricingSection[] = [
   },
 ];
 
+const welcomePackage: PricingOption = {
+  key: "mvp-welcome-package",
+  serviceId: "100068",
+  name: "MVP Welcome Package",
+  price: 89,
+  interval: "once",
+  unit: "class",
+  count: 3,
+  validity: "1 month",
+  section: "new-here",
+  blurb:
+    "Three visits give you time to meet the studio, try our signature group formats, and begin building confidence.",
+  highlights: [
+    "Three group classes on professional equipment",
+    "Polestar-certified instruction with form-focused cueing",
+    "A simple way to find the class format that fits you",
+  ],
+  eligibility: "New clients only, once per person",
+};
+
 export const pricingOptions: PricingOption[] = [
   // ---------- New here ----------
+  welcomePackage,
+
+  // Same Mindbody product and introductory restrictions, featured in the campaign.
   {
-    key: "mvp-welcome-package",
-    serviceId: "100068",
-    name: "MVP Welcome Package",
-    price: 89,
+    ...welcomePackage,
+    key: "reformer-pack-discovery",
+    shortName: "Reformer Pack Discovery",
+    section: "anniversary",
+    badge: "New clients only",
+    blurb: "New to the studio? Try three Reformer group classes for $89.",
+    highlights: ["Three Reformer group classes"],
+  },
+  {
+    key: "anniversary-reformer-10",
+    serviceId: "100043",
+    name: "Anniversary Perks (Group Reformer) - Buy 10 get 1 free",
+    shortName: "Anniversary Perks\nBuy 10, get 1 free",
+    price: 350,
     interval: "once",
     unit: "class",
-    count: 3,
-    validity: "1 month",
-    section: "new-here",
-    blurb:
-      "Three visits give you time to meet the studio, try our signature group formats, and begin building confidence.",
-    highlights: [
-      "Three group classes on professional equipment",
-      "Polestar-certified instruction with form-focused cueing",
-      "A simple way to find the class format that fits you",
-    ],
-    eligibility: "New clients only, once per person",
+    count: 11,
+    validity: "5 months",
+    validityStarts: "first-visit",
+    section: "anniversary",
+    badge: "1 free class",
+    blurb: "Buy 10 Group Reformer classes and receive 1 bonus class.",
+    eligibility: "For new and existing clients",
+  },
+  {
+    key: "anniversary-reformer-20",
+    serviceId: "100044",
+    name: "Anniversary Perks (Group Reformer): Buy 20 get 2 free",
+    shortName: "Anniversary Perks\nBuy 20, get 2 free",
+    price: 600,
+    interval: "once",
+    unit: "class",
+    count: 22,
+    validity: "6 months",
+    validityStarts: "first-visit",
+    section: "anniversary",
+    badge: "2 free classes",
+    blurb: "Buy 20 Group Reformer classes and receive 2 bonus classes.",
+    eligibility: "For new and existing clients",
+  },
+  {
+    key: "anniversary-reformer-30",
+    serviceId: "100042",
+    name: "Anniversary Perks (Group Reformer) - Buy 30 get 3 free",
+    shortName: "Anniversary Perks\nBuy 30, get 3 free",
+    price: 870,
+    interval: "once",
+    unit: "class",
+    count: 33,
+    validity: "9 months",
+    validityStarts: "first-visit",
+    section: "anniversary",
+    badge: "3 free classes",
+    blurb: "Buy 30 Group Reformer classes and receive 3 bonus classes.",
+    eligibility: "For new and existing clients",
+  },
+  {
+    key: "anniversary-reformer-40",
+    serviceId: "100046",
+    name: "Anniversary Perks (Group Reformer): Buy 40 get 4 free",
+    shortName: "Anniversary Perks\nBuy 40, get 4 free",
+    price: 1120,
+    interval: "once",
+    unit: "class",
+    count: 44,
+    validity: "12 months",
+    validityStarts: "first-visit",
+    section: "anniversary",
+    badge: "4 free classes",
+    blurb: "Buy 40 Group Reformer classes and receive 4 bonus classes.",
+    eligibility: "For new and existing clients",
   },
 
   // ---------- Group class packs ----------
